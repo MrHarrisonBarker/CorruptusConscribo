@@ -15,6 +15,7 @@ namespace CorruptusConscribo
             Source = source;
 
             FindTokens();
+            RemoveChaff();
 
             // Sort all the tokens by their placement in the source
             Tokens = Tokens.OrderBy(x => x.Start).ToList();
@@ -40,6 +41,22 @@ namespace CorruptusConscribo
             });
 
             Console.WriteLine($"added {Tokens.Count} tokens");
+        }
+
+        private void RemoveChaff()
+        {
+            var chaff = new List<Token>();
+            Tokens.ForEach(token =>
+            {
+                if (token.Name == TokenLibrary.Words.Identifier)
+                {
+                    if (TokenLibrary.Keywords.Any(x => string.Equals(x.Name, token.Value.ToString(), StringComparison.CurrentCultureIgnoreCase)))
+                    {
+                        chaff.Add(token);
+                    }
+                }
+            });
+            chaff.ForEach(c => Tokens.Remove(c));
         }
     }
 }
