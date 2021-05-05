@@ -8,7 +8,7 @@ namespace CorruptusConscribo
     {
         static void Main(string[] args)
         {
-            // args = new[] {"./TestPrograms/not_zero.c"};
+            args = new[] {"./TestPrograms/precedence.c"};
 
             string sourcePath;
             string outputPath;
@@ -46,21 +46,21 @@ namespace CorruptusConscribo
 
             Console.WriteLine("Program has been lexed");
 
-            var program = new Parser.Program(lexResult);
-
-            Console.WriteLine($"Program parsed to AST");
+            // var program = new Parser.Program(lexResult);
+            //
+            // Console.WriteLine($"Program parsed to AST");
+            //
+            // var asm = program.Template();
             
-            var asm = program.Template();
-            
-            Console.WriteLine($"Assembly generated\n{asm}");
-            
-            var asmPath = outputPath + "out.s";
-
-            Healpers.WriteAsm(asmPath, asm);
-            
-            Console.WriteLine($"Assembly saved to {asmPath}");
-            
-            Healpers.GenerateExecutable(outputPath + "program", asmPath);
+            // Console.WriteLine($"Assembly generated\n{asm}");
+            //
+            // var asmPath = outputPath + "out.s";
+            //
+            // Healpers.WriteAsm(asmPath, asm);
+            //
+            // Console.WriteLine($"Assembly saved to {asmPath}");
+            //
+            // Healpers.GenerateExecutable(outputPath + "program", asmPath);
         }
     }
 }

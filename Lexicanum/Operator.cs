@@ -58,4 +58,41 @@ namespace CorruptusConscribo
             return comparison + clearWorkingRegister + setALRegister;
         }
     }
+
+    public class Addition : Operator
+    {
+        public Addition() : base(TokenLibrary.Words.Addition, new Regex("[+]"))
+        {
+            
+        }
+
+        public override string Template()
+        {
+            throw new NotImplementedException();
+        }
+    }
+    
+    public class Division : Operator
+    {
+        public Division() : base(TokenLibrary.Words.Division, new Regex("/"))
+        {
+        }
+
+        public override string Template()
+        {
+            throw new NotImplementedException();
+        }
+    }
+    
+    public class Multiplication : Operator
+    {
+        public Multiplication() : base(TokenLibrary.Words.Multiplication,new Regex("[*]"))
+        {
+        }
+
+        public override string Template()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

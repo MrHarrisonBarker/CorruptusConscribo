@@ -15,9 +15,14 @@ namespace CorruptusConscribo
             public const string Semicolon = "Semicolon";
             public const string Identifier = "Identifier";
             public const string IntegerLiteral = "IntegerLiteral";
+            
             public const string Negation = "Negation";
             public const string BitwiseComplement = "BitwiseComplement";
             public const string LogicalNegation = "LogicalNegation";
+
+            public const string Addition = "Addition";
+            public const string Division = "Division";
+            public const string Multiplication = "Multiplication";
 
             public const string Int = "Int";
             public const string Return = "Return";
@@ -27,7 +32,10 @@ namespace CorruptusConscribo
         {
             new Negation(),
             new BitwiseComplement(),
-            new LogicalNegation()
+            new LogicalNegation(),
+            new Addition(),
+            new Division(),
+            new Multiplication()
         };
         
         public static readonly List<Keyword> Keywords = new()
