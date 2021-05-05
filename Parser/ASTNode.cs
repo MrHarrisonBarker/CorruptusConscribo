@@ -1,7 +1,10 @@
 namespace CorruptusConscribo.Parser
 {
-    public class ASTNode
+    public abstract class ASTNode
     {
-        
+        public virtual string Template()
+        {
+            return null;
+        }
     }
 }

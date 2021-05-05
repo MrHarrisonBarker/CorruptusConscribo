@@ -27,13 +27,18 @@ namespace CorruptusConscribo.Parser
             return statement;
         }
     }
-
+    
     public class Return : Statement
     {
-        public Expression Expression { get; }
+        private Expression Expression { get; }
         public Return(Expression expression)
         {
             Expression = expression;
+        }
+
+        public override string Template()
+        {
+            return $"movl    ${Expression.Template()}, %eax\nret";
         }
     }
 }

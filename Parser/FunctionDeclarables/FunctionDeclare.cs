@@ -39,13 +39,20 @@ namespace CorruptusConscribo.Parser
 
     public class Function : FunctionDeclare
     {
-        public string Name { get; }
-        public Statement Statement { get; }
+        private string Name { get; }
+        private Statement Statement { get; }
         
         public Function(string name, Statement statement)
         {
             Name = name;
             Statement = statement;
+        }
+        
+        public override string Template()
+        {
+            var template = $".globl _{Name}\n_{Name}:";
+            template += Statement.Template();
+            return template;
         }
     }
 }

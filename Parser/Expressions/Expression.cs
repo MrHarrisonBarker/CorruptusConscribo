@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace CorruptusConscribo.Parser
 {
@@ -21,11 +20,16 @@ namespace CorruptusConscribo.Parser
 
     public class Constant : Expression
     {
-        public int Value { get; }
+        private int Value { get; }
 
         public Constant(int value)
         {
             Value = value;
+        }
+
+        public override string Template()
+        {
+            return Value.ToString();
         }
     }
 }
