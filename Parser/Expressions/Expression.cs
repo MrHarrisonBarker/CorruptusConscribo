@@ -9,27 +9,20 @@ namespace CorruptusConscribo.Parser
         {
             var token = tokens.Dequeue();
 
-            if (token.Name != TokenLibrary.Words.IntegerLiteral) throw new Exception("invalid syntax");
+            if (token.Name == TokenLibrary.Words.IntegerLiteral)
+            {
+                var expression = new Constant(token.Value.ToInt32(null));
 
-            // token.Value.ToInt32(null)
-            var expression = new Constant(token.Value.ToInt32(null));
+                return expression;
+            }
+            else
+            {
+                var expression = new Expression().Parse(tokens);
 
-            return expression;
-        }
-    }
+                return new UnaryOperator(token, expression);
+            }
 
-    public class Constant : Expression
-    {
-        private int Value { get; }
-
-        public Constant(int value)
-        {
-            Value = value;
-        }
-
-        public override string Template()
-        {
-            return Value.ToString();
+            // if (token.Name != TokenLibrary.Words.IntegerLiteral) throw new Exception("invalid syntax");
         }
     }
 }

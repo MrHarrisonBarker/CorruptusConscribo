@@ -4,7 +4,7 @@ namespace CorruptusConscribo.Parser
     {
         public virtual string Template()
         {
-            return null;
+            return "**NotImplemented**";
         }
     }
 }

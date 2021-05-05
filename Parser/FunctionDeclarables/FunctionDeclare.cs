@@ -50,7 +50,7 @@ namespace CorruptusConscribo.Parser
         
         public override string Template()
         {
-            var template = $".globl _{Name}\n_{Name}:";
+            var template = $".globl _{Name}\n_{Name}:\n";
             template += Statement.Template();
             return template;
         }

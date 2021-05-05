@@ -8,7 +8,7 @@ namespace CorruptusConscribo
     {
         static void Main(string[] args)
         {
-            // args = new[] {"./TestPrograms/return_99.c"};
+            // args = new[] {"./TestPrograms/not_zero.c"};
 
             string sourcePath;
             string outputPath;
@@ -49,17 +49,17 @@ namespace CorruptusConscribo
             var program = new Parser.Program(lexResult);
 
             Console.WriteLine($"Program parsed to AST");
-
-            var asm = program.Template();
-
-            Console.WriteLine($"Assembly generated\n{asm}");
-
-            var asmPath = outputPath + "out.s";
             
-            Console.WriteLine($"Assembly saved to {asmPath}");
+            var asm = program.Template();
+            
+            Console.WriteLine($"Assembly generated\n{asm}");
+            
+            var asmPath = outputPath + "out.s";
 
             Healpers.WriteAsm(asmPath, asm);
-
+            
+            Console.WriteLine($"Assembly saved to {asmPath}");
+            
             Healpers.GenerateExecutable(outputPath + "program", asmPath);
         }
     }

@@ -15,11 +15,21 @@ namespace CorruptusConscribo
             public const string Semicolon = "Semicolon";
             public const string Identifier = "Identifier";
             public const string IntegerLiteral = "IntegerLiteral";
+            public const string Negation = "Negation";
+            public const string BitwiseComplement = "BitwiseComplement";
+            public const string LogicalNegation = "LogicalNegation";
 
             public const string Int = "Int";
             public const string Return = "Return";
         }
 
+        private static readonly List<Operator> Operators = new()
+        {
+            new Negation(),
+            new BitwiseComplement(),
+            new LogicalNegation()
+        };
+        
         public static readonly List<Keyword> Keywords = new()
         {
             new Keyword(Words.Int, new Regex("int")),
@@ -34,7 +44,7 @@ namespace CorruptusConscribo
             new Syntax(Words.CloseParenthesis, new Regex("[)]")),
             new Syntax(Words.Semicolon, new Regex(";")),
             new Syntax(Words.Identifier, new Regex("([a-zA-Z]\\w*)")),
-            new Syntax(Words.IntegerLiteral, new Regex("[0-9]+"))
+            new Syntax(Words.IntegerLiteral, new Regex("[0-9]+")),
         };
 
         private static List<Token> GenerateTokens()
@@ -42,6 +52,7 @@ namespace CorruptusConscribo
             var tokens = new List<Token>();
             tokens.AddRange(Keywords);
             tokens.AddRange(Syntax);
+            tokens.AddRange(Operators);
             return tokens;
         }
 

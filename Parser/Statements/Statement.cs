@@ -38,7 +38,7 @@ namespace CorruptusConscribo.Parser
 
         public override string Template()
         {
-            return $"movl    ${Expression.Template()}, %eax\nret";
+            return $"{Expression.Template()}\nret";
         }
     }
 }
