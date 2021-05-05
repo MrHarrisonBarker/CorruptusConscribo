@@ -8,7 +8,7 @@ namespace CorruptusConscribo
     {
         static void Main(string[] args)
         {
-            args = new[] {"./TestPrograms/precedence.c"};
+            args = new[] {"./TestPrograms/return_99.c"};
 
             string sourcePath;
             string outputPath;
@@ -46,8 +46,8 @@ namespace CorruptusConscribo
 
             Console.WriteLine("Program has been lexed");
 
-            // var program = new Parser.Program(lexResult);
-            //
+            var program = new Parser.Program(lexResult);
+            
             // Console.WriteLine($"Program parsed to AST");
             //
             // var asm = program.Template();
