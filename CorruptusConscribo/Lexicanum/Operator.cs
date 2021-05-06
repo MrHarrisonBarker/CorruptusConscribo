@@ -22,6 +22,11 @@ namespace CorruptusConscribo
         {
             return "neg     %eax";
         }
+
+        public override string ToString()
+        {
+            return "-";
+        }
     }
 
     public class BitwiseComplement : Operator
@@ -33,6 +38,11 @@ namespace CorruptusConscribo
         public override string Template()
         {
             return "not     %eax";
+        }
+        
+        public override string ToString()
+        {
+            return "~";
         }
     }
 
@@ -57,6 +67,11 @@ namespace CorruptusConscribo
             
             return comparison + clearWorkingRegister + setALRegister;
         }
+        
+        public override string ToString()
+        {
+            return "!";
+        }
     }
 
     public class Addition : Operator
@@ -70,6 +85,11 @@ namespace CorruptusConscribo
         {
             throw new NotImplementedException();
         }
+        
+        public override string ToString()
+        {
+            return "+";
+        }
     }
     
     public class Division : Operator
@@ -82,6 +102,11 @@ namespace CorruptusConscribo
         {
             throw new NotImplementedException();
         }
+        
+        public override string ToString()
+        {
+            return "/";
+        }
     }
     
     public class Multiplication : Operator
@@ -93,6 +118,11 @@ namespace CorruptusConscribo
         public override string Template()
         {
             throw new NotImplementedException();
+        }
+        
+        public override string ToString()
+        {
+            return "*";
         }
     }
 }

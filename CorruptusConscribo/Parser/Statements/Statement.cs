@@ -40,5 +40,10 @@ namespace CorruptusConscribo.Parser
         {
             return $"{Expression.Template()}\nret";
         }
+
+        public override string ToString()
+        {
+            return $"\tReturn {Expression.ToString()}";
+        }
     }
 }

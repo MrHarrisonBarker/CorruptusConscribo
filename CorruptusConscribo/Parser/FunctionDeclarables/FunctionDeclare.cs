@@ -12,6 +12,8 @@ namespace CorruptusConscribo.Parser
 
             if (token.Name != TokenLibrary.Words.Int) throw new Exception("invalid syntax");
 
+            var returnType = token.Name;
+
             token = tokens.Dequeue();
 
             if (token.Name != TokenLibrary.Words.Identifier) throw new Exception("invalid syntax");
@@ -33,26 +35,33 @@ namespace CorruptusConscribo.Parser
             token = tokens.Dequeue();
             if (token.Name != TokenLibrary.Words.CloseBracket) throw new Exception("invalid syntax");
 
-            return new Function(id.ToString(CultureInfo.InvariantCulture), statement);
+            return new Function(returnType, id.ToString(CultureInfo.InvariantCulture), statement);
         }
     }
 
     public class Function : FunctionDeclare
     {
         private string Name { get; }
+        private string ReturnType { get; }
         private Statement Statement { get; }
-        
-        public Function(string name, Statement statement)
+
+        public Function(string returnType, string name, Statement statement)
         {
             Name = name;
+            ReturnType = returnType;
             Statement = statement;
         }
-        
+
         public override string Template()
         {
             var template = $".globl _{Name}\n_{Name}:\n";
             template += Statement.Template();
             return template;
+        }
+
+        public override string ToString()
+        {
+            return $"Func {ReturnType} {Name}:\n{Statement.ToString()}";
         }
     }
 }

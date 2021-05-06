@@ -13,5 +13,10 @@ namespace CorruptusConscribo.Parser
         {
             return $"movl    ${Value.ToString()}, %eax";
         }
+
+        public override string ToString()
+        {
+            return $"{Value}";
+        }
     }
 }

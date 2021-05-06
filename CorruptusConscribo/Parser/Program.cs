@@ -15,5 +15,10 @@ namespace CorruptusConscribo.Parser
         {
             return Function.Template();
         }
+
+        public override string ToString()
+        {
+            return $"**** Program ****\n{Function.ToString()}";
+        }
     }
 }

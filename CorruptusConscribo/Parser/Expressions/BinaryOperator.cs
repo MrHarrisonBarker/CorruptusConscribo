@@ -24,5 +24,10 @@ namespace CorruptusConscribo.Parser
                 _ => Operator
             };
         }
+
+        public override string ToString()
+        {
+            return $"({LeftExpression.ToString()} {Operator.ToString()} {RightExpression.ToString()})";
+        }
     }
 }
