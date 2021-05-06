@@ -5,15 +5,15 @@ namespace CorruptusConscribo.Parser
     public class Factor : Term
     {
         // <factor> ::= "(" <exp> ")" | <unary_op> <factor> | <int>
-        public Expression Parse(Queue<Token> tokens)
+        public Expression Parse(Stack<Token> tokens)
         {
-            var token = tokens.Dequeue();
+            var token = tokens.Pop();
 
             if (token.Name == TokenLibrary.Words.OpenParenthesis)
             {
                 var expression = new Expression().Parse(tokens);
 
-                if (tokens.Dequeue().Name != TokenLibrary.Words.CloseParenthesis) throw new SyntaxException("expected )");
+                if (tokens.Pop().Name != TokenLibrary.Words.CloseParenthesis) throw new SyntaxException("expected )");
 
                 return expression;
             }

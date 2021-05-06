@@ -18,7 +18,7 @@ namespace CorruptusConscribo
             RemoveChaff();
 
             // Sort all the tokens by their placement in the source
-            Tokens = Tokens.OrderBy(x => x.Start).ToList();
+            Tokens = Tokens.OrderByDescending(x => x.Start).ToList();
             Console.WriteLine($"Sorted the source\n {string.Join("\n", Tokens)}");
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,7 +9,7 @@ namespace CorruptusConscribo
     {
         static void Main(string[] args)
         {
-            args = new[] {"./TestPrograms/precedence.c"};
+            args = new[] {"./TestPrograms/add.c"};
 
             string sourcePath;
             string outputPath;
@@ -42,7 +43,7 @@ namespace CorruptusConscribo
             var source = Healpers.GetSource(sourcePath);
             Console.WriteLine($"The source code looks like this\n {source}");
 
-            var lexResult = new Queue<Token>(new Lexicanum(source).Tokens);
+            var lexResult = new Stack<Token>(new Lexicanum(source).Tokens);
 
             Console.WriteLine("Program has been lexed");
 

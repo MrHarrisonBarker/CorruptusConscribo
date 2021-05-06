@@ -6,13 +6,13 @@ namespace CorruptusConscribo.Parser
 {
     public class Statement : ASTNode
     {
-        public Statement Parse(Queue<Token> tokens)
+        public Statement Parse(Stack<Token> tokens)
         {
-            var token = tokens.Dequeue();
+            var token = tokens.Pop();
 
             if (token.Name != TokenLibrary.Words.Return) throw new Exception("invalid syntax");
 
-            // token = tokens.Dequeue();
+            // token = tokens.Pop();
             //
             // if (token.Name != TokenLibrary.Words.IntegerLiteral) throw new Exception("invalid syntax");
 
@@ -20,7 +20,7 @@ namespace CorruptusConscribo.Parser
 
             var statement = new Return(expression);
             
-            token = tokens.Dequeue();
+            token = tokens.Pop();
             
             if (token.Name != TokenLibrary.Words.Semicolon) throw new Exception("invalid syntax");
 

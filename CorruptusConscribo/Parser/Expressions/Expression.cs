@@ -11,7 +11,7 @@ namespace CorruptusConscribo.Parser
         // <term> ::= <factor> { ("*" | "/") <factor> }
         // <factor> ::= "(" <exp> ")" | <unary_op> <factor> | <int>
 
-        public Expression Parse(Queue<Token> tokens)
+        public Expression Parse(Stack<Token> tokens)
         {
             // get the first/left expression as a term
             // multiplication and division will happen here first for higher precedence
@@ -23,7 +23,7 @@ namespace CorruptusConscribo.Parser
             while (nextToken.Name == TokenLibrary.Words.Addition || nextToken.Name == TokenLibrary.Words.Negation)
             {
                 // create the binary operator using the current token
-                var op = new BinaryOperator(tokens.Dequeue());
+                var op = new BinaryOperator(tokens.Pop());
                 
                 // get the expression after the operator
                 var nextExp = new Term().Parse(tokens);

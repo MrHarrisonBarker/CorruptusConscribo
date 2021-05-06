@@ -6,7 +6,7 @@ namespace CorruptusConscribo.Parser
     {
         private FunctionDeclare Function { get; }
         
-        public Program(Queue<Token> tokens)
+        public Program(Stack<Token> tokens)
         {
             Function = new FunctionDeclare().Parse(tokens);
         }
