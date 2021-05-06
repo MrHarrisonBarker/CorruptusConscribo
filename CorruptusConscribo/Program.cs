@@ -8,7 +8,7 @@ namespace CorruptusConscribo
     {
         static void Main(string[] args)
         {
-            args = new[] {"./TestPrograms/return_99.c"};
+            args = new[] {"./TestPrograms/parens.c"};
 
             string sourcePath;
             string outputPath;

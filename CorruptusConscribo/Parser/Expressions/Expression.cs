@@ -5,29 +5,36 @@ namespace CorruptusConscribo.Parser
 {
     public class Expression : ASTNode
     {
+        // private Expression Term { get; set; }
+
         // <exp> ::= <term> { ("+" | "-") <term> }
         // <term> ::= <factor> { ("*" | "/") <factor> }
-        // <facto   r> ::= "(" <exp> ")" | <unary_op> <factor> | <int>
+        // <factor> ::= "(" <exp> ")" | <unary_op> <factor> | <int>
 
         public Expression Parse(Queue<Token> tokens)
         {
             // get the first/left expression as a term
             // multiplication and division will happen here first for higher precedence
-            var term = new Term().Parse(tokens);
+            Expression exp = new Term().Parse(tokens);
 
             var nextToken = tokens.Peek();
 
             // if the next token is a plus or minus
             while (nextToken.Name == TokenLibrary.Words.Addition || nextToken.Name == TokenLibrary.Words.Negation)
             {
+                // create the binary operator using the current token
                 var op = new BinaryOperator(tokens.Dequeue());
-                var nextTerm = new Term().Parse(tokens);
-                term = new Term(new BinaryOperator(op, term, nextTerm));
+                
+                // get the expression after the operator
+                var nextExp = new Term().Parse(tokens);
+                
+                // set the expression to the binary operator with its left and right expression
+                exp = op.Add(exp, nextExp);
+                
                 nextToken = tokens.Peek();
             }
 
-            // might be wrong
-            return term;
+            return exp;
 
             // if (token.Name == TokenLibrary.Words.IntegerLiteral)
             // {
@@ -39,7 +46,7 @@ namespace CorruptusConscribo.Parser
             // {
             //     var expression = new Expression().Parse(tokens);
             //
-            //     return new UnaryOperator(token, expression);
+            // return new UnaryOperator(token, expression);
             // }
 
             // if (token.Name != TokenLibrary.Words.IntegerLiteral) throw new Exception("invalid syntax");
