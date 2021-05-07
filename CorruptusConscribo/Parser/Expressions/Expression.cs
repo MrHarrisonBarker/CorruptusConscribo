@@ -5,9 +5,6 @@ namespace CorruptusConscribo.Parser
 {
     public class Expression : ASTNode, IExpression
     {
-        // <exp> ::= <term> { ("+" | "-") <term> }
-        // <term> ::= <factor> { ("*" | "/") <factor> }
-        // <factor> ::= "(" <exp> ")" | <unary_op> <factor> | <int>
 
         // <exp> ::= <logical-and-exp> { "||" <logical-and-exp> }
         // <logical-and-exp> ::= <equality-exp> { "&&" <equality-exp> }

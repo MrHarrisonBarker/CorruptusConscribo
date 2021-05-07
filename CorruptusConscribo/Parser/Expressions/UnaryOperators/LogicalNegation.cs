@@ -12,10 +12,10 @@ namespace CorruptusConscribo
         {
             // Compare the working register to 0
             // Set ZF (Zero flag) to result
-            const string comparison = "cmpl\t$0,rax\n";
+            const string comparison = "cmpq\t$0,%rax\n";
 
             // Clear the working register for later
-            const string clearWorkingRegister = "movl\t$0,rax\n";
+            const string clearWorkingRegister = "movq\t$0,%rax\n";
 
             // Set AL register based on the ZF flag
             const string setAlRegister = "sete\t%al";

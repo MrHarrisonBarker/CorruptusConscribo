@@ -6,6 +6,15 @@ namespace CorruptusConscribo
 {
     public static class Healpers
     {
+        private static Int64 FuncInc; 
+        
+        public static string GetFunctionId()
+        {
+            var funcId = $"_Func{FuncInc}";
+            FuncInc++;
+            return funcId;
+        }
+        
         public static string GetSource(string path)
         {
             return File.ReadAllText(path);

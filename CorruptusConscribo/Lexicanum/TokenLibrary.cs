@@ -41,17 +41,17 @@ namespace CorruptusConscribo
         {
             new Operator(Words.Negation, new Regex("-")),
             new Operator(Words.BitwiseComplement, new Regex("~")),
-            new Operator(Words.LogicalNegation, new Regex("!")),
+            new Operator(Words.LogicalNegation, new Regex("!(?!=)")),
             new Operator(Words.Addition, new Regex("[+]")),
             new Operator(Words.Division, new Regex("[/]")),
             new Operator(Words.Multiplication, new Regex("[*]")),
             new Operator(Words.AND, new Regex("&&")),
             new Operator(Words.OR, new Regex("(\\|\\|)")),
             new Operator(Words.Equal, new Regex("==")),
-            new Operator(Words.NotEqual, new Regex("!=")),
-            new Operator(Words.LessThan, new Regex("<")),
+            new Operator(Words.NotEqual, new Regex("(!=)")),
+            new Operator(Words.LessThan, new Regex("<(?!=)")),
             new Operator(Words.LessThanOrEqual, new Regex("<=")),
-            new Operator(Words.GreaterThan, new Regex(">")),
+            new Operator(Words.GreaterThan, new Regex(">(?!=)")),
             new Operator(Words.GreaterThanOrEqual, new Regex(">="))
         };
         

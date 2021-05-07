@@ -18,6 +18,7 @@ namespace CorruptusConscribo.Parser
             return this;
         }
 
+        // TODO: add operator to token instead of this switch statement
         public static BinaryOperator New(Token token)
         {
             return token.Name switch
