@@ -9,7 +9,7 @@ namespace CorruptusConscribo
     {
         static void Main(string[] args)
         {
-            args = new[] {"./TestPrograms/div_neg.c"};
+            args = new[] {"./TestPrograms/precedence_2.c"};
 
             string sourcePath;
             string outputPath;

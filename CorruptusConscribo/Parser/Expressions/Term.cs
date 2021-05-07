@@ -17,7 +17,7 @@ namespace CorruptusConscribo.Parser
             while (nextToken.Name == TokenLibrary.Words.Multiplication || nextToken.Name == TokenLibrary.Words.Division)
             {
                 // create the binary operator using token
-                var op = new BinaryOperator(tokens.Pop());
+                var op = BinaryOperator.New(tokens.Pop());
                 
                 var nextTerm = new Factor().Parse(tokens);
 

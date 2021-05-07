@@ -23,14 +23,14 @@ namespace CorruptusConscribo.Parser
             while (nextToken.Name == TokenLibrary.Words.Addition || nextToken.Name == TokenLibrary.Words.Negation)
             {
                 // create the binary operator using the current token
-                var op = new BinaryOperator(tokens.Pop());
-                
+                var op = BinaryOperator.New(tokens.Pop());
+
                 // get the expression after the operator
                 var nextExp = new Term().Parse(tokens);
-                
+
                 // set the expression to the binary operator with its left and right expression
                 exp = op.Add(exp, nextExp);
-                
+
                 nextToken = tokens.Peek();
             }
 

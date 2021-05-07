@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace CorruptusConscribo
 {
@@ -23,6 +24,14 @@ namespace CorruptusConscribo
             public const string Addition = "Addition";
             public const string Division = "Division";
             public const string Multiplication = "Multiplication";
+            public const string AND = "AND";
+            public const string OR = "OR";
+            public const string Equal = "Equal";
+            public const string NotEqual = "NotEqual";
+            public const string LessThan = "LessThan";
+            public const string LessThanOrEqual = "LessThanOrEqual";
+            public const string GreaterThan = "GreaterThan";
+            public const string GreaterThanOrEqual = "GreaterThanOrEqual";
 
             public const string Int = "Int";
             public const string Return = "Return";
@@ -30,12 +39,20 @@ namespace CorruptusConscribo
 
         private static readonly List<Operator> Operators = new()
         {
-            new Negation(),
-            new BitwiseComplement(),
-            new LogicalNegation(),
-            new Addition(),
-            new Division(),
-            new Multiplication()
+            new Operator(Words.Negation, new Regex("-")),
+            new Operator(Words.BitwiseComplement, new Regex("~")),
+            new Operator(Words.LogicalNegation, new Regex("!")),
+            new Operator(Words.Addition, new Regex("[+]")),
+            new Operator(Words.Division, new Regex("[/]")),
+            new Operator(Words.Multiplication, new Regex("[*]")),
+            new Operator(Words.AND, new Regex("&&")),
+            new Operator(Words.OR, new Regex("(\\|\\|)")),
+            new Operator(Words.Equal, new Regex("==")),
+            new Operator(Words.NotEqual, new Regex("!=")),
+            new Operator(Words.LessThan, new Regex("<")),
+            new Operator(Words.LessThanOrEqual, new Regex("<=")),
+            new Operator(Words.GreaterThan, new Regex(">")),
+            new Operator(Words.GreaterThanOrEqual, new Regex(">="))
         };
         
         public static readonly List<Keyword> Keywords = new()

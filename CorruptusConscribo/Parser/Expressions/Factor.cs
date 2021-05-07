@@ -21,7 +21,7 @@ namespace CorruptusConscribo.Parser
             // if unary operator
             if (token.Name == TokenLibrary.Words.Negation || token.Name == TokenLibrary.Words.BitwiseComplement || token.Name == TokenLibrary.Words.LogicalNegation)
             {
-                var op = new UnaryOperator(token);
+                var op = UnaryOperator.New(token);
                 var factor = new Factor().Parse(tokens);
                 return op.Add(factor);
             }
