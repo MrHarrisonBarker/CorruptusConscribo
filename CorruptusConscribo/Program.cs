@@ -9,7 +9,7 @@ namespace CorruptusConscribo
     {
         static void Main(string[] args)
         {
-            args = new[] {"./TestPrograms/add.c"};
+            args = new[] {"./TestPrograms/div_neg.c"};
 
             string sourcePath;
             string outputPath;
@@ -51,17 +51,17 @@ namespace CorruptusConscribo
 
             Console.WriteLine($"Program parsed to AST\n {program.ToString()}");
             
-            // var asm = program.Template();
+            var asm = program.Template();
             
-            // Console.WriteLine($"Assembly generated\n{asm}");
-            //
-            // var asmPath = outputPath + "out.s";
-            //
-            // Healpers.WriteAsm(asmPath, asm);
-            //
-            // Console.WriteLine($"Assembly saved to {asmPath}");
-            //
-            // Healpers.GenerateExecutable(outputPath + "program", asmPath);
+            Console.WriteLine($"Assembly generated\n{asm}");
+            
+            var asmPath = outputPath + "out.s";
+            
+            Healpers.WriteAsm(asmPath, asm);
+            
+            Console.WriteLine($"Assembly saved to {asmPath}");
+            
+            Healpers.GenerateExecutable(outputPath + "program", asmPath);
         }
     }
 }
