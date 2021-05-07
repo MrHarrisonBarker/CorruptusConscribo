@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CorruptusConscribo.Parser.Expressions.BinaryOperators;
 
 namespace CorruptusConscribo.Parser
 {
@@ -25,6 +26,14 @@ namespace CorruptusConscribo.Parser
                 TokenLibrary.Words.Multiplication => new Multiplication(),
                 TokenLibrary.Words.Division => new Division(),
                 TokenLibrary.Words.Negation => new BinaryNegation(),
+                TokenLibrary.Words.AND => new And(),
+                TokenLibrary.Words.OR => new Or(),
+                TokenLibrary.Words.Equal => new Equal(),
+                TokenLibrary.Words.NotEqual => new NotEqual(),
+                TokenLibrary.Words.LessThan => new LessThan(),
+                TokenLibrary.Words.LessThanOrEqual => new LessThanOrEqual(),
+                TokenLibrary.Words.GreaterThan => new GreaterThan(),
+                TokenLibrary.Words.GreaterThanOrEqual => new GreaterThanOrEqual(),
                 _ => throw new InvalidOperationException()
             };
         }
