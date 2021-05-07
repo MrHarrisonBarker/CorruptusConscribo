@@ -32,6 +32,12 @@ namespace CorruptusConscribo
             public const string LessThanOrEqual = "LessThanOrEqual";
             public const string GreaterThan = "GreaterThan";
             public const string GreaterThanOrEqual = "GreaterThanOrEqual";
+            public const string Modulo = "Modulo";
+            public const string BitwiseAnd = "BitwiseAnd";
+            public const string BitwiseOr = "BitwiseOr";
+            public const string BitwiseXor = "BitwiseXor";
+            public const string BitwiseLeft = "BitwiseLeft";
+            public const string BitwiseRight = "BitwiseRight";
 
             public const string Int = "Int";
             public const string Return = "Return";
@@ -49,10 +55,16 @@ namespace CorruptusConscribo
             new Operator(Words.OR, new Regex("(\\|\\|)")),
             new Operator(Words.Equal, new Regex("==")),
             new Operator(Words.NotEqual, new Regex("(!=)")),
-            new Operator(Words.LessThan, new Regex("<(?!=)")),
+            new Operator(Words.LessThan, new Regex("(?<![<,=])<(?![<,=])")),
             new Operator(Words.LessThanOrEqual, new Regex("<=")),
-            new Operator(Words.GreaterThan, new Regex(">(?!=)")),
-            new Operator(Words.GreaterThanOrEqual, new Regex(">="))
+            new Operator(Words.GreaterThan, new Regex("(?<![>,=])>(?![>,=])")),
+            new Operator(Words.GreaterThanOrEqual, new Regex(">=(?!>)")),
+            new Operator(Words.Modulo, new Regex("%")),
+            new Operator(Words.BitwiseAnd, new Regex("&(?!&)")),
+            new Operator(Words.BitwiseOr, new Regex("\\|(?!\\|)")),
+            new Operator(Words.BitwiseXor, new Regex("(\\^)")),
+            new Operator(Words.BitwiseLeft, new Regex("<<")),
+            new Operator(Words.BitwiseRight, new Regex(">>"))
         };
         
         public static readonly List<Keyword> Keywords = new()

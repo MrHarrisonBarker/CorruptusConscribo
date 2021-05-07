@@ -3,11 +3,11 @@ using System.Collections.Generic;
 namespace CorruptusConscribo.Parser
 {
     // <logical-and-exp> ::= <equality-exp> { "&&" <equality-exp> }
-    public class LogicalExpression : Expression, IExpression
+    public class LogicalAndExpression : Expression, IExpression
     {
         public Expression Parse(Stack<Token> tokens)
         {
-            var expression = new EqualityExpression().Parse(tokens);
+            var expression = new BitwiseOrExpression().Parse(tokens);
 
             var nextToken = tokens.Peek();
 
@@ -15,7 +15,7 @@ namespace CorruptusConscribo.Parser
             {
                 var op = BinaryOperator.New(tokens.Pop());
 
-                var nextExpression = new EqualityExpression().Parse(tokens);
+                var nextExpression = new BitwiseOrExpression().Parse(tokens);
 
                 expression = op.Add(expression, nextExpression);
                 

@@ -35,6 +35,12 @@ namespace CorruptusConscribo.Parser
                 TokenLibrary.Words.LessThanOrEqual => new LessThanOrEqual(),
                 TokenLibrary.Words.GreaterThan => new GreaterThan(),
                 TokenLibrary.Words.GreaterThanOrEqual => new GreaterThanOrEqual(),
+                TokenLibrary.Words.Modulo => new Modulo(),
+                TokenLibrary.Words.BitwiseAnd => new BitwiseAnd(),
+                TokenLibrary.Words.BitwiseOr => new BitwiseOr(),
+                TokenLibrary.Words.BitwiseXor => new BitwiseXor(),
+                TokenLibrary.Words.BitwiseLeft => new BitwiseLeft(),
+                TokenLibrary.Words.BitwiseRight => new BitwiseRight(),
                 _ => throw new InvalidOperationException()
             };
         }
@@ -43,6 +49,11 @@ namespace CorruptusConscribo.Parser
         {
             OperatorAsString = operatorAsString;
             BinaryTemplate = binaryTemplate;
+        }
+
+        protected BinaryOperator(string operatorAsString)
+        {
+            OperatorAsString = operatorAsString;
         }
 
         public override string Template()

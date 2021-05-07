@@ -7,7 +7,7 @@ namespace CorruptusConscribo.Parser
     {
         public Expression Parse(Stack<Token> tokens)
         {
-            var expression = new SummingExpression().Parse(tokens);
+            var expression = new ShiftExpression().Parse(tokens);
 
             var nextToken = tokens.Peek();
 
@@ -15,7 +15,7 @@ namespace CorruptusConscribo.Parser
             {
                 var op = BinaryOperator.New(tokens.Pop());
 
-                var nextExpression = new SummingExpression().Parse(tokens);
+                var nextExpression = new ShiftExpression().Parse(tokens);
 
                 expression = op.Add(expression, nextExpression);
                 

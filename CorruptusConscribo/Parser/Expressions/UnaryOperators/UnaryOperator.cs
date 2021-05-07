@@ -25,6 +25,12 @@ namespace CorruptusConscribo.Parser
             };
         }
 
+        public static bool IsUnary()
+        {
+            // TODO
+            return false;
+        }
+
         protected UnaryOperator(string operatorAsString, string unaryTemplate)
         {
             OperatorAsString = operatorAsString;

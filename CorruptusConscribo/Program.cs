@@ -9,7 +9,7 @@ namespace CorruptusConscribo
     {
         static void Main(string[] args)
         {
-            args = new[] {"./TestPrograms/precedence_true.c"};
+            args = new[] {"./TestPrograms/bitwise_shift.c"};
 
             string sourcePath;
             string outputPath;
@@ -56,7 +56,7 @@ namespace CorruptusConscribo
             Console.WriteLine($"Assembly generated\n{asm}");
             
             var asmPath = outputPath + "out.s";
-            
+
             Healpers.WriteAsm(asmPath, asm);
             
             Console.WriteLine($"Assembly saved to {asmPath}");
