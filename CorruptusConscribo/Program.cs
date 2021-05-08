@@ -39,21 +39,8 @@ namespace CorruptusConscribo
                 Console.WriteLine("Not enough arguments");
                 return;
             }
-
-            var source = Healpers.GetSource(sourcePath);
-            Console.WriteLine($"The source code looks like this\n {source}");
-
-            var lexResult = new Stack<Token>(new Lexicanum(source).Tokens);
-
-            Console.WriteLine("Program has been lexed");
-
-            var program = new Parser.Program(lexResult);
-
-            Console.WriteLine($"Program parsed to AST\n {program.ToString()}");
             
-            var asm = program.Template();
-            
-            Console.WriteLine($"Assembly generated\n{asm}");
+            var asm = Healpers.Compile(sourcePath);
             
             var asmPath = outputPath + "out.s";
 

@@ -60,8 +60,8 @@ namespace CorruptusConscribo
             new Operator(Words.GreaterThan, new Regex("(?<![>,=])>(?![>,=])")),
             new Operator(Words.GreaterThanOrEqual, new Regex(">=(?!>)")),
             new Operator(Words.Modulo, new Regex("%")),
-            new Operator(Words.BitwiseAnd, new Regex("&(?!&)")),
-            new Operator(Words.BitwiseOr, new Regex("\\|(?!\\|)")),
+            new Operator(Words.BitwiseAnd, new Regex("(?<!&)&(?!&)")),
+            new Operator(Words.BitwiseOr, new Regex("(?<!\\|)\\|(?!\\|)")),
             new Operator(Words.BitwiseXor, new Regex("(\\^)")),
             new Operator(Words.BitwiseLeft, new Regex("<<")),
             new Operator(Words.BitwiseRight, new Regex(">>"))

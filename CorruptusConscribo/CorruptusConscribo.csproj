@@ -6,7 +6,7 @@
   </PropertyGroup>
   
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-    <None Update="TestPrograms/*" CopyToOutputDirectory="PreserveNewest"></None>
+    <None Update="../TestPrograms/*" CopyToOutputDirectory="PreserveNewest"></None>
   </ItemGroup>
 
 </Project>
