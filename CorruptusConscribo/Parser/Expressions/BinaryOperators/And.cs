@@ -2,7 +2,7 @@ namespace CorruptusConscribo.Parser.Expressions.BinaryOperators
 {
     public class And : BinaryOperator
     {
-        public And() : base("&&")
+        public And(Scope scope) : base(scope,"&&")
         {
         }
 

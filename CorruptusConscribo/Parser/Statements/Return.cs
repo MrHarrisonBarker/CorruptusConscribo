@@ -3,19 +3,22 @@ namespace CorruptusConscribo.Parser
     public class Return : Statement
     {
         private Expression Expression { get; }
-        public Return(Expression expression)
+
+        public Return(Scope scope, Expression expression) : base(scope)
         {
             Expression = expression;
         }
 
         public override string Template()
         {
-            return $"{Expression.Template()}\nret";
+            const string epilogue = "movq\t%rbp,%rsp\npop\t%rbp\n";
+
+            return $"{Expression.Template()}\n \n{epilogue}ret";
         }
 
         public override string ToString()
         {
-            return $"\tReturn {Expression.ToString()}";
+            return $"\tReturn {Expression}";
         }
     }
 }

@@ -5,29 +5,29 @@ namespace CorruptusConscribo.Parser
 {
     public abstract class Assignment : Expression
     {
-        private string Variable { get; set; }
-        private Expression Expression { get; set; }
+        protected string Variable { get; set; }
+        protected Expression Expression { get; set; }
         private string AssignmentOperator { get; }
         private string AssignmentTemplate { get; }
 
-        protected Assignment(string assignmentOperator, string assignmentTemplate)
+        protected Assignment(Scope scope, string assignmentOperator, string assignmentTemplate) : base(scope)
         {
             AssignmentTemplate = assignmentTemplate;
             AssignmentOperator = assignmentOperator;
         }
 
-        public Assignment Add(string variableId,Expression expression)
+        public Assignment Add(string variableId, Expression expression)
         {
             Variable = variableId;
             Expression = expression;
             return this;
         }
 
-        public static Assignment New(Token token)
+        public static Assignment New(Scope scope, Token token)
         {
             return token.Name switch
             {
-                TokenLibrary.Words.Assignment => new Assign(),
+                TokenLibrary.Words.Assignment => new Assign(scope),
                 _ => throw new InvalidOperationException()
             };
         }

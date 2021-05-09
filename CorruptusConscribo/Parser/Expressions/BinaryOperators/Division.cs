@@ -4,7 +4,7 @@ namespace CorruptusConscribo
 {
     public class Division : BinaryOperator
     {
-        public Division() : base("/", "idivq\t%rbx")
+        public Division(Scope scope) : base(scope,"/", "idivq\t%rbx")
         {
         }
 

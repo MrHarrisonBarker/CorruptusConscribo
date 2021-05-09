@@ -2,7 +2,7 @@ namespace CorruptusConscribo.Parser.Expressions.BinaryOperators
 {
     public class Modulo : BinaryOperator
     {
-        public Modulo() : base("%")
+        public Modulo(Scope scope) : base(scope,"%")
         {
         }
         

@@ -11,7 +11,7 @@ namespace CorruptusConscribo.Parser
 
             if (token.Name == TokenLibrary.Words.OpenParenthesis)
             {
-                var expression = new Expression().Parse(tokens);
+                var expression = new Expression(Scope).Parse(tokens);
 
                 if (tokens.Pop().Name != TokenLibrary.Words.CloseParenthesis) throw new SyntaxException("expected )");
 
@@ -21,22 +21,26 @@ namespace CorruptusConscribo.Parser
             // if unary operator
             if (token.Name == TokenLibrary.Words.Negation || token.Name == TokenLibrary.Words.BitwiseComplement || token.Name == TokenLibrary.Words.LogicalNegation)
             {
-                var op = UnaryOperator.New(token);
-                var factor = new Factor().Parse(tokens);
+                var op = UnaryOperator.New(Scope,token);
+                var factor = new Factor(Scope).Parse(tokens);
                 return op.Add(factor);
             }
 
             if (token.Name == TokenLibrary.Words.IntegerLiteral)
             {
-                return new Constant(token.Value.ToInt32(null));
+                return new Constant(Scope, token.Value.ToInt32(null));
             }
 
             if (token.Name == TokenLibrary.Words.Identifier)
             {
-                return new Variable((string) token.Value);
+                return new Variable(Scope, (string) token.Value);
             }
 
             throw new SyntaxException("Lol u fucked up");
+        }
+
+        public Factor(Scope scope) : base(scope)
+        {
         }
     }
 }

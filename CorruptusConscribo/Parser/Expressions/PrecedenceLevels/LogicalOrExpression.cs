@@ -2,19 +2,19 @@ using System.Collections.Generic;
 
 namespace CorruptusConscribo.Parser
 {
-    public class LogicalOrExpression : Expression, IExpression
+    public class LogicalOrExpression : Expression
     {
         public Expression Parse(Stack<Token> tokens)
         {
-            var expression = new LogicalAndExpression().Parse(tokens);
+            var expression = new LogicalAndExpression(Scope).Parse(tokens);
 
             var nextToken = tokens.Peek();
 
             while (nextToken.Name == TokenLibrary.Words.OR)
             {
-                var op = BinaryOperator.New(tokens.Pop());
+                var op = BinaryOperator.New(Scope, tokens.Pop());
 
-                var nextExpression = new LogicalAndExpression().Parse(tokens);
+                var nextExpression = new LogicalAndExpression(Scope).Parse(tokens);
 
                 expression = op.Add(expression, nextExpression);
 
@@ -22,6 +22,10 @@ namespace CorruptusConscribo.Parser
             }
 
             return expression;
+        }
+
+        public LogicalOrExpression(Scope scope) : base(scope)
+        {
         }
     }
 }

@@ -4,7 +4,7 @@ namespace CorruptusConscribo
 {
     public class Multiplication : BinaryOperator
     {
-        public Multiplication() : base("*", "imul\t%rcx,%rax")
+        public Multiplication(Scope scope) : base(scope,"*", "imul\t%rcx,%rax")
         {
         }
     }

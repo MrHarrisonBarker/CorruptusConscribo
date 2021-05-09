@@ -4,7 +4,7 @@ namespace CorruptusConscribo
 {
     public class BinaryNegation : BinaryOperator
     {
-        public BinaryNegation() : base("-", "subq\t%rcx,%rax")
+        public BinaryNegation(Scope scope) : base(scope,"-", "subq\t%rcx,%rax")
         {
         }
         

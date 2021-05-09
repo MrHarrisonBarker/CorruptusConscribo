@@ -2,16 +2,16 @@ using System.Collections.Generic;
 
 namespace CorruptusConscribo.Parser
 {
-    public class Program : ASTNode
+    public class Program
     {
         private FunctionDeclare Function { get; }
         
         public Program(Stack<Token> tokens)
         {
-            Function = new FunctionDeclare().Parse(tokens);
+            Function = new FunctionDeclare(new Scope()).Parse(tokens);
         }
 
-        public override string Template()
+        public string Template()
         {
             return Function.Template();
         }

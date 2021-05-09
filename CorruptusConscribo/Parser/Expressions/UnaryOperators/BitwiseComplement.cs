@@ -4,7 +4,7 @@ namespace CorruptusConscribo
 {
     public class BitwiseComplement : UnaryOperator
     {
-        public BitwiseComplement() : base("~", "not\t%rax")
+        public BitwiseComplement(Scope scope) : base(scope,"~", "not\t%rax")
         {
         }
     }

@@ -2,7 +2,7 @@ namespace CorruptusConscribo.Parser.Expressions.BinaryOperators
 {
     public class BitwiseAnd : BinaryOperator
     {
-        public BitwiseAnd() : base("&","and\t%rax,%rcx")
+        public BitwiseAnd(Scope scope) : base(scope,"&","and\t%rax,%rcx")
         {
         }
     }

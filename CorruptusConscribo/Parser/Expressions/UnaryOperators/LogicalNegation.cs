@@ -4,7 +4,7 @@ namespace CorruptusConscribo
 {
     public class LogicalNegation : UnaryOperator
     {
-        public LogicalNegation() : base("!", GenTemplate())
+        public LogicalNegation(Scope scope) : base(scope,"!", GenTemplate())
         {
         }
 

@@ -43,11 +43,11 @@ namespace CorruptusConscribo
             var asm = Healpers.Compile(sourcePath);
             
             var asmPath = outputPath + "out.s";
-
+            //
             Healpers.WriteAsm(asmPath, asm);
-            
+            //
             Console.WriteLine($"Assembly saved to {asmPath}");
-            
+            //
             Healpers.GenerateExecutable(outputPath + "program", asmPath);
         }
     }

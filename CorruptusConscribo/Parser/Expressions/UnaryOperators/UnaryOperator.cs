@@ -14,13 +14,13 @@ namespace CorruptusConscribo.Parser
             return this;
         }
 
-        public static UnaryOperator New(Token token)
+        public static UnaryOperator New(Scope scope, Token token)
         {
             return token.Name switch
             {
-                TokenLibrary.Words.Negation => new Negation(),
-                TokenLibrary.Words.BitwiseComplement => new BitwiseComplement(),
-                TokenLibrary.Words.LogicalNegation => new LogicalNegation(),
+                TokenLibrary.Words.Negation => new Negation(scope),
+                TokenLibrary.Words.BitwiseComplement => new BitwiseComplement(scope),
+                TokenLibrary.Words.LogicalNegation => new LogicalNegation(scope),
                 _ => throw new InvalidOperationException()
             };
         }
@@ -31,7 +31,7 @@ namespace CorruptusConscribo.Parser
             return false;
         }
 
-        protected UnaryOperator(string operatorAsString, string unaryTemplate)
+        protected UnaryOperator(Scope scope,string operatorAsString, string unaryTemplate) : base(scope)
         {
             OperatorAsString = operatorAsString;
             UnaryTemplate = unaryTemplate;

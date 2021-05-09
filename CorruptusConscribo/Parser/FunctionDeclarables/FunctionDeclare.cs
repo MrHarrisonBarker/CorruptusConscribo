@@ -35,39 +35,15 @@ namespace CorruptusConscribo.Parser
 
             while (nextToken.Name != TokenLibrary.Words.CloseBracket)
             {
-                statements.Add(new Statement().Parse(tokens));
+                statements.Add(new Statement(Scope).Parse(tokens));
                 nextToken = tokens.Peek();
             }
-            
-            return new Function(returnType, id.ToString(CultureInfo.InvariantCulture), statements);
-        }
-    }
 
-    public class Function : FunctionDeclare
-    {
-        private string Name { get; }
-        private string ReturnType { get; }
-        private List<Statement> Statements { get; }
-
-        public Function(string returnType, string name, List<Statement> statements)
-        {
-            Name = name;
-            ReturnType = returnType;
-            Statements = statements;
+            return new Function(Scope, returnType, id.ToString(CultureInfo.InvariantCulture), statements);
         }
 
-        public override string Template()
+        public FunctionDeclare(Scope scope) : base(scope)
         {
-            var template = $".globl _{Name}\n_{Name}:\n";
-
-            Statements.ForEach(s => template += s.Template());
-
-            return template;
-        }
-
-        public override string ToString()
-        {
-            return $"Func {ReturnType} {Name}:\n{string.Join("\n", Statements)}";
         }
     }
 }

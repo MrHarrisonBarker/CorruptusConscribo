@@ -4,7 +4,7 @@ namespace CorruptusConscribo.Parser
     {
         private int Value { get; }
 
-        public Constant(int value)
+        public Constant(Scope scope, int value) : base(scope)
         {
             Value = value;
         }

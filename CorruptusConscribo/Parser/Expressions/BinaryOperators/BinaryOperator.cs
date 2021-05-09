@@ -17,19 +17,41 @@ namespace CorruptusConscribo.Parser
             RightExpression = rightExpression;
             return this;
         }
-        
-        public static BinaryOperator New(Token token)
+
+        public static BinaryOperator New(Scope scope, Token token)
         {
-            return Junction.BinaryOperators[token.Name];
+            return token.Name switch
+            {
+                
+                TokenLibrary.Words.Addition => new Addition(scope),
+                TokenLibrary.Words.Multiplication => new Multiplication(scope),
+                TokenLibrary.Words.Division => new Division(scope),
+                TokenLibrary.Words.Negation => new BinaryNegation(scope),
+                TokenLibrary.Words.AND => new And(scope),
+                TokenLibrary.Words.OR => new Or(scope),
+                TokenLibrary.Words.Equal => new Equal(scope),
+                TokenLibrary.Words.NotEqual => new NotEqual(scope),
+                TokenLibrary.Words.LessThan => new LessThan(scope),
+                TokenLibrary.Words.LessThanOrEqual => new LessThanOrEqual(scope),
+                TokenLibrary.Words.GreaterThan => new GreaterThan(scope),
+                TokenLibrary.Words.GreaterThanOrEqual => new GreaterThanOrEqual(scope),
+                TokenLibrary.Words.Modulo => new Modulo(scope),
+                TokenLibrary.Words.BitwiseAnd => new BitwiseAnd(scope),
+                TokenLibrary.Words.BitwiseOr => new BitwiseOr(scope),
+                TokenLibrary.Words.BitwiseXor => new BitwiseXor(scope),
+                TokenLibrary.Words.BitwiseLeft => new BitwiseLeft(scope),
+                TokenLibrary.Words.BitwiseRight => new BitwiseRight(scope),
+                _ => throw new InvalidOperationException()
+            };
         }
 
-        protected BinaryOperator(string operatorAsString, string binaryTemplate)
+        protected BinaryOperator(Scope scope, string operatorAsString, string binaryTemplate) : base(scope)
         {
             OperatorAsString = operatorAsString;
             BinaryTemplate = binaryTemplate;
         }
 
-        protected BinaryOperator(string operatorAsString)
+        protected BinaryOperator(Scope scope, string operatorAsString) : base(scope)
         {
             OperatorAsString = operatorAsString;
         }

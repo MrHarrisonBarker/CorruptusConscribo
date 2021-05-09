@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CorruptusConscribo.Parser
 {
-    public class Expression : Statement, IExpression
+    public class Expression : Statement
     {
         // <exp> ::= <id> "=" <exp> | <logical-or-exp>
         // <logical-or-exp> ::= <logical-and-exp> { "||" <logical-and-exp> }
@@ -33,7 +33,7 @@ namespace CorruptusConscribo.Parser
                 // if the variable is being assigned to something
                 if (nextToken.Name == TokenLibrary.Words.Assignment)
                 {
-                    var assignment = Assignment.New(tokens.Pop()).Add((string) var.Value, new Expression().Parse(tokens));
+                    var assignment = Assignment.New(Scope, tokens.Pop()).Add((string) var.Value, new Expression(Scope).Parse(tokens));
                     // tokens.Pop();
                     return assignment;
                 }
@@ -41,9 +41,13 @@ namespace CorruptusConscribo.Parser
                 tokens.Push(var);
             }
 
-            var exp = new LogicalOrExpression().Parse(tokens);
+            var exp = new LogicalOrExpression(Scope).Parse(tokens);
 
             return exp;
+        }
+
+        public Expression(Scope scope) : base(scope)
+        {
         }
     }
 }

@@ -15,9 +15,9 @@ namespace CorruptusConscribo.Parser
             {
                 tokens.Pop();
                 
-                var expression = new Expression().Parse(tokens);
+                var expression = new Expression(Scope).Parse(tokens);
 
-                var statement = new Return(expression);
+                var statement = new Return(Scope,expression);
 
                 token = tokens.Pop();
 
@@ -28,16 +28,20 @@ namespace CorruptusConscribo.Parser
 
             if (token.Name == TokenLibrary.Words.Int)
             {
-                return new Declare().Parse(tokens);
+                return new Declare(Scope).Parse(tokens);
             }
             
-            var exp = new Expression().Parse(tokens);
+            var exp = new Expression(Scope).Parse(tokens);
             
             token = tokens.Pop();
             
             if (token.Name != TokenLibrary.Words.Semicolon) throw new Exception("invalid syntax");
 
             return exp;
+        }
+
+        public Statement(Scope scope) : base(scope)
+        {
         }
     }
 }

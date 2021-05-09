@@ -4,14 +4,16 @@ namespace CorruptusConscribo.Parser
     {
         private string VariableId { get; }
 
-        public Variable(string id)
+        public Variable(Scope scope,string id) : base(scope)
         {
             VariableId = id;
         }
 
         public override string Template()
         {
-            return "NOT IMPLEMENTED";
+            var varIndex = Scope.VariableArchive[VariableId].StackIndex;
+            return $"\nmovq\t{varIndex}(%rbp), %rax";
+            return "\nVariable call\n";
         }
 
         public override string ToString()

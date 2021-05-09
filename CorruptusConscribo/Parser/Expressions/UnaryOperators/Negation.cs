@@ -4,7 +4,7 @@ namespace CorruptusConscribo
 {
     public class Negation : UnaryOperator
     {
-        public Negation() : base("-", "neg\t%rax")
+        public Negation(Scope scope) : base(scope,"-", "neg\t%rax")
         {
         }
     }
