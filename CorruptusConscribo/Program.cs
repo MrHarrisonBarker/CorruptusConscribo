@@ -9,7 +9,7 @@ namespace CorruptusConscribo
     {
         static void Main(string[] args)
         {
-            args = new[] {"./TestPrograms/bitwise_shift.c"};
+            args = new[] {"./stage_5/assign.c"};
 
             string sourcePath;
             string outputPath;

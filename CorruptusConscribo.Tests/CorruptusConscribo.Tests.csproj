@@ -16,7 +16,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CorruptusConscribo\CorruptusConscribo.csproj" />
     <Content Include="$(SolutionDir)TestPrograms\**" CopyToOutputDirectory="PreserveNewest"></Content>
-
   </ItemGroup>
 
 </Project>

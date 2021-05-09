@@ -38,6 +38,7 @@ namespace CorruptusConscribo
             public const string BitwiseXor = "BitwiseXor";
             public const string BitwiseLeft = "BitwiseLeft";
             public const string BitwiseRight = "BitwiseRight";
+            public const string Assignment = "Assignment";
 
             public const string Int = "Int";
             public const string Return = "Return";
@@ -64,7 +65,8 @@ namespace CorruptusConscribo
             new Operator(Words.BitwiseOr, new Regex("(?<!\\|)\\|(?!\\|)")),
             new Operator(Words.BitwiseXor, new Regex("(\\^)")),
             new Operator(Words.BitwiseLeft, new Regex("<<")),
-            new Operator(Words.BitwiseRight, new Regex(">>"))
+            new Operator(Words.BitwiseRight, new Regex(">>")),
+            new Operator(Words.Assignment, new Regex("=")),
         };
         
         public static readonly List<Keyword> Keywords = new()

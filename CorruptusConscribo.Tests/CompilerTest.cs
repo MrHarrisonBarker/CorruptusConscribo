@@ -8,11 +8,18 @@ namespace CorruptusConscribo.Tests
 {
     public abstract class CompilerTest
     {
-        protected readonly string SourcePath;
-        protected readonly string OutputPath;
-        protected readonly string Source;
-        protected readonly List<Token> SourceTokens;
+        private readonly string SourcePath;
+        private readonly string OutputPath;
+        private readonly string Source;
+        private readonly List<Token> SourceTokens;
         private readonly int ReturnValue;
+
+        protected CompilerTest(int returnValue, string sourcePath, string outputPath)
+        {
+            ReturnValue = returnValue;
+            SourcePath = sourcePath;
+            OutputPath = outputPath;
+        }
 
         protected CompilerTest(int returnValue, string sourcePath, string outputPath, string source)
         {
