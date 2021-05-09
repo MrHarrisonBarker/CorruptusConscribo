@@ -6,44 +6,38 @@ namespace CorruptusConscribo.Parser
 {
     public class Statement : ASTNode
     {
+        // <statement> ::= "return" <exp> "; | <exp> ";" | "int" <id> [ = <exp> ] ";"
         public Statement Parse(Stack<Token> tokens)
         {
-            var token = tokens.Pop();
+            var token = tokens.Peek();
 
-            if (token.Name != TokenLibrary.Words.Return) throw new Exception("invalid syntax");
+            if (token.Name == TokenLibrary.Words.Return)
+            {
+                tokens.Pop();
+                
+                var expression = new Expression().Parse(tokens);
 
-            // token = tokens.Pop();
-            //
-            // if (token.Name != TokenLibrary.Words.IntegerLiteral) throw new Exception("invalid syntax");
+                var statement = new Return(expression);
 
-            var expression = new Expression().Parse(tokens);
+                token = tokens.Pop();
 
-            var statement = new Return(expression);
+                if (token.Name != TokenLibrary.Words.Semicolon) throw new Exception("invalid syntax");
+
+                return statement;
+            }
+
+            if (token.Name == TokenLibrary.Words.Int)
+            {
+                return new Declare().Parse(tokens);
+            }
+            
+            var exp = new Expression().Parse(tokens);
             
             token = tokens.Pop();
             
             if (token.Name != TokenLibrary.Words.Semicolon) throw new Exception("invalid syntax");
 
-            return statement;
-        }
-    }
-    
-    public class Return : Statement
-    {
-        private Expression Expression { get; }
-        public Return(Expression expression)
-        {
-            Expression = expression;
-        }
-
-        public override string Template()
-        {
-            return $"{Expression.Template()}\nret";
-        }
-
-        public override string ToString()
-        {
-            return $"\tReturn {Expression.ToString()}";
+            return exp;
         }
     }
 }

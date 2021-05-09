@@ -31,6 +31,11 @@ namespace CorruptusConscribo.Parser
                 return new Constant(token.Value.ToInt32(null));
             }
 
+            if (token.Name == TokenLibrary.Words.Identifier)
+            {
+                return new Variable((string) token.Value);
+            }
+
             throw new SyntaxException("Lol u fucked up");
         }
     }

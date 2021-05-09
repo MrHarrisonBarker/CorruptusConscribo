@@ -6,6 +6,7 @@ namespace CorruptusConscribo.Parser
 {
     public class FunctionDeclare : ASTNode
     {
+        // <function> ::= "int" <id> "(" ")" "{" { <statement> } "}"
         public FunctionDeclare Parse(Stack<Token> tokens)
         {
             var token = tokens.Pop();
@@ -29,13 +30,16 @@ namespace CorruptusConscribo.Parser
             token = tokens.Pop();
             if (token.Name != TokenLibrary.Words.OpenBracket) throw new Exception("invalid syntax");
 
-            // parse the function body statement
-            var statement = new Statement().Parse(tokens);
+            var nextToken = tokens.Peek();
+            var statements = new List<Statement>();
 
-            token = tokens.Pop();
-            if (token.Name != TokenLibrary.Words.CloseBracket) throw new Exception("invalid syntax");
-
-            return new Function(returnType, id.ToString(CultureInfo.InvariantCulture), statement);
+            while (nextToken.Name != TokenLibrary.Words.CloseBracket)
+            {
+                statements.Add(new Statement().Parse(tokens));
+                nextToken = tokens.Peek();
+            }
+            
+            return new Function(returnType, id.ToString(CultureInfo.InvariantCulture), statements);
         }
     }
 
@@ -43,25 +47,27 @@ namespace CorruptusConscribo.Parser
     {
         private string Name { get; }
         private string ReturnType { get; }
-        private Statement Statement { get; }
+        private List<Statement> Statements { get; }
 
-        public Function(string returnType, string name, Statement statement)
+        public Function(string returnType, string name, List<Statement> statements)
         {
             Name = name;
             ReturnType = returnType;
-            Statement = statement;
+            Statements = statements;
         }
 
         public override string Template()
         {
             var template = $".globl _{Name}\n_{Name}:\n";
-            template += Statement.Template();
+
+            Statements.ForEach(s => template += s.Template());
+
             return template;
         }
 
         public override string ToString()
         {
-            return $"Func {ReturnType} {Name}:\n{Statement.ToString()}";
+            return $"Func {ReturnType} {Name}:\n{string.Join("\n", Statements)}";
         }
     }
 }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace CorruptusConscribo.Parser
 {
-    public class Expression : ASTNode, IExpression
+    public class Expression : Statement, IExpression
     {
-
-        // <exp> ::= <logical-and-exp> { "||" <logical-and-exp> }
+        // <exp> ::= <id> "=" <exp> | <logical-or-exp>
+        // <logical-or-exp> ::= <logical-and-exp> { "||" <logical-and-exp> }
         // <logical-and-exp> ::= <bitwise-or-exp> { "&&" <bitwise-or-exp> }
         // <bitwise-or-exp> ::= <bitwise-xor-exp> { "|" <bitwise-xor-exp> }
         // <bitwise-xor-exp> ::= <bitwise-and-exp> { "^" <bitwise-and-exp> }
@@ -21,20 +21,27 @@ namespace CorruptusConscribo.Parser
 
         public Expression Parse(Stack<Token> tokens)
         {
-            var exp = new LogicalAndExpression().Parse(tokens);
-
             var nextToken = tokens.Peek();
-            
-            while (nextToken.Name == TokenLibrary.Words.OR)
+
+            // if the next token is a variable
+            if (nextToken.Name == TokenLibrary.Words.Identifier)
             {
-                var op = BinaryOperator.New(tokens.Pop());
-                
-                var nextExp = new LogicalAndExpression().Parse(tokens);
-                
-                exp = op.Add(exp, nextExp);
+                var var = tokens.Pop();
 
                 nextToken = tokens.Peek();
+
+                // if the variable is being assigned to something
+                if (nextToken.Name == TokenLibrary.Words.Assignment)
+                {
+                    var assignment = Assignment.New(tokens.Pop()).Add((string) var.Value, new Expression().Parse(tokens));
+                    // tokens.Pop();
+                    return assignment;
+                }
+
+                tokens.Push(var);
             }
+
+            var exp = new LogicalOrExpression().Parse(tokens);
 
             return exp;
         }
