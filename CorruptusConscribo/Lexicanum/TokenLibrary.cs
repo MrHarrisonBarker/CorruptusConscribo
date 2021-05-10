@@ -51,17 +51,20 @@ namespace CorruptusConscribo
             public const string OrAssign = "OrAssign";
             public const string XorAssign = "XorAssign";
 
+            public const string Increment = "Increment";
+            public const string Decrement = "Decrement";
+
             public const string Int = "Int";
             public const string Return = "Return";
         }
 
         private static readonly List<Operator> Operators = new()
         {
-            new Operator(Words.Negation, new Regex("(?<![=])[-](?![=])")),
+            new Operator(Words.Negation, new Regex("(?<![=,-])[-](?![=,-])")),
             new Operator(Words.BitwiseComplement, new Regex("~")),
             new Operator(Words.LogicalNegation, new Regex("!(?!=)")),
             
-            new Operator(Words.Addition, new Regex("(?<![=])[+](?![=])")),
+            new Operator(Words.Addition, new Regex("(?<![=,+])[+](?![=,+])")),
             new Operator(Words.Division, new Regex("(?<![=])[/](?![=])")),
             new Operator(Words.Multiplication, new Regex("(?<![=])[*](?![=])")),
             
@@ -95,6 +98,9 @@ namespace CorruptusConscribo
             new Operator(Words.AndAssign, new Regex("(?<![!,=,<,>])&=(?![!,=,<,>])")),
             new Operator(Words.OrAssign, new Regex("(?<![!,=,<,>])\\|=(?![!,=,<,>])")),
             new Operator(Words.XorAssign, new Regex("(?<![!,=,<,>])\\^=(?![!,=,<,>])")),
+            
+            new Operator(Words.Increment, new Regex("(?<![=])\\+\\+(?![=])")),
+            new Operator(Words.Decrement, new Regex("(?<![=])--(?![=])"))
         };
         
         public static readonly List<Keyword> Keywords = new()

@@ -28,6 +28,12 @@ namespace CorruptusConscribo.Parser
             return this;
         }
 
+        public Assignment Add(string variableId)
+        {
+            Variable = variableId;
+            return this;
+        }
+
         public static Assignment New(Scope scope, Token token)
         {
             return token.Name switch
@@ -41,6 +47,8 @@ namespace CorruptusConscribo.Parser
                 TokenLibrary.Words.AndAssign => new AndAssign(scope),
                 TokenLibrary.Words.OrAssign => new OrAssign(scope),
                 TokenLibrary.Words.XorAssign => new XorAssign(scope),
+                TokenLibrary.Words.Increment => new Increment(scope),
+                TokenLibrary.Words.Decrement => new Decrement(scope),
                 _ => throw new InvalidOperationException()
             };
         }

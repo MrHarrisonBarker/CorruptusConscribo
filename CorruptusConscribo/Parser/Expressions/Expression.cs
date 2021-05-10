@@ -30,6 +30,11 @@ namespace CorruptusConscribo.Parser
 
                 nextToken = tokens.Peek();
 
+                if (nextToken.Name == TokenLibrary.Words.Increment || nextToken.Name == TokenLibrary.Words.Decrement)
+                {
+                    return Assignment.New(Scope, tokens.Pop()).Add((string) var.Value);
+                }
+
                 // if the variable is being assigned to something TODO: precedence
                 if (nextToken.Name == TokenLibrary.Words.Assignment ||
                     nextToken.Name == TokenLibrary.Words.AdditionAssign ||
@@ -41,9 +46,7 @@ namespace CorruptusConscribo.Parser
                     nextToken.Name == TokenLibrary.Words.OrAssign ||
                     nextToken.Name == TokenLibrary.Words.XorAssign)
                 {
-                    var assignment = Assignment.New(Scope, tokens.Pop()).Add((string) var.Value, new Expression(Scope).Parse(tokens));
-                    // tokens.Pop();
-                    return assignment;
+                    return Assignment.New(Scope, tokens.Pop()).Add((string) var.Value, new Expression(Scope).Parse(tokens));
                 }
 
                 tokens.Push(var);
