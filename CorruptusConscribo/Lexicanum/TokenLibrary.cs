@@ -66,7 +66,7 @@ namespace CorruptusConscribo
             new Operator(Words.BitwiseXor, new Regex("(\\^)")),
             new Operator(Words.BitwiseLeft, new Regex("<<")),
             new Operator(Words.BitwiseRight, new Regex(">>")),
-            new Operator(Words.Assignment, new Regex("=")),
+            new Operator(Words.Assignment, new Regex("(?<![!,=,<,>])=(?![!,=,<,>])")),
         };
         
         public static readonly List<Keyword> Keywords = new()

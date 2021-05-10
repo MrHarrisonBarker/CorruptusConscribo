@@ -22,7 +22,6 @@ namespace CorruptusConscribo.Parser
         {
             return token.Name switch
             {
-                
                 TokenLibrary.Words.Addition => new Addition(scope),
                 TokenLibrary.Words.Multiplication => new Multiplication(scope),
                 TokenLibrary.Words.Division => new Division(scope),
