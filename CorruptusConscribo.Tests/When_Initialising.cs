@@ -5,7 +5,7 @@ namespace CorruptusConscribo.Tests
     [TestFixture]
     public class When_Initialising : CompilerTest
     {
-        public When_Initialising() : base(0, "./stage_5/initialize.c", "./stage_5/")
+        public When_Initialising() : base(2, "./stage_5/init.c", "./stage_5/")
         {
         }
     }

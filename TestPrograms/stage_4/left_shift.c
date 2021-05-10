@@ -1,3 +1,3 @@
 int main() {
-    return 10 << 1;
+    return 10 << 2;
 }

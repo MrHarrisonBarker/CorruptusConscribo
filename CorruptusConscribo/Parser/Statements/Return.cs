@@ -13,7 +13,7 @@ namespace CorruptusConscribo.Parser
         {
             const string epilogue = "movq\t%rbp,%rsp\npop\t%rbp\n";
 
-            return $"{Expression.Template()}\n \n{epilogue}ret";
+            return $"\n{Expression.Template()}\n \n{epilogue}ret";
         }
 
         public override string ToString()
