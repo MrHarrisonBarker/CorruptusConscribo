@@ -40,33 +40,61 @@ namespace CorruptusConscribo
             public const string BitwiseRight = "BitwiseRight";
             public const string Assignment = "Assignment";
 
+            public const string AdditionAssign = "AdditionAssign";
+            public const string SubtractionAssign = "SubtractionAssign";
+            public const string MultiplicationAssign = "MultiplicationAssign";
+            public const string DivisionAssign = "DivisionAssign";
+            public const string ModuloAssign = "ModuloAssign";
+            public const string LeftShiftAssign = "LeftShiftAssign";
+            public const string RightShiftAssign = "RightShiftAssign";
+            public const string AndAssign = "AndAssign";
+            public const string OrAssign = "OrAssign";
+            public const string XorAssign = "XorAssign";
+
             public const string Int = "Int";
             public const string Return = "Return";
         }
 
         private static readonly List<Operator> Operators = new()
         {
-            new Operator(Words.Negation, new Regex("-")),
+            new Operator(Words.Negation, new Regex("(?<![=])[-](?![=])")),
             new Operator(Words.BitwiseComplement, new Regex("~")),
             new Operator(Words.LogicalNegation, new Regex("!(?!=)")),
-            new Operator(Words.Addition, new Regex("[+]")),
-            new Operator(Words.Division, new Regex("[/]")),
-            new Operator(Words.Multiplication, new Regex("[*]")),
+            
+            new Operator(Words.Addition, new Regex("(?<![=])[+](?![=])")),
+            new Operator(Words.Division, new Regex("(?<![=])[/](?![=])")),
+            new Operator(Words.Multiplication, new Regex("(?<![=])[*](?![=])")),
+            
             new Operator(Words.AND, new Regex("&&")),
             new Operator(Words.OR, new Regex("(\\|\\|)")),
+            
             new Operator(Words.Equal, new Regex("==")),
             new Operator(Words.NotEqual, new Regex("(!=)")),
             new Operator(Words.LessThan, new Regex("(?<![<,=])<(?![<,=])")),
             new Operator(Words.LessThanOrEqual, new Regex("<=")),
             new Operator(Words.GreaterThan, new Regex("(?<![>,=])>(?![>,=])")),
             new Operator(Words.GreaterThanOrEqual, new Regex(">=(?!>)")),
-            new Operator(Words.Modulo, new Regex("%")),
+            new Operator(Words.Modulo, new Regex("(?<![=])[%](?![=])")),
+            
             new Operator(Words.BitwiseAnd, new Regex("(?<!&)&(?!&)")),
             new Operator(Words.BitwiseOr, new Regex("(?<!\\|)\\|(?!\\|)")),
             new Operator(Words.BitwiseXor, new Regex("(\\^)")),
             new Operator(Words.BitwiseLeft, new Regex("<<")),
             new Operator(Words.BitwiseRight, new Regex(">>")),
-            new Operator(Words.Assignment, new Regex("(?<![!,=,<,>])=(?![!,=,<,>])")),
+            
+            new Operator(Words.Assignment, new Regex("(?<![\\^,|,&,<<,>>,%,\\-,/,+,!,=,<,>,*])[=](?![\\^,|,&,<<,>>,%,\\-,/,+,!,=,<,>,*])")),
+            new Operator(Words.AdditionAssign, new Regex("(?<![!,=,<,>])\\+=(?![!,=,<,>])")),
+            new Operator(Words.SubtractionAssign, new Regex("(?<![!,=,<,>])-=(?![!,=,<,>])")),
+            new Operator(Words.MultiplicationAssign, new Regex("(?<![!,=,<,>])\\*=(?![!,=,<,>])")),
+            new Operator(Words.DivisionAssign, new Regex("(?<![!,=,<,>])/=(?![!,=,<,>])")),
+            new Operator(Words.ModuloAssign, new Regex("(?<![!,=,<,>])%=(?![!,=,<,>])")),
+            // TODO: Shifts
+            new Operator(Words.LeftShiftAssign, new Regex("(?<![!,=,<,>])<<=(?![!,=,<,>])")),
+            new Operator(Words.RightShiftAssign, new Regex("(?<![!,=,<,>])=>>(?![!,=,<,>])")),
+            
+            new Operator(Words.AndAssign, new Regex("(?<![!,=,<,>])&=(?![!,=,<,>])")),
+            new Operator(Words.OrAssign, new Regex("(?<![!,=,<,>])\\|=(?![!,=,<,>])")),
+            new Operator(Words.XorAssign, new Regex("(?<![!,=,<,>])\\^=(?![!,=,<,>])")),
         };
         
         public static readonly List<Keyword> Keywords = new()

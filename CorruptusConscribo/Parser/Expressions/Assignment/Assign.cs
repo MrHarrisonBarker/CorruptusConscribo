@@ -10,8 +10,6 @@ namespace CorruptusConscribo.Parser
         {
             var varIndex = Scope.VariableArchive[Variable].StackIndex;
             return $"{Expression.Template()}\nmovq\t%rax,{varIndex}(%rbp)";
-            // return "Assign";
-            // return $"\n{Expression}\npushq\t%rax\n";
         }
     }
 }

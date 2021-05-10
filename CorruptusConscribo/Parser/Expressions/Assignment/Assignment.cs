@@ -16,6 +16,11 @@ namespace CorruptusConscribo.Parser
             AssignmentOperator = assignmentOperator;
         }
 
+        protected Assignment(Scope scope, string assignmentOperator) : base(scope)
+        {
+            AssignmentOperator = assignmentOperator;
+        }
+
         public Assignment Add(string variableId, Expression expression)
         {
             Variable = variableId;
@@ -28,6 +33,14 @@ namespace CorruptusConscribo.Parser
             return token.Name switch
             {
                 TokenLibrary.Words.Assignment => new Assign(scope),
+                TokenLibrary.Words.AdditionAssign => new AdditionAssign(scope),
+                TokenLibrary.Words.SubtractionAssign => new SubtractionAssign(scope),
+                TokenLibrary.Words.MultiplicationAssign => new MultiplicationAssign(scope),
+                TokenLibrary.Words.DivisionAssign => new DivisionAssign(scope),
+                TokenLibrary.Words.ModuloAssign => new ModuloAssign(scope),
+                TokenLibrary.Words.AndAssign => new AndAssign(scope),
+                TokenLibrary.Words.OrAssign => new OrAssign(scope),
+                TokenLibrary.Words.XorAssign => new XorAssign(scope),
                 _ => throw new InvalidOperationException()
             };
         }

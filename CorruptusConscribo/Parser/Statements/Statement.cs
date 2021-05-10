@@ -21,7 +21,7 @@ namespace CorruptusConscribo.Parser
 
                 token = tokens.Pop();
 
-                if (token.Name != TokenLibrary.Words.Semicolon) throw new Exception("invalid syntax");
+                if (token.Name != TokenLibrary.Words.Semicolon) throw new SyntaxException("expected ;");
 
                 return statement;
             }
@@ -35,7 +35,7 @@ namespace CorruptusConscribo.Parser
             
             token = tokens.Pop();
             
-            if (token.Name != TokenLibrary.Words.Semicolon) throw new Exception("invalid syntax");
+            if (token.Name != TokenLibrary.Words.Semicolon) throw new SyntaxException("expected ;");
 
             return exp;
         }

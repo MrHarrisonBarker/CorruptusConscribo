@@ -30,8 +30,16 @@ namespace CorruptusConscribo.Parser
 
                 nextToken = tokens.Peek();
 
-                // if the variable is being assigned to something
-                if (nextToken.Name == TokenLibrary.Words.Assignment)
+                // if the variable is being assigned to something TODO: precedence
+                if (nextToken.Name == TokenLibrary.Words.Assignment ||
+                    nextToken.Name == TokenLibrary.Words.AdditionAssign ||
+                    nextToken.Name == TokenLibrary.Words.SubtractionAssign ||
+                    nextToken.Name == TokenLibrary.Words.MultiplicationAssign ||
+                    nextToken.Name == TokenLibrary.Words.DivisionAssign ||
+                    nextToken.Name == TokenLibrary.Words.ModuloAssign ||
+                    nextToken.Name == TokenLibrary.Words.AndAssign ||
+                    nextToken.Name == TokenLibrary.Words.OrAssign ||
+                    nextToken.Name == TokenLibrary.Words.XorAssign)
                 {
                     var assignment = Assignment.New(Scope, tokens.Pop()).Add((string) var.Value, new Expression(Scope).Parse(tokens));
                     // tokens.Pop();

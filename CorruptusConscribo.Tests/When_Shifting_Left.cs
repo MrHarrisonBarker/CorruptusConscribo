@@ -2,6 +2,7 @@ using NUnit.Framework;
 
 namespace CorruptusConscribo.Tests
 {
+    [Ignore("NOT IMPLEMENTED")]
     [TestFixture]
     public class When_Shifting_Left : CompilerTest
     {
