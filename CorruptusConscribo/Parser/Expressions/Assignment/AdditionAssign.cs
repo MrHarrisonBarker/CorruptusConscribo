@@ -2,19 +2,13 @@ namespace CorruptusConscribo.Parser
 {
     public class AdditionAssign : Assignment
     {
-        public AdditionAssign(Scope scope) : base(scope, "+=")
+        public AdditionAssign(Scope scope) : base(scope, "+=","addq\t%rcx,%rax")
         {
         }
 
         public override string Template()
         {
-            var varIndex = Scope.VariableArchive[Variable].StackIndex;
-
-            var retrieve = $"movq\t{varIndex}(%rbp),%rcx\n";
-            const string add = "addq\t%rcx,%rax\n";
-            var assign = $"movq\t%rax,{varIndex}(%rbp)";
-
-            return $"{Expression.Template()}\n{retrieve}{add}{assign}";
+            return $"{LeftExpression.Template()}\nmovq\t%rax,%rcx\n{RightExpression.Template()}\n{AssignmentTemplate}\n{LeftExpression.Save()}";
         }
     }
 }

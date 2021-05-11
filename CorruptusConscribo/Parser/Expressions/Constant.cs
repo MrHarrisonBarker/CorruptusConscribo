@@ -11,7 +11,7 @@ namespace CorruptusConscribo.Parser
 
         public override string Template()
         {
-            return $"movq    ${Value.ToString()}, %rax";
+            return $"movq\t${Value.ToString()}, %rax";
         }
 
         public override string ToString()

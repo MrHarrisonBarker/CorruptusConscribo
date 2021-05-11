@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using CorruptusConscribo.Parser.Expressions.BinaryOperators;
 
 namespace CorruptusConscribo.Parser
 {
     public class Expression : Statement
     {
-        // <exp> ::= <id> "=" <exp> | <logical-or-exp>
+        // <exp> ::= <id> "=" <exp> | <exp> , <exp> | <logical-or-exp>
         // <logical-or-exp> ::= <logical-and-exp> { "||" <logical-and-exp> }
         // <logical-and-exp> ::= <bitwise-or-exp> { "&&" <bitwise-or-exp> }
         // <bitwise-or-exp> ::= <bitwise-xor-exp> { "|" <bitwise-xor-exp> }
@@ -16,45 +17,49 @@ namespace CorruptusConscribo.Parser
         // <shift-exp> ::= <additive-exp> { ("<<" | ">>") <additive-exp> }
         // <additive-exp> ::= <term> { ("+" | "-") <term> }
         // <term> ::= <factor> { ("*" | "/" | "%") <factor> }
-        // <factor> ::= "(" <exp> ")" | <unary_op> <factor> | <int>
+        // <factor> ::= "(" <exp> ")" | <unary_op> <factor> | <int> | <id>
         // <unary_op> ::= "!" | "~" | "-"
 
         public Expression Parse(Stack<Token> tokens)
         {
+            var expression = new LogicalOrExpression(Scope).Parse(tokens);
+
             var nextToken = tokens.Peek();
 
-            // if the next token is a variable
-            if (nextToken.Name == TokenLibrary.Words.Identifier)
+            if (nextToken.Name == TokenLibrary.Words.Comma)
             {
-                var var = tokens.Pop();
+                var op = BinaryOperator.New(Scope, tokens.Pop());
 
-                nextToken = tokens.Peek();
+                var nextExpression = new LogicalOrExpression(Scope).Parse(tokens);
 
-                if (nextToken.Name == TokenLibrary.Words.Increment || nextToken.Name == TokenLibrary.Words.Decrement)
-                {
-                    return Assignment.New(Scope, tokens.Pop()).Add((string) var.Value);
-                }
+                expression = op.Add(expression, nextExpression);
 
-                // if the variable is being assigned to something TODO: precedence
-                if (nextToken.Name == TokenLibrary.Words.Assignment ||
-                    nextToken.Name == TokenLibrary.Words.AdditionAssign ||
-                    nextToken.Name == TokenLibrary.Words.SubtractionAssign ||
-                    nextToken.Name == TokenLibrary.Words.MultiplicationAssign ||
-                    nextToken.Name == TokenLibrary.Words.DivisionAssign ||
-                    nextToken.Name == TokenLibrary.Words.ModuloAssign ||
-                    nextToken.Name == TokenLibrary.Words.AndAssign ||
-                    nextToken.Name == TokenLibrary.Words.OrAssign ||
-                    nextToken.Name == TokenLibrary.Words.XorAssign)
-                {
-                    return Assignment.New(Scope, tokens.Pop()).Add((string) var.Value, new Expression(Scope).Parse(tokens));
-                }
-
-                tokens.Push(var);
+                return expression;
             }
 
-            var exp = new LogicalOrExpression(Scope).Parse(tokens);
+            while (nextToken.Name == TokenLibrary.Words.Assignment ||
+                nextToken.Name == TokenLibrary.Words.AdditionAssign ||
+                nextToken.Name == TokenLibrary.Words.SubtractionAssign ||
+                nextToken.Name == TokenLibrary.Words.MultiplicationAssign ||
+                nextToken.Name == TokenLibrary.Words.DivisionAssign ||
+                nextToken.Name == TokenLibrary.Words.ModuloAssign ||
+                nextToken.Name == TokenLibrary.Words.AndAssign ||
+                nextToken.Name == TokenLibrary.Words.OrAssign ||
+                nextToken.Name == TokenLibrary.Words.XorAssign)
+            {
+                var assignment = Assignment.New(Scope, tokens.Pop());
+                var nextExpression = new LogicalOrExpression(Scope).Parse(tokens);
+                expression = assignment.Add(expression, nextExpression);
 
-            return exp;
+                nextToken = tokens.Peek();
+            }
+
+            if (nextToken.Name == TokenLibrary.Words.Increment || nextToken.Name == TokenLibrary.Words.Decrement)
+            {
+                return Assignment.New(Scope, tokens.Pop()).Add(expression);
+            }
+            
+            return expression;
         }
 
         public Expression(Scope scope) : base(scope)

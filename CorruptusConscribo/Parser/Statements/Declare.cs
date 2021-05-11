@@ -46,10 +46,10 @@ namespace CorruptusConscribo.Parser
         {
             if (Initialise != null)
             {
-                return $"\n{Initialise.Template()}\npushq\t%rax\n";
+                return $"\n{Initialise.Template()}\npushq\t%rax\n\n";
             }
 
-            return "\nmovq\t$0,%rax\npushq\t%rax\n";
+            return "\nmovq\t$0,%rax\npushq\t%rax\n\n";
         }
 
         public Declare(Scope scope) : base(scope)

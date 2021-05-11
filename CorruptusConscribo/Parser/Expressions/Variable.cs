@@ -2,7 +2,7 @@ namespace CorruptusConscribo.Parser
 {
     public class Variable : Expression
     {
-        private string VariableId { get; }
+        public string VariableId { get; }
 
         public Variable(Scope scope,string id) : base(scope)
         {
@@ -13,7 +13,12 @@ namespace CorruptusConscribo.Parser
         {
             var varIndex = Scope.VariableArchive[VariableId].StackIndex;
             return $"\nmovq\t{varIndex}(%rbp), %rax";
-            return "\nVariable call\n";
+        }
+
+        public override string Save()
+        {
+            var varIndex = Scope.VariableArchive[VariableId].StackIndex;
+            return $"\nmovq\t%rax,{varIndex}(%rbp)";
         }
 
         public override string ToString()

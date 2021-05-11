@@ -40,6 +40,7 @@ namespace CorruptusConscribo.Parser
                 TokenLibrary.Words.BitwiseXor => new BitwiseXor(scope),
                 TokenLibrary.Words.BitwiseLeft => new BitwiseLeft(scope),
                 TokenLibrary.Words.BitwiseRight => new BitwiseRight(scope),
+                TokenLibrary.Words.Comma => new Comma(scope),
                 _ => throw new InvalidOperationException()
             };
         }

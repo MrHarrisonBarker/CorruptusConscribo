@@ -53,6 +53,7 @@ namespace CorruptusConscribo
 
             public const string Increment = "Increment";
             public const string Decrement = "Decrement";
+            public const string Comma = "Comma";
 
             public const string Int = "Int";
             public const string Return = "Return";
@@ -100,7 +101,9 @@ namespace CorruptusConscribo
             new Operator(Words.XorAssign, new Regex("(?<![!,=,<,>])\\^=(?![!,=,<,>])")),
             
             new Operator(Words.Increment, new Regex("(?<![=])\\+\\+(?![=])")),
-            new Operator(Words.Decrement, new Regex("(?<![=])--(?![=])"))
+            new Operator(Words.Decrement, new Regex("(?<![=])--(?![=])")),
+            
+            new Operator(Words.Comma, new Regex("(?<![,]),(?![,])")),
         };
         
         public static readonly List<Keyword> Keywords = new()

@@ -5,10 +5,10 @@ namespace CorruptusConscribo.Parser
 {
     public abstract class Assignment : Expression
     {
-        protected string Variable { get; set; }
-        protected Expression Expression { get; set; }
+        protected Expression LeftExpression { get; private set; }
+        public Expression RightExpression { get; private set; }
         private string AssignmentOperator { get; }
-        private string AssignmentTemplate { get; }
+        protected string AssignmentTemplate { get; }
 
         protected Assignment(Scope scope, string assignmentOperator, string assignmentTemplate) : base(scope)
         {
@@ -21,16 +21,17 @@ namespace CorruptusConscribo.Parser
             AssignmentOperator = assignmentOperator;
         }
 
-        public Assignment Add(string variableId, Expression expression)
+        public Assignment Add(Expression leftExpression, Expression rightExpression)
         {
-            Variable = variableId;
-            Expression = expression;
+            LeftExpression = leftExpression;
+            RightExpression = rightExpression;
             return this;
         }
 
-        public Assignment Add(string variableId)
+        public Assignment Add(Expression variable)
         {
-            Variable = variableId;
+            LeftExpression = variable;
+
             return this;
         }
 
@@ -53,9 +54,24 @@ namespace CorruptusConscribo.Parser
             };
         }
 
+        public override string Template()
+        {
+            if (LeftExpression.GetType() == typeof(Assign))
+            {
+                return $"{LeftExpression.Template()}\n{RightExpression.Template()}\n{AssignmentTemplate}\n{LeftExpression.Save()}";
+            }
+            
+            return $"{RightExpression.Template()}\n{AssignmentTemplate}\n{LeftExpression.Save()}";
+        }
+        
+        public override string Save()
+        {
+            return RightExpression.Save();
+        }
+
         public override string ToString()
         {
-            return $"\t{Variable} {AssignmentOperator} {Expression}";
+            return $"\t{LeftExpression} {AssignmentOperator} {RightExpression}";
         }
     }
 }

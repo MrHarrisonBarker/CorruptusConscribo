@@ -16,5 +16,10 @@ namespace CorruptusConscribo.Parser
         {
             return "**NotImplemented**";
         }
+
+        public virtual string Save()
+        {
+            return "**SAVE-NotImplemented**";
+        }
     }
 }
