@@ -9,7 +9,7 @@ namespace CorruptusConscribo
     {
         static void Main(string[] args)
         {
-            args = new[] {"./stage_4/eq_true.c"};
+            args = new[] {"./stage_5/div_assign.c"};
 
             string sourcePath;
             string outputPath;
