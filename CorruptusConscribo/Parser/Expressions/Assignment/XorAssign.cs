@@ -2,20 +2,13 @@ namespace CorruptusConscribo.Parser
 {
     public class XorAssign : Assignment
     {
-        public XorAssign(Scope scope) : base(scope, "^=")
+        public XorAssign(Scope scope) : base(scope, "^=","xor\t%rax,%rcx")
         {
         }
 
         public override string Template()
         {
-            return null;
-            // var varIndex = Scope.VariableArchive[Variable].StackIndex;
-            //
-            // var retrieve = $"movq\t{varIndex}(%rbp),%rcx\n";
-            // const string xor = "xor\t%rax,%rcx\n";
-            // var assign = $"movq\t%rax,{varIndex}(%rbp)";
-            //
-            // return $"{Expression.Template()}\n{retrieve}{xor}{assign}";
+            return $"{LeftExpression.Template()}\nmovq\t%rax,%rcx\n{RightExpression.Template()}\n{AssignmentTemplate}\n{LeftExpression.Save()}";
         }
     }
 }

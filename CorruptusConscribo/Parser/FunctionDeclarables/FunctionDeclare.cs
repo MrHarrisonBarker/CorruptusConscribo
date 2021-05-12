@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace CorruptusConscribo.Parser
 {
-    public class FunctionDeclare : ASTNode
+    public class FunctionDeclare : Block
     {
         // <function> ::= "int" <id> "(" ")" "{" { <statement> } "}"
         public FunctionDeclare Parse(Stack<Token> tokens)
@@ -31,15 +31,15 @@ namespace CorruptusConscribo.Parser
             if (token.Name != TokenLibrary.Words.OpenBracket) throw new Exception("invalid syntax");
 
             var nextToken = tokens.Peek();
-            var statements = new List<Statement>();
+            var slices = new List<Slice>();
 
             while (nextToken.Name != TokenLibrary.Words.CloseBracket)
             {
-                statements.Add(new Statement(Scope).Parse(tokens));
+                slices.Add(new Slice(Scope).Parse(tokens));
                 nextToken = tokens.Peek();
             }
 
-            return new Function(Scope, returnType, id.ToString(CultureInfo.InvariantCulture), statements);
+            return new Function(Scope, returnType, id.ToString(CultureInfo.InvariantCulture), slices);
         }
 
         public FunctionDeclare(Scope scope) : base(scope)

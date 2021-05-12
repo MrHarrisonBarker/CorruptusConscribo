@@ -11,6 +11,11 @@ namespace CorruptusConscribo.Parser
         {
             Scope = scope;
         }
+
+        public virtual ASTNode Parse(Stack<Token> tokens)
+        {
+            return null;
+        }
         
         public virtual string Template()
         {

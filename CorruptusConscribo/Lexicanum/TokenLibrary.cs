@@ -54,9 +54,13 @@ namespace CorruptusConscribo
             public const string Increment = "Increment";
             public const string Decrement = "Decrement";
             public const string Comma = "Comma";
+            public const string Colon = "Colon";
+            public const string Question = "Question";
 
             public const string Int = "Int";
             public const string Return = "Return";
+            public const string If = "If";
+            public const string Else = "Else";
         }
 
         private static readonly List<Operator> Operators = new()
@@ -104,12 +108,17 @@ namespace CorruptusConscribo
             new Operator(Words.Decrement, new Regex("(?<![=])--(?![=])")),
             
             new Operator(Words.Comma, new Regex("(?<![,]),(?![,])")),
+            
+            new Operator(Words.Colon, new Regex(":")),
+            new Operator(Words.Question, new Regex("\\?")),
         };
         
         public static readonly List<Keyword> Keywords = new()
         {
             new Keyword(Words.Int, new Regex("int")),
-            new Keyword(Words.Return, new Regex("return"))
+            new Keyword(Words.Return, new Regex("return")),
+            new Keyword(Words.If, new Regex("if")),
+            new Keyword(Words.Else, new Regex("else"))
         };
 
         private static readonly List<Syntax> Syntax = new()

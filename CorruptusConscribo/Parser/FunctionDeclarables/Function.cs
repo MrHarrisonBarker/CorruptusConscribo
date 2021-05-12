@@ -8,13 +8,13 @@ namespace CorruptusConscribo.Parser
     {
         private string Name { get; }
         private string ReturnType { get; }
-        private List<Statement> Statements { get; }
+        private List<Slice> Slices { get; }
 
-        public Function(Scope scope, string returnType, string name, List<Statement> statements) : base(scope)
+        public Function(Scope scope, string returnType, string name, List<Slice> slices) : base(scope)
         {
             Name = name;
             ReturnType = returnType;
-            Statements = statements;
+            Slices = slices;
         }
 
         public override string Template()
@@ -24,20 +24,20 @@ namespace CorruptusConscribo.Parser
             var template = $".globl _{Name}\n_{Name}:\n" + prologue;
 
             // if the function doesn't have a return statement
-            if (Statements.All(x => x.GetType() != typeof(Return)))
+            if (Slices.All(x => x.GetType() != typeof(Return)))
             {
                 Console.WriteLine("Function doesn't have a return statement");
-                Statements.Add(new Return(Scope, new Constant(Scope, 0)));
+                Slices.Add(new Return(Scope, new Constant(Scope, 0)));
             }
 
-            Statements.ForEach(s => template += s.Template());
+            Slices.ForEach(s => template += s.Template());
 
             return template;
         }
 
         public override string ToString()
         {
-            return $"Func {ReturnType} {Name}:\n{string.Join("\n", Statements)}";
+            return $"Func {ReturnType} {Name}:\n\t{string.Join("\n\t", Slices)}";
         }
     }
 }

@@ -18,7 +18,7 @@ namespace CorruptusConscribo.Parser
 
         public override string ToString()
         {
-            return $"\tReturn {Expression}";
+            return $"Return {Expression}";
         }
     }
 }

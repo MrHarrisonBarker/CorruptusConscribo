@@ -9,7 +9,7 @@ namespace CorruptusConscribo
     {
         static void Main(string[] args)
         {
-            args = new[] {"./stage_5/div_assign.c"};
+            args = new[] {"./stage_6/expression/assign_ternary.c"};
 
             string sourcePath;
             string outputPath;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CorruptusConscribo.Parser
 {
-    public class Declare : Statement
+    public class Declare : Slice
     {
         private Expression Initialise { get; set; }
         private string Identifier { get; set; }
@@ -39,7 +39,7 @@ namespace CorruptusConscribo.Parser
 
         public override string ToString()
         {
-            return Initialise == null ? $"\tint {Identifier}" : $"\tint {Identifier} = {Initialise}";
+            return Initialise == null ? $"int {Identifier}" : $"int {Identifier} = {Initialise}";
         }
 
         public override string Template()

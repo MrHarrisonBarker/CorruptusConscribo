@@ -6,7 +6,8 @@ namespace CorruptusConscribo.Parser
 {
     public class Expression : Statement
     {
-        // <exp> ::= <id> "=" <exp> | <exp> , <exp> | <logical-or-exp>
+        // <exp> ::= <id> "=" <exp> | <exp> , <exp> | <conditional-exp>
+        // <conditional-exp> ::= <logical-or-exp> [ "?" <exp> ":" <conditional-exp> ]
         // <logical-or-exp> ::= <logical-and-exp> { "||" <logical-and-exp> }
         // <logical-and-exp> ::= <bitwise-or-exp> { "&&" <bitwise-or-exp> }
         // <bitwise-or-exp> ::= <bitwise-xor-exp> { "|" <bitwise-xor-exp> }
@@ -22,7 +23,7 @@ namespace CorruptusConscribo.Parser
 
         public Expression Parse(Stack<Token> tokens)
         {
-            var expression = new LogicalOrExpression(Scope).Parse(tokens);
+            var expression = new Conditional(Scope).Parse(tokens);
 
             var nextToken = tokens.Peek();
 
@@ -30,7 +31,7 @@ namespace CorruptusConscribo.Parser
             {
                 var op = BinaryOperator.New(Scope, tokens.Pop());
 
-                var nextExpression = new LogicalOrExpression(Scope).Parse(tokens);
+                var nextExpression = new Conditional(Scope).Parse(tokens);
 
                 expression = op.Add(expression, nextExpression);
 
@@ -48,7 +49,7 @@ namespace CorruptusConscribo.Parser
                 nextToken.Name == TokenLibrary.Words.XorAssign)
             {
                 var assignment = Assignment.New(Scope, tokens.Pop());
-                var nextExpression = new LogicalOrExpression(Scope).Parse(tokens);
+                var nextExpression = new Conditional(Scope).Parse(tokens);
                 expression = assignment.Add(expression, nextExpression);
 
                 nextToken = tokens.Peek();

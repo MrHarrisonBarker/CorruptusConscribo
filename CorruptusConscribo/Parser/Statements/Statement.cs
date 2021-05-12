@@ -4,20 +4,28 @@ using System.Linq;
 
 namespace CorruptusConscribo.Parser
 {
-    public class Statement : ASTNode
+    public class Statement : Slice
     {
-        // <statement> ::= "return" <exp> "; | <exp> ";" | "int" <id> [ = <exp> ] ";"
+        // <statement> ::= "return" <exp> ";"
+        //  | <exp> ";"
+        //  | "if" "(" <exp> ")" <statement> [ "else" <statement> ]
         public Statement Parse(Stack<Token> tokens)
         {
             var token = tokens.Peek();
 
+            if (token.Name == TokenLibrary.Words.If)
+            {
+                tokens.Pop();
+                return new If(Scope).Parse(tokens);
+            }
+
             if (token.Name == TokenLibrary.Words.Return)
             {
                 tokens.Pop();
-                
+
                 var expression = new Expression(Scope).Parse(tokens);
 
-                var statement = new Return(Scope,expression);
+                var statement = new Return(Scope, expression);
 
                 token = tokens.Pop();
 
@@ -26,15 +34,10 @@ namespace CorruptusConscribo.Parser
                 return statement;
             }
 
-            if (token.Name == TokenLibrary.Words.Int)
-            {
-                return new Declare(Scope).Parse(tokens);
-            }
-            
             var exp = new Expression(Scope).Parse(tokens);
-            
+
             token = tokens.Pop();
-            
+
             if (token.Name != TokenLibrary.Words.Semicolon) throw new SyntaxException("expected ;");
 
             return exp;
