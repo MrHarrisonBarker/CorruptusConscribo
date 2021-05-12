@@ -37,6 +37,14 @@ namespace CorruptusConscribo.Parser
             return Expression;
         }
 
+        public override string Template()
+        {
+            var endFunc = Healpers.GetFunctionId();
+            var falseFunc = Healpers.GetFunctionId();
+            var compare = $"cmpq\t$0, %rax\nje\t{falseFunc}";
+            return $"{Expression.Template()}\n{compare}\n{TrueResult.Template()}\njmp\t{endFunc}\n{falseFunc}:\n{FalseResult.Template()}\n{endFunc}:";
+        }
+
         public override string ToString()
         {
             if (TrueResult != null) return $"{Expression} ? {TrueResult} : {FalseResult}";

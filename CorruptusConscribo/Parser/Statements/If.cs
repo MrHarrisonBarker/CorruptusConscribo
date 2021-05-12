@@ -4,8 +4,8 @@ namespace CorruptusConscribo.Parser
 {
     public class If : Statement
     {
-        private Statement Statement { get; set; }
         private Expression Expression { get; set; }
+        private Statement Statement { get; set; }
         private Statement Else { get; set; }
 
         public If(Scope scope) : base(scope)
@@ -38,6 +38,23 @@ namespace CorruptusConscribo.Parser
             }
 
             return this;
+        }
+
+        public override string Template()
+        {
+            var endFunc = Healpers.GetFunctionId();
+
+            string compare;
+            
+            if (Else != null)
+            {
+                var elseFunc = Healpers.GetFunctionId();
+                compare = $"cmpq\t$0, %rax\nje\t{elseFunc}";
+                return $"{Expression.Template()}\n{compare}\n{Statement.Template()}\njmp\t{endFunc}\n{elseFunc}:\n{Else.Template()}\njmp\t{endFunc}\n{endFunc}:";
+            }
+            
+            compare = $"cmpq\t$0, %rax\nje\t{endFunc}";
+            return $"{Expression.Template()}\n{compare}\n{Statement.Template()}\n{endFunc}:";
         }
 
         public override string ToString()
