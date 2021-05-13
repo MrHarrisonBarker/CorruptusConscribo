@@ -61,6 +61,11 @@ namespace CorruptusConscribo
             public const string Return = "Return";
             public const string If = "If";
             public const string Else = "Else";
+            public const string For = "For";
+            public const string While = "While";
+            public const string Do = "Do";
+            public const string Break = "Break";
+            public const string Continue = "Continue";
         }
 
         private static readonly List<Operator> Operators = new()
@@ -118,7 +123,12 @@ namespace CorruptusConscribo
             new Keyword(Words.Int, new Regex("int")),
             new Keyword(Words.Return, new Regex("return")),
             new Keyword(Words.If, new Regex("if")),
-            new Keyword(Words.Else, new Regex("else"))
+            new Keyword(Words.Else, new Regex("else")),
+            new Keyword(Words.For, new Regex("for")),
+            new Keyword(Words.While, new Regex("while")),
+            new Keyword(Words.Do, new Regex("do")),
+            new Keyword(Words.Break, new Regex("break")),
+            new Keyword(Words.Continue, new Regex("continue")),
         };
 
         private static readonly List<Syntax> Syntax = new()
