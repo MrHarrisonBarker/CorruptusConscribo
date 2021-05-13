@@ -13,31 +13,27 @@ namespace CorruptusConscribo.Parser
         public Block Parse(Stack<Token> tokens)
         {
             var token = tokens.Peek();
-            
-            if (token.Name == TokenLibrary.Words.OpenBracket)
+
+            switch (token.Name)
             {
-                return new Block(new Scope(Scope)).Parse(tokens);
-            }
-
-            if (token.Name == TokenLibrary.Words.If)
-            {
-                tokens.Pop();
-                return new If(Scope).Parse(tokens);
-            }
-
-            if (token.Name == TokenLibrary.Words.Return)
-            {
-                tokens.Pop();
-
-                var expression = new Expression(Scope).Parse(tokens);
-
-                var statement = new Return(Scope, expression);
-
-                token = tokens.Pop();
-
-                if (token.Name != TokenLibrary.Words.Semicolon) throw new SyntaxException("expected ;");
-
-                return statement;
+                case TokenLibrary.Words.Continue:
+                    return new Continue(Scope).Parse(tokens);
+                case TokenLibrary.Words.Break:
+                    return new Break(Scope).Parse(tokens);
+                case TokenLibrary.Words.Do:
+                    return new Do(Scope).Parse(tokens);
+                case TokenLibrary.Words.While:
+                    return new While(Scope).Parse(tokens);
+                case TokenLibrary.Words.For:
+                    // TODO: decide between normal for and declare for
+                    return new For(Scope).Parse(tokens);
+                case TokenLibrary.Words.OpenBracket:
+                    return new Block(new Scope(Scope)).Parse(tokens);
+                case TokenLibrary.Words.If:
+                    tokens.Pop();
+                    return new If(Scope).Parse(tokens);
+                case TokenLibrary.Words.Return:
+                    return new Return(Scope).Parse(tokens);
             }
 
             var exp = new Expression(Scope).Parse(tokens);
