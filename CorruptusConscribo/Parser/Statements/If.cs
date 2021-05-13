@@ -5,8 +5,8 @@ namespace CorruptusConscribo.Parser
     public class If : Statement
     {
         private Expression Expression { get; set; }
-        private Statement Statement { get; set; }
-        private Statement Else { get; set; }
+        private Block Statement { get; set; }
+        private Block Else { get; set; }
 
         public If(Scope scope) : base(scope)
         {
@@ -26,6 +26,7 @@ namespace CorruptusConscribo.Parser
             if (token.Name != TokenLibrary.Words.CloseParenthesis) throw new SyntaxException("expected )");
 
             // TODO: should be list of block items
+            // new Scope(Scope)
             Statement = new Statement(Scope).Parse(tokens);
 
             token = tokens.Peek();

@@ -19,7 +19,7 @@ namespace CorruptusConscribo
 
             // Sort all the tokens by their placement in the source
             Tokens = Tokens.OrderByDescending(x => x.Start).ToList();
-            Console.WriteLine($"Sorted the source\n {string.Join("\n", Tokens)}");
+            // Console.WriteLine($"Sorted the source\n {string.Join("\n", Tokens)}");
         }
 
         // Find all the token in the source code
@@ -32,7 +32,7 @@ namespace CorruptusConscribo
             {
                 var matches = token.Expression.Matches(Source);
 
-                Console.WriteLine($"Found {matches.Count} for {token.Name}");
+                // Console.WriteLine($"Found {matches.Count} for {token.Name}");
 
                 foreach (Match match in matches)
                 {

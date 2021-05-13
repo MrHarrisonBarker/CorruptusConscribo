@@ -2,16 +2,16 @@ using System.Collections.Generic;
 
 namespace CorruptusConscribo.Parser
 {
-    public class Slice : ASTNode
+    public class Slice : Block
     {
         public Slice(Scope scope) : base(scope)
         {
         }
 
-        public Slice Parse(Stack<Token> tokens)
+        public Block Parse(Stack<Token> tokens)
         {
             var token = tokens.Peek();
-            
+
             if (token.Name == TokenLibrary.Words.Int)
             {
                 return new Declare(Scope).Parse(tokens);

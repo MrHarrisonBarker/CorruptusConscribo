@@ -19,7 +19,7 @@ namespace CorruptusConscribo.Parser
 
             Identifier = (string) token.Value;
 
-            if (Scope.Exists(Identifier)) throw new SyntaxException($"a variable called \"{Identifier}\" already exists");
+            if (Scope.LocallyExists(Identifier)) throw new SyntaxException($"a variable called \"{Identifier}\" already exists");
 
             token = tokens.Pop();
 
@@ -32,7 +32,7 @@ namespace CorruptusConscribo.Parser
             if (token.Name != TokenLibrary.Words.Semicolon) throw new SyntaxException("expected ;");
 
             // add variable to the scope TODO: value not set to init
-            Scope.Add(Identifier, new VariableSnapshot(Type, 0));
+            Scope.Add(Identifier, new VariableSnapshot(Type));
 
             return this;
         }

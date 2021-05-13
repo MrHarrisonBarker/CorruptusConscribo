@@ -4,17 +4,40 @@ using System.Linq;
 
 namespace CorruptusConscribo.Parser
 {
-    public class Function : FunctionDeclare
+    public class Function : ASTNode
     {
-        private string Name { get; }
-        private string ReturnType { get; }
-        private List<Slice> Slices { get; }
+        private string Name { get; set; }
+        private string ReturnType { get; set; }
 
-        public Function(Scope scope, string returnType, string name, List<Slice> slices) : base(scope)
+        private Block Block { get; set; }
+
+        public Function(Scope scope) : base(scope)
         {
-            Name = name;
-            ReturnType = returnType;
-            Slices = slices;
+        }
+
+        public Function Parse(Stack<Token> tokens)
+        {
+            var token = tokens.Pop();
+
+            if (token.Name != TokenLibrary.Words.Int) throw new Exception("invalid syntax");
+
+            ReturnType = token.Name;
+
+            token = tokens.Pop();
+
+            if (token.Name != TokenLibrary.Words.Identifier) throw new Exception("invalid syntax");
+
+            Name = (string) token.Value;
+
+            // Open close parenthesis
+            token = tokens.Pop();
+            if (token.Name != TokenLibrary.Words.OpenParenthesis) throw new Exception("invalid syntax");
+            token = tokens.Pop();
+            if (token.Name != TokenLibrary.Words.CloseParenthesis) throw new Exception("invalid syntax");
+
+            Block = new Block(Scope).Parse(tokens);
+
+            return this;
         }
 
         public override string Template()
@@ -24,20 +47,20 @@ namespace CorruptusConscribo.Parser
             var template = $".globl _{Name}\n_{Name}:\n" + prologue;
 
             // if the function doesn't have a return statement
-            if (Slices.All(x => x.GetType() != typeof(Return)))
+            if (Block.Slices.All(x => x.GetType() != typeof(Return)))
             {
                 Console.WriteLine("Function doesn't have a return statement");
-                Slices.Add(new Return(Scope, new Constant(Scope, 0)));
+                Block.Slices.Add(new Return(Scope, new Constant(Scope, 0)));
             }
 
-            Slices.ForEach(s => template += s.Template());
+            Block.Slices.ForEach(s => template += s.Template());
 
             return template;
         }
 
         public override string ToString()
         {
-            return $"Func {ReturnType} {Name}:\n\t{string.Join("\n\t", Slices)}";
+            return $"Func {ReturnType} {Name}:\n\t{Block}";
         }
     }
 }

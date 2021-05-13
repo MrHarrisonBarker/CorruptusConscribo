@@ -51,7 +51,7 @@ namespace CorruptusConscribo.Parser
                 var assignment = Assignment.New(Scope, tokens.Pop());
                 var nextExpression = new Conditional(Scope).Parse(tokens);
                 expression = assignment.Add(expression, nextExpression);
-
+            
                 nextToken = tokens.Peek();
             }
 

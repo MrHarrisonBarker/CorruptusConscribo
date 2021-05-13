@@ -9,14 +9,14 @@ namespace CorruptusConscribo.Parser
             Type = type;
         }
 
-        public VariableSnapshot(string type, IConvertible value)
+        public VariableSnapshot(string type, int scopeLevel)
         {
             Type = type;
-            Value = value;
+            ScopeLevel = scopeLevel;
         }
 
         private string Type { get; }
-        public IConvertible Value { get; set; }
+        public int ScopeLevel { get; set; }
         public int StackIndex { get; set; }
     }
 }

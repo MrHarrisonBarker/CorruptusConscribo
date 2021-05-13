@@ -4,11 +4,11 @@ namespace CorruptusConscribo.Parser
 {
     public class Program
     {
-        private FunctionDeclare Function { get; }
-        
+        private Function Function { get; }
+
         public Program(Stack<Token> tokens)
         {
-            Function = new FunctionDeclare(new Scope()).Parse(tokens);
+            Function = new Function(new Scope()).Parse(tokens);
         }
 
         public string Template()
@@ -18,7 +18,7 @@ namespace CorruptusConscribo.Parser
 
         public override string ToString()
         {
-            return $"**** Program ****\n{Function.ToString()}";
+            return $"**** Program ****\n{Function}";
         }
     }
 }

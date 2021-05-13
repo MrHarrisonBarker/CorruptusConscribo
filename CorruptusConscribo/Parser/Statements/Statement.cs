@@ -9,9 +9,15 @@ namespace CorruptusConscribo.Parser
         // <statement> ::= "return" <exp> ";"
         //  | <exp> ";"
         //  | "if" "(" <exp> ")" <statement> [ "else" <statement> ]
-        public Statement Parse(Stack<Token> tokens)
+        //  | "{" { <block-item> } "}
+        public Block Parse(Stack<Token> tokens)
         {
             var token = tokens.Peek();
+            
+            if (token.Name == TokenLibrary.Words.OpenBracket)
+            {
+                return new Block(new Scope(Scope)).Parse(tokens);
+            }
 
             if (token.Name == TokenLibrary.Words.If)
             {
