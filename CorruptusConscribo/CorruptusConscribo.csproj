@@ -9,5 +9,9 @@
     <Content Include="$(SolutionDir)TestPrograms\**" CopyToOutputDirectory="PreserveNewest"></Content>
 <!--    <None Update="../TestPrograms/**" CopyToOutputDirectory="PreserveNewest"></None>-->
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Parser\Expressions\Types" />
+  </ItemGroup>
 
 </Project>

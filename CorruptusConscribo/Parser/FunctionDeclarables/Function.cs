@@ -7,14 +7,15 @@ namespace CorruptusConscribo.Parser
     public class Function : ASTNode
     {
         private string Name { get; set; }
+        private List<string> Params { get; set; }
         private string ReturnType { get; set; }
-
         private Block Block { get; set; }
 
         public Function(Scope scope) : base(scope)
         {
         }
 
+        // <function> ::= "int" <id> "(" [ "int" <id> { "," "int" <id> } ] ")" ( "{" { <block-item> } "}" | ";" )
         public Function Parse(Stack<Token> tokens)
         {
             var token = tokens.Pop();

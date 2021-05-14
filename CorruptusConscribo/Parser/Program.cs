@@ -1,24 +1,32 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CorruptusConscribo.Parser
 {
     public class Program
     {
-        private Function Function { get; }
+        private List<Function> Functions { get; set; } = new List<Function>();
 
         public Program(Stack<Token> tokens)
         {
-            Function = new Function(new Scope()).Parse(tokens);
+            var nextToken = tokens.Peek();
+
+            // if there is a type keyword
+            while (nextToken.Name == TokenLibrary.Words.Int)
+            {
+                Functions.Add(new Function(new Scope()).Parse(tokens));
+                if (!tokens.TryPeek(out nextToken)) break;
+            }
         }
 
         public string Template()
         {
-            return Function.Template();
+            return string.Join("\n", Functions.Select(x => x.Template()));
         }
 
         public override string ToString()
         {
-            return $"**** Program ****\n{Function}";
+            return $"**** Program ****\n{string.Join("/n", Functions)}";
         }
     }
 }
