@@ -34,5 +34,12 @@ namespace CorruptusConscribo.Parser
         {
             return $"while ({Expression})\n\t{Statement}";
         }
+
+        public override string Template()
+        {
+            var whileFunc = Healpers.GetFunctionId();
+            var endFunc = Healpers.GetFunctionId();
+            return $"{whileFunc}:\n{Expression.Template()}\ncmpq\t$0,%rax\nje\t{endFunc}\n{Statement.Template()}\njmp\t{whileFunc}\n{endFunc}:";
+        }
     }
 }

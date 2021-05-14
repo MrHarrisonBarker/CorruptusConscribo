@@ -10,11 +10,11 @@ namespace CorruptusConscribo.Parser
 
         public ForDeclare Parse(Stack<Token> tokens)
         {
-            Option1 = new Declare(Scope).Parse(tokens);
+            Initialise = new Declare(Scope).Parse(tokens);
 
-            Option2 = new OptionalSemicolon(Scope).Parse(tokens);
+            Condition = new OptionalSemicolon(Scope).Parse(tokens);
 
-            Option3 = new OptionalCloseParam(Scope).Parse(tokens);
+            PostExpression = new OptionalCloseParam(Scope).Parse(tokens);
 
             Statement = new Statement(Scope).Parse(tokens);
 
@@ -23,7 +23,7 @@ namespace CorruptusConscribo.Parser
 
         public override string ToString()
         {
-            return $"for ({Option1};{Option2};{Option3}) {{\n\t{Statement}\n\t}}";
+            return $"for ({Initialise};{Condition};{PostExpression}) {{\n\t{Statement}\n\t}}";
         }
     }
 }

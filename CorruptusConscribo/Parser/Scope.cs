@@ -69,7 +69,7 @@ namespace CorruptusConscribo.Parser
 
         private int GetParentStackIndex()
         {
-            return ParentScope == null ? 0 : Math.Abs(ParentScope.GetParentStackIndex() + ParentScope.StackIndex);
+            return ParentScope == null ? 0 : Math.Abs((ParentScope.GetParentStackIndex() + ParentScope.StackIndex) - (VariableArchive.Count > 1 ? 8 : 0));
         }
 
         public int Access(Variable variable)
@@ -85,6 +85,8 @@ namespace CorruptusConscribo.Parser
             {
                 return -VariableArchive[variable.VariableId].StackIndex;
             }
+
+            return -Math.Abs(GetParentStackIndex() - VariableArchive[variable.VariableId].StackIndex);
             
             return ScopeLevel > 1
                 ? -Math.Abs(GetParentStackIndex() - VariableArchive[variable.VariableId].StackIndex - 8)

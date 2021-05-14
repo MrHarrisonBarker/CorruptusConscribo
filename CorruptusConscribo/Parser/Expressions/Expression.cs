@@ -66,5 +66,10 @@ namespace CorruptusConscribo.Parser
         public Expression(Scope scope) : base(scope)
         {
         }
+
+        public virtual string ControlTemplate()
+        {
+            return "NO Control Template";
+        }
     }
 }

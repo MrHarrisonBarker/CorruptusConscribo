@@ -26,7 +26,7 @@ namespace CorruptusConscribo.Parser
                     return new While(Scope).Parse(tokens);
                 case TokenLibrary.Words.For:
                     // TODO: decide between normal for and declare for
-                    return new For(Scope).Parse(tokens);
+                    return new For(new Scope(Scope)).Parse(tokens);
                 case TokenLibrary.Words.OpenBracket:
                     return new Block(new Scope(Scope)).Parse(tokens);
                 case TokenLibrary.Words.If:

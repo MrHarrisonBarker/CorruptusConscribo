@@ -8,7 +8,7 @@ namespace CorruptusConscribo.Parser
     {
         protected Expression LeftExpression { get; private set; }
         protected Expression RightExpression { get; private set; }
-        protected string BinaryTemplate { get; }
+        protected string BinaryTemplate { get; set; }
         private string OperatorAsString { get; }
 
         public BinaryOperator Add(Expression leftExpression, Expression rightExpression)
