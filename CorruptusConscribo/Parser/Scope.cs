@@ -4,14 +4,9 @@ using System.Linq;
 
 namespace CorruptusConscribo.Parser
 {
-    public class VirtualRegisters
-    {
-        public int StackIndex { get; set; } = -8;
-    }
 
     public class Scope
-    {
-        private VirtualRegisters VirtualRegisters { get; }
+    { 
         private int StackIndex { get; set; }
         private readonly Scope ParentScope;
         private List<Scope> ChildScopes { get; set; } = new List<Scope>();
@@ -21,7 +16,6 @@ namespace CorruptusConscribo.Parser
 
         public Scope()
         {
-            // ChildScopes = new List<Scope>();
             ScopeLevel = 0;
             StackIndex = 8;
             VariableArchive = new Dictionary<string, VariableSnapshot>();
@@ -79,11 +73,6 @@ namespace CorruptusConscribo.Parser
             return BreakPoint;
         }
 
-        public bool HasBreakpoint()
-        {
-            return BreakPoint != null;
-        }
-
         public int GetScopeLevel(string id)
         {
             if (LocallyExists(id)) return ScopeLevel;
@@ -107,21 +96,12 @@ namespace CorruptusConscribo.Parser
                 return ParentScope.Access(variable);
             }
 
-            // if (ParentScope == null)
-            // {
-            //     return -VariableArchive[variable.VariableId].StackIndex;
-            // }
-
             return -Math.Abs(GetParentStackIndex() - VariableArchive[variable.VariableId].StackIndex);
-
-            return ScopeLevel > 1
-                ? -Math.Abs(GetParentStackIndex() - VariableArchive[variable.VariableId].StackIndex - 8)
-                : -Math.Abs(GetParentStackIndex() - VariableArchive[variable.VariableId].StackIndex);
         }
 
         public string Deallocate()
         {
-            return string.Concat(Enumerable.Repeat("\npop\t\t%rax", VariableArchive.Count));
+            return string.Concat(Enumerable.Repeat("\npop\t\t%rax", VariableArchive.Count)) + "\n";
         }
     }
 }

@@ -39,7 +39,7 @@ namespace CorruptusConscribo.Parser
         public override string Template()
         {
             var statementFunc = Healpers.GetFunctionId();
-            return $"{statementFunc}:\n{Statement.Template()}\n{Expression.Template()}\ncmpq\t$0,%rax\njne\t{statementFunc}";
+            return $"{statementFunc}:\n{Statement.Template()}\n{Expression.Template()}\ncmpq\t$0,%rax\njne\t{statementFunc}\n";
         }
     }
 }
