@@ -4,7 +4,7 @@ namespace CorruptusConscribo.Parser
 {
     public class Return : Statement
     {
-        private Expression Expression { get; set; }
+        public Expression Expression { get; set; }
 
         public Return(Scope scope) : base(scope)
         {

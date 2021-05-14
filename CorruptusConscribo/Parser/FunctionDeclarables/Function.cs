@@ -6,10 +6,10 @@ namespace CorruptusConscribo.Parser
 {
     public class Function : ASTNode
     {
-        private string Name { get; set; }
-        private List<string> Params { get; set; }
+        public string Name { get; set; }
+        public List<Declare> Params { get; set; } = new();
         private string ReturnType { get; set; }
-        private Block Block { get; set; }
+        public Block Block { get; set; }
 
         public Function(Scope scope) : base(scope)
         {
@@ -20,21 +20,48 @@ namespace CorruptusConscribo.Parser
         {
             var token = tokens.Pop();
 
-            if (token.Name != TokenLibrary.Words.Int) throw new Exception("invalid syntax");
+            if (token.Name != TokenLibrary.Words.Int) throw new SyntaxException("expected type int");
 
             ReturnType = token.Name;
 
             token = tokens.Pop();
 
-            if (token.Name != TokenLibrary.Words.Identifier) throw new Exception("invalid syntax");
+            if (token.Name != TokenLibrary.Words.Identifier) throw new SyntaxException("expected function identifier");
 
             Name = (string) token.Value;
 
             // Open close parenthesis
             token = tokens.Pop();
-            if (token.Name != TokenLibrary.Words.OpenParenthesis) throw new Exception("invalid syntax");
+            if (token.Name != TokenLibrary.Words.OpenParenthesis) throw new SyntaxException("expected (");
+
             token = tokens.Pop();
-            if (token.Name != TokenLibrary.Words.CloseParenthesis) throw new Exception("invalid syntax");
+            // while there is another param
+            while (token.Name == TokenLibrary.Words.Int)
+            {
+                var paramType = (string) token.Value;
+
+                token = tokens.Pop();
+
+                if (token.Name != TokenLibrary.Words.Identifier) throw new SyntaxException("expected parameter identifier");
+
+                var paramId = (string) token.Value;
+
+                Params.Add(new Declare(Scope, paramId, paramType));
+
+                token = tokens.Peek();
+
+                if (token.Name != TokenLibrary.Words.Comma)
+                {
+                    token = tokens.Pop();
+                    break;
+                }
+                
+                tokens.Pop();
+                token = tokens.Pop();
+            }
+
+            
+            if (token.Name != TokenLibrary.Words.CloseParenthesis) throw new SyntaxException($"expected )");
 
             Block = new Block(Scope).Parse(tokens);
 

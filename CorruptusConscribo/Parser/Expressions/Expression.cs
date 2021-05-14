@@ -31,11 +31,11 @@ namespace CorruptusConscribo.Parser
             if (nextToken.Name == TokenLibrary.Words.Comma)
             {
                 var op = BinaryOperator.New(Scope, tokens.Pop());
-
+            
                 var nextExpression = new Conditional(Scope).Parse(tokens);
-
+            
                 expression = op.Add(expression, nextExpression);
-
+            
                 return expression;
             }
 

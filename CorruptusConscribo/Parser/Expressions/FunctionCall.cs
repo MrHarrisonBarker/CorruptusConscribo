@@ -4,8 +4,8 @@ namespace CorruptusConscribo.Parser
 {
     public class FunctionCall : Expression
     {
-        private string FunctionId { get; set; }
-        private List<Expression> Params { get; set; } = new();
+        public string FunctionId { get; set; }
+        public List<Expression> Params { get; set; } = new();
 
         public FunctionCall(Scope scope) : base(scope)
         {
@@ -24,8 +24,13 @@ namespace CorruptusConscribo.Parser
 
             while (nextToken.Name != TokenLibrary.Words.CloseParenthesis)
             {
-                Params.Add(new Expression(Scope).Parse(tokens));
+                Params.Add(new Conditional(Scope).Parse(tokens));
                 nextToken = tokens.Peek();
+                if (nextToken.Name == TokenLibrary.Words.Comma)
+                {
+                    tokens.Pop();
+                    nextToken = tokens.Peek();
+                }
             }
 
             token = tokens.Pop();

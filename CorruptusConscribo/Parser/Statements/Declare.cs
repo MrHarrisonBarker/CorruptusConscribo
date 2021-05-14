@@ -55,5 +55,12 @@ namespace CorruptusConscribo.Parser
         public Declare(Scope scope) : base(scope)
         {
         }
+
+        public Declare(Scope scope, string paramId, string type) : base(scope)
+        {
+            Identifier = paramId;
+            Type = type;
+            Scope.Add(Identifier, new VariableSnapshot(Type));
+        }
     }
 }

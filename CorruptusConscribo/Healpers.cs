@@ -38,6 +38,8 @@ namespace CorruptusConscribo
             var program = new Parser.Program(lexResult);
 
             Console.WriteLine($"Program parsed to AST\n {program}");
+
+            if (!new Inquisition.Inquisition(program).IsClean()) throw new SyntaxException("HERESY !!");
             
             var asm = program.Template();
             

@@ -5,7 +5,7 @@ namespace CorruptusConscribo.Parser
 {
     public class Program
     {
-        private List<Function> Functions { get; set; } = new List<Function>();
+        public List<Function> Functions { get; set; } = new List<Function>();
 
         public Program(Stack<Token> tokens)
         {

@@ -139,7 +139,8 @@ namespace CorruptusConscribo
             new Syntax(Words.CloseParenthesis, new Regex("[)]")),
             new Syntax(Words.Semicolon, new Regex(";")),
             new Syntax(Words.Identifier, new Regex("([a-zA-Z]\\w*)")),
-            new Syntax(Words.IntegerLiteral, new Regex("[0-9]+")),
+            // TODO: regex is susceptible to special char's before other than underscores
+            new Syntax(Words.IntegerLiteral, new Regex("(?<![A-Za-z_])([0-9]+)(?![A-Za-z_])")),
         };
 
         private static List<Token> GenerateTokens()
