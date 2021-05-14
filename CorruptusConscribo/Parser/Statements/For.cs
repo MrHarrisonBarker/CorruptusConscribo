@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace CorruptusConscribo.Parser
@@ -37,7 +38,7 @@ namespace CorruptusConscribo.Parser
 
             PostExpression = new OptionalCloseParam(Scope).Parse(tokens);
 
-            Statement = new Statement(Scope).Parse(tokens);
+            Statement = new Statement(new Scope(Scope)).Parse(tokens);
 
             return this;
         }
@@ -51,7 +52,22 @@ namespace CorruptusConscribo.Parser
         {
             var conditionFunc = Healpers.GetFunctionId();
             var endFunc = Healpers.GetFunctionId();
-            return $"{Initialise.Template()}\n{conditionFunc}:\n{Condition.Template()}\ncmpq\t$0,%rax\nje\t{endFunc}\n{Statement.Template()}\n{PostExpression.Template()}\njmp\t{conditionFunc}\n{endFunc}:";
+
+            var tmp = $"# for {Initialise};{Condition};{PostExpression}" +
+                      $"\n{Initialise.Template()}" +
+                      $"\n{conditionFunc}:" +
+                      $"\n# {Condition}" +
+                      $"\n{Condition.Template()}" +
+                      "\ncmpq\t$0,%rax\t# compare condition result to 0" +
+                      $"\nje\t{endFunc}\t# jump to end if condition false" +
+                      $"\n{Statement.Template()}" +
+                      $"\n{PostExpression.Template()}" +
+                      $"\njmp\t{conditionFunc}\t# loop" +
+                      $"\n{endFunc}:\n";
+
+            var breakPoint = Scope.BreakpointId();
+
+            return breakPoint != null ? tmp + $"{breakPoint}:\t# Breakpoint\n" : tmp;
         }
     }
 }

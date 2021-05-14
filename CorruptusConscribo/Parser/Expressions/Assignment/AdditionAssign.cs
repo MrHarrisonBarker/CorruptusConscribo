@@ -8,7 +8,11 @@ namespace CorruptusConscribo.Parser
 
         public override string Template()
         {
-            return $"{LeftExpression.Template()}\nmovq\t%rax,%rcx\n{RightExpression.Template()}\n{AssignmentTemplate}\n{LeftExpression.Save()}";
+            return $"{LeftExpression.Template()}" +
+                   "\nmovq\t%rax,%rcx" +
+                   $"\n{RightExpression.Template()}" +
+                   $"\n{AssignmentTemplate}\t# assign {RightExpression} to {LeftExpression}" +
+                   $"\n{LeftExpression.Save()}";
         }
     }
 }

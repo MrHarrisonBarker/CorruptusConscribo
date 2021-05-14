@@ -14,11 +14,14 @@ namespace CorruptusConscribo.Parser
         private VirtualRegisters VirtualRegisters { get; }
         private int StackIndex { get; set; }
         private readonly Scope ParentScope;
+        private List<Scope> ChildScopes { get; set; } = new List<Scope>();
         private readonly int ScopeLevel;
         private Dictionary<string, VariableSnapshot> VariableArchive { get; }
+        private string BreakPoint { get; set; } = null;
 
         public Scope()
         {
+            // ChildScopes = new List<Scope>();
             ScopeLevel = 0;
             StackIndex = 8;
             VariableArchive = new Dictionary<string, VariableSnapshot>();
@@ -28,9 +31,9 @@ namespace CorruptusConscribo.Parser
         {
             ScopeLevel = scope.ScopeLevel + 1;
             StackIndex = 0;
-            VirtualRegisters = scope.VirtualRegisters;
             VariableArchive = new Dictionary<string, VariableSnapshot>();
             ParentScope = scope;
+            scope.ChildScopes.Add(this);
         }
 
         private bool Exists(string id)
@@ -58,6 +61,29 @@ namespace CorruptusConscribo.Parser
             StackIndex += 8;
         }
 
+        public void AddBreakpoint()
+        {
+            BreakPoint = Healpers.GetBreakPointId();
+        }
+
+        public string BreakpointId()
+        {
+            if (BreakPoint == null && ChildScopes.Count > 0)
+            {
+                foreach (var childScope in ChildScopes)
+                {
+                    return childScope.BreakpointId();
+                }
+            }   
+            
+            return BreakPoint;
+        }
+
+        public bool HasBreakpoint()
+        {
+            return BreakPoint != null;
+        }
+
         public int GetScopeLevel(string id)
         {
             if (LocallyExists(id)) return ScopeLevel;
@@ -80,14 +106,14 @@ namespace CorruptusConscribo.Parser
             {
                 return ParentScope.Access(variable);
             }
-            
-            if (ParentScope == null)
-            {
-                return -VariableArchive[variable.VariableId].StackIndex;
-            }
+
+            // if (ParentScope == null)
+            // {
+            //     return -VariableArchive[variable.VariableId].StackIndex;
+            // }
 
             return -Math.Abs(GetParentStackIndex() - VariableArchive[variable.VariableId].StackIndex);
-            
+
             return ScopeLevel > 1
                 ? -Math.Abs(GetParentStackIndex() - VariableArchive[variable.VariableId].StackIndex - 8)
                 : -Math.Abs(GetParentStackIndex() - VariableArchive[variable.VariableId].StackIndex);

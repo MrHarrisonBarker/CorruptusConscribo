@@ -8,12 +8,16 @@ namespace CorruptusConscribo
     public static class Healpers
     {
         private static Int64 FuncInc;
+        private static Int64 BreakInc;
 
         public static string GetFunctionId()
         {
-            var funcId = $"_Func{FuncInc}";
-            FuncInc++;
-            return funcId;
+            return $".Func_{FuncInc++}";
+        }
+
+        public static string GetBreakPointId()
+        {
+            return $".Break_{BreakInc++}";
         }
 
         public static string Compile(string sourcePath)

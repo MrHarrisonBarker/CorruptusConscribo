@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace CorruptusConscribo.Parser
@@ -46,16 +47,22 @@ namespace CorruptusConscribo.Parser
             var endFunc = Healpers.GetFunctionId();
 
             string compare;
-            
+
             if (Else != null)
             {
                 var elseFunc = Healpers.GetFunctionId();
                 compare = $"cmpq\t$0, %rax\nje\t{elseFunc}";
                 return $"{Expression.Template()}\n{compare}\n{Statement.Template()}\njmp\t{endFunc}\n{elseFunc}:\n{Else.Template()}\njmp\t{endFunc}\n{endFunc}:";
             }
+
+            compare = "cmpq\t$0, %rax\t" +
+                      $"\nje\t{endFunc}\t\t# jump to end if false";
             
-            compare = $"cmpq\t$0, %rax\nje\t{endFunc}";
-            return $"{Expression.Template()}\n{compare}\n{Statement.Template()}\n{endFunc}:";
+            return $";# if {Expression}" +
+                   $"\n{Expression.Template()}" +
+                   $"\n{compare}" +
+                   $"\n{Statement.Template()}" +
+                   $"\n{endFunc}:\t\t# end of if";
         }
 
         public override string ToString()

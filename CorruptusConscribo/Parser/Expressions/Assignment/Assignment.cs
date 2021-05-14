@@ -58,10 +58,15 @@ namespace CorruptusConscribo.Parser
         {
             if (LeftExpression.GetType() == typeof(Assign))
             {
-                return $"{LeftExpression.Template()}\n{RightExpression.Template()}\n{AssignmentTemplate}\n{LeftExpression.Save()}";
+                return $"{LeftExpression.Template()}" +
+                       $"\n{RightExpression.Template()}" +
+                       $"\n{AssignmentTemplate}" +
+                       $"\n{LeftExpression.Save()}";
             }
             
-            return $"{RightExpression.Template()}\n{AssignmentTemplate}\n{LeftExpression.Save()}";
+            return $"{RightExpression.Template()}" +
+                   $"\n{AssignmentTemplate}" +
+                   $"\n{LeftExpression.Save()}";
         }
         
         public override string Save()

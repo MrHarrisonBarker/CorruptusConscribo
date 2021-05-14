@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace CorruptusConscribo.Parser
@@ -12,10 +13,10 @@ namespace CorruptusConscribo.Parser
             Scope = scope;
         }
 
-        public virtual ASTNode Parse(Stack<Token> tokens)
-        {
-            return null;
-        }
+        // public virtual ASTNode Parse(Stack<Token> tokens)
+        // {
+        //     return null;
+        // }
         
         public virtual string Template()
         {

@@ -13,7 +13,7 @@ namespace CorruptusConscribo.Tests
     [TestFixture]
     public class When_For_Empty : CompilerTest
     {
-        public When_For_Empty() : base(-1, "./stage_8/valid/for_empty.c", "./stage_8/valid/")
+        public When_For_Empty() : base(4, "./stage_8/valid/for_empty.c", "./stage_8/valid/")
         {
         }
     }
@@ -37,7 +37,7 @@ namespace CorruptusConscribo.Tests
     [TestFixture]
     public class When_For_Nested : CompilerTest
     {
-        public When_For_Nested() : base(-1, "./stage_8/valid/for_nested_scope.c", "./stage_8/valid/")
+        public When_For_Nested() : base(3, "./stage_8/valid/for_nested_scope.c", "./stage_8/valid/")
         {
         }
     }

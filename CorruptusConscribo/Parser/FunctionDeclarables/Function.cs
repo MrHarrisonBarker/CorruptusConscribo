@@ -42,7 +42,8 @@ namespace CorruptusConscribo.Parser
 
         public override string Template()
         {
-            const string prologue = "push\t%rbp\nmovq\t%rsp,%rbp\n \n";
+            const string prologue = "push\t%rbp\t# push stack" +
+                                    "\nmovq\t%rsp,%rbp\t# move call stack\n";
 
             var template = $".globl _{Name}\n_{Name}:\n" + prologue;
 

@@ -31,7 +31,7 @@ namespace CorruptusConscribo.Parser
                     return new Block(new Scope(Scope)).Parse(tokens);
                 case TokenLibrary.Words.If:
                     tokens.Pop();
-                    return new If(Scope).Parse(tokens);
+                    return new If(new Scope(Scope)).Parse(tokens);
                 case TokenLibrary.Words.Return:
                     return new Return(Scope).Parse(tokens);
             }

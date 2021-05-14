@@ -30,9 +30,10 @@ namespace CorruptusConscribo.Parser
 
         public override string Template()
         {
-            const string epilogue = "movq\t%rbp,%rsp\npop\t%rbp\n";
+            const string epilogue = "movq\t%rbp,%rsp\t# clear stack" +
+                                    "\npop\t%rbp\t# pop previous stack";
 
-            return $"\n{Expression.Template()}\n \n{epilogue}ret";
+            return $"{Expression.Template()}\n\n{epilogue}\nret";
         }
 
         public override string ToString()
