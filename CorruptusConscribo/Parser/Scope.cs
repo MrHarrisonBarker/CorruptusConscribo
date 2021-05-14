@@ -12,6 +12,7 @@ namespace CorruptusConscribo.Parser
         private readonly int ScopeLevel;
         private Dictionary<string, VariableSnapshot> VariableArchive { get; }
         private string BreakPoint { get; set; } = null;
+        private string Continue { get; set; } = null;
 
         public Scope()
         {
@@ -77,6 +78,31 @@ namespace CorruptusConscribo.Parser
             var b = BreakPoint;
             BreakPoint = null;
             return b;
+        }
+        
+        public void AddContinue()
+        {
+            Continue = Healpers.GetContinueId();
+        }
+
+        public string ContinueId()
+        {
+            return Continue;
+        }
+        
+        public string UseContinue()
+        {
+            if (Continue == null && ChildScopes.Count > 0)
+            {
+                foreach (var childScope in ChildScopes)
+                {
+                    return childScope.UseContinue();
+                }
+            }
+
+            var c = Continue;
+            Continue = null;
+            return c;
         }
 
         public int GetScopeLevel(string id)

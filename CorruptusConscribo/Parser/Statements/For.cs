@@ -53,21 +53,26 @@ namespace CorruptusConscribo.Parser
             var conditionFunc = Healpers.GetFunctionId();
             var endFunc = Healpers.GetFunctionId();
 
-            var tmp = $"# for {Initialise};{Condition};{PostExpression}" +
-                      $"\n{Initialise.Template()}" +
-                      $"\n{conditionFunc}:" +
-                      $"\n# {Condition}" +
-                      $"\n{Condition.Template()}" +
-                      "\ncmpq\t$0,%rax\t# compare condition result to 0" +
-                      $"\nje\t{endFunc}\t# jump to end if condition false" +
-                      $"\n{Statement.Template()}" +
-                      $"\n{PostExpression.Template()}" +
-                      $"\njmp\t{conditionFunc}\t# loop" +
-                      $"\n{endFunc}:\n";
 
+            var tmp =
+                $"# for {Initialise};{Condition};{PostExpression}" +
+                $"\n{Initialise.Template()}" +
+                $"\n{conditionFunc}:" +
+                $"\n# {Condition}" +
+                $"\n{Condition.Template()}" +
+                "\ncmpq\t$0,%rax\t# compare condition result to 0" +
+                $"\nje\t{endFunc}\t# jump to end if condition false" +
+                $"\n{Statement.Template()}";
+
+            var end =
+                $"\n{PostExpression.Template()}" +
+                $"\njmp\t{conditionFunc}\t# loop" +
+                $"\n{endFunc}:\n";
+
+            var continuePoint = Scope.UseContinue();
             var breakPoint = Scope.UseBreakpoint();
 
-            return breakPoint != null ? tmp + $"{breakPoint}:\t# Breakpoint\n" : tmp;
+            return tmp + (continuePoint != null ? $"\n{continuePoint}:\t# Continue point" : "") + end + (breakPoint != null ? $"{breakPoint}:\t# Breakpoint\n" : "");
         }
     }
 }

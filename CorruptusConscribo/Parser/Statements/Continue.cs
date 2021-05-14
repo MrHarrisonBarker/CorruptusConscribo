@@ -16,12 +16,19 @@ namespace CorruptusConscribo.Parser
             
             if (token.Name != TokenLibrary.Words.Semicolon) throw new SyntaxException("expected ;");
             
+            Scope.AddContinue();
+            
             return this;
         }
         
         public override string ToString()
         {
             return "continue;";
+        }
+        
+        public override string Template()
+        {
+            return $"jmp\t{Scope.ContinueId()}\t# jump to continue\n";
         }
     }
 }

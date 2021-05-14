@@ -9,6 +9,7 @@ namespace CorruptusConscribo
     {
         private static Int64 FuncInc;
         private static Int64 BreakInc;
+        private static Int64 ContinueInc;
 
         public static string GetFunctionId()
         {
@@ -18,6 +19,11 @@ namespace CorruptusConscribo
         public static string GetBreakPointId()
         {
             return $".Break_{BreakInc++}";
+        }
+        
+        public static string GetContinueId()
+        {
+            return $".Continue_{ContinueInc++}";
         }
 
         public static string Compile(string sourcePath)
