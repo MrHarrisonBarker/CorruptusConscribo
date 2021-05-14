@@ -39,7 +39,11 @@ namespace CorruptusConscribo.Parser
         {
             var whileFunc = Healpers.GetFunctionId();
             var endFunc = Healpers.GetFunctionId();
-            return $"{whileFunc}:\n{Expression.Template()}\ncmpq\t$0,%rax\nje\t{endFunc}\n{Statement.Template()}\njmp\t{whileFunc}\n{endFunc}:";
+            
+            var breakPoint = Scope.UseBreakpoint();
+            var tmp = $"{whileFunc}:\n{Expression.Template()}\ncmpq\t$0,%rax\nje\t{endFunc}\n{Statement.Template()}\njmp\t{whileFunc}\n{endFunc}:";
+
+            return breakPoint != null ? tmp + $"{breakPoint}:\t# Breakpoint\n" : tmp;
         }
     }
 }

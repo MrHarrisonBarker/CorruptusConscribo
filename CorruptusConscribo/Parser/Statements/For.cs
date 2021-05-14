@@ -65,7 +65,7 @@ namespace CorruptusConscribo.Parser
                       $"\njmp\t{conditionFunc}\t# loop" +
                       $"\n{endFunc}:\n";
 
-            var breakPoint = Scope.BreakpointId();
+            var breakPoint = Scope.UseBreakpoint();
 
             return breakPoint != null ? tmp + $"{breakPoint}:\t# Breakpoint\n" : tmp;
         }

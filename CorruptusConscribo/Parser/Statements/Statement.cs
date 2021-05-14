@@ -32,6 +32,8 @@ namespace CorruptusConscribo.Parser
                 case TokenLibrary.Words.If:
                     tokens.Pop();
                     return new If(new Scope(Scope)).Parse(tokens);
+                case TokenLibrary.Words.Semicolon:
+                    return new OptionalSemicolon(new Scope(Scope)).Parse(tokens);
                 case TokenLibrary.Words.Return:
                     return new Return(Scope).Parse(tokens);
             }

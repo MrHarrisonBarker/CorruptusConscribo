@@ -4,9 +4,8 @@ using System.Linq;
 
 namespace CorruptusConscribo.Parser
 {
-
     public class Scope
-    { 
+    {
         private int StackIndex { get; set; }
         private readonly Scope ParentScope;
         private List<Scope> ChildScopes { get; set; } = new List<Scope>();
@@ -62,15 +61,22 @@ namespace CorruptusConscribo.Parser
 
         public string BreakpointId()
         {
+            return BreakPoint;
+        }
+
+        public string UseBreakpoint()
+        {
             if (BreakPoint == null && ChildScopes.Count > 0)
             {
                 foreach (var childScope in ChildScopes)
                 {
-                    return childScope.BreakpointId();
+                    return childScope.UseBreakpoint();
                 }
-            }   
-            
-            return BreakPoint;
+            }
+
+            var b = BreakPoint;
+            BreakPoint = null;
+            return b;
         }
 
         public int GetScopeLevel(string id)
@@ -101,7 +107,7 @@ namespace CorruptusConscribo.Parser
 
         public string Deallocate()
         {
-            return string.Concat(Enumerable.Repeat("\npop\t\t%rax", VariableArchive.Count)) + "\n";
+            return string.Concat(Enumerable.Repeat("\npop\t\t%rax\t# deallocating var", VariableArchive.Count)) + "\n";
         }
     }
 }
