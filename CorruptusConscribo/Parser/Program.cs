@@ -26,7 +26,7 @@ namespace CorruptusConscribo.Parser
 
         public override string ToString()
         {
-            return $"**** Program ****\n{string.Join("/n", Functions)}";
+            return $"**** Program ****\n{string.Join("\n", Functions)}";
         }
     }
 }

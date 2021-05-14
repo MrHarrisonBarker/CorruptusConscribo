@@ -20,7 +20,7 @@ namespace CorruptusConscribo
         {
             return $".Break_{BreakInc++}";
         }
-        
+
         public static string GetContinueId()
         {
             return $".Continue_{ContinueInc++}";
@@ -28,24 +28,37 @@ namespace CorruptusConscribo
 
         public static string Compile(string sourcePath)
         {
-            var source = Healpers.GetSource(sourcePath);
-            Console.WriteLine($"The source code looks like this\n {source}");
+            try
+            {
+                var source = Healpers.GetSource(sourcePath);
+                Console.WriteLine($"The source code looks like this\n {source}");
 
-            var lexResult = new Stack<Token>(new Lexicanum(source).Tokens);
+                var lexResult = new Stack<Token>(new Lexicanum(source).Tokens);
 
-            Console.WriteLine("Program has been lexed");
+                Console.WriteLine("Program has been lexed");
 
-            var program = new Parser.Program(lexResult);
+                var program = new Parser.Program(lexResult);
 
-            Console.WriteLine($"Program parsed to AST\n {program}");
+                Console.WriteLine($"Program parsed to AST\n {program}");
 
-            if (!new Inquisition.Inquisition(program).IsClean()) throw new SyntaxException("HERESY !!");
-            
-            var asm = program.Template();
-            
-            Console.WriteLine($"Assembly generated\n{asm}");
+                if (!new Inquisition.Inquisition(program).IsClean()) throw new SyntaxException("HERESY !!");
 
-            return asm;
+                var asm = program.Template();
+
+                Console.WriteLine($"Assembly generated\n{asm}");
+
+                return asm;
+            }
+            catch (SyntaxException syntaxException)
+            {
+                Console.WriteLine(syntaxException);
+            }
+            catch (CompileException compileException)
+            {
+                Console.WriteLine(compileException);
+            }
+
+            return null;
         }
 
         public static string GetSource(string path)
@@ -87,7 +100,7 @@ namespace CorruptusConscribo
         public static int RunExecutable(string path)
         {
             var command = $"{path}".Replace("\"", "\\\"");
-            
+
             var exe = new Process()
             {
                 StartInfo = new ProcessStartInfo()
@@ -102,7 +115,7 @@ namespace CorruptusConscribo
 
             exe.Start();
             exe.WaitForExit();
-            
+
             Console.WriteLine($"the executable exited with exit code {exe.ExitCode}");
             return exe.ExitCode;
         }

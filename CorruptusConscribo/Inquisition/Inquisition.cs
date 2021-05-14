@@ -6,7 +6,8 @@ namespace CorruptusConscribo.Inquisition
 {
     public class FuncDeclareAndCalls
     {
-        public Function FunctionDeclare { get; set; }
+        public Function Definition { get; set; }
+        public Function Declaration { get; set; }
         public List<FunctionCall> Calls { get; set; }
     }
 
@@ -40,7 +41,7 @@ namespace CorruptusConscribo.Inquisition
             {
                 foreach (var functionCall in value.Calls)
                 {
-                    if (functionCall.Params.Count != value.FunctionDeclare.Params.Count) throw new CompileException("param err");
+                    if (functionCall.Params.Count != value.Declaration.Params.Count) throw new CompileException("param err");
                 }
             }
         }
@@ -56,9 +57,14 @@ namespace CorruptusConscribo.Inquisition
 
                 if (Functions.ContainsKey(func.Name)) throw new CompileException($"{func.Name} has already been initialised");
 
-                Functions[func.Name] = new FuncDeclareAndCalls() {FunctionDeclare = func, Calls = new List<FunctionCall>()};
+                Functions[func.Name] = new FuncDeclareAndCalls()
+                {
+                    Declaration = func.Block == null ? func : null,
+                    Definition = func.Block != null ? func : null,
+                    Calls = new List<FunctionCall>()
+                };
 
-                TraverseProgram(func.Block);
+                if (func.Block != null) TraverseProgram(func.Block);
             }
 
             if (typeof(Block) == nodeType)
@@ -78,7 +84,7 @@ namespace CorruptusConscribo.Inquisition
 
                 var func = Functions[funcCall.FunctionId];
                 func.Calls.Add(funcCall);
-                
+
                 Console.WriteLine($"Found function call {funcCall}");
             }
 

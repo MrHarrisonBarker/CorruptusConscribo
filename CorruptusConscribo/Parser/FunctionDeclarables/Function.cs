@@ -55,13 +55,20 @@ namespace CorruptusConscribo.Parser
                     token = tokens.Pop();
                     break;
                 }
-                
+
                 tokens.Pop();
                 token = tokens.Pop();
             }
 
-            
             if (token.Name != TokenLibrary.Words.CloseParenthesis) throw new SyntaxException($"expected )");
+
+            var nextToken = tokens.Peek();
+
+            if (nextToken.Name == TokenLibrary.Words.Semicolon)
+            {
+                tokens.Pop();
+                return this;
+            }
 
             Block = new Block(Scope).Parse(tokens);
 
@@ -89,6 +96,7 @@ namespace CorruptusConscribo.Parser
 
         public override string ToString()
         {
+            if (Block == null) return $"Func {ReturnType} {Name} ({string.Join(",", Params)})\n";
             return $"Func {ReturnType} {Name}:\n\t{Block}";
         }
     }
