@@ -39,11 +39,11 @@ namespace CorruptusConscribo.Inquisition
                     // if there is no declaration check the definition
                     if (value.Declaration == null)
                     {
-                        if (functionCall.Params.Count != value.Definition.Params.Count) throw new CompileException("param err");
+                        if (functionCall.Args.Count != value.Definition.Params.Count) throw new CompileException("param err");
                     }
                     else
                     {
-                        if (functionCall.Params.Count != value.Declaration.Params.Count) throw new CompileException("param err");
+                        if (functionCall.Args.Count != value.Declaration.Params.Count) throw new CompileException("param err");
                     }
 
                 }

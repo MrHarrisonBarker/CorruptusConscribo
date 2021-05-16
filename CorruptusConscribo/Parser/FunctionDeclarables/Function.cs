@@ -77,10 +77,13 @@ namespace CorruptusConscribo.Parser
 
         public override string Template()
         {
-            const string prologue = "push\t%rbp\t# push stack" +
-                                    "\nmovq\t%rsp,%rbp\t# move call stack\n";
+            const string prologue = "push\t%rbp\t\t# push stack" +
+                                    "\nmovq\t%rsp,%rbp\t# move call stack\n\n";
 
             var template = $".globl _{Name}\n_{Name}:\n" + prologue;
+
+            // if the function has params add to the scope
+            // Params?.ForEach(Scope.Add);
 
             // if the function doesn't have a return statement
             if (Block.Slices.All(x => x.GetType() != typeof(Return)))

@@ -59,9 +59,9 @@ namespace CorruptusConscribo.Parser
         public override string Template()
         {
             return $"{LeftExpression.Template()}" +
-                   "\npush\t%rax\t# pushing left of operator into stack" +
+                   "\npush\t%rax\t\t# pushing left of operator into stack" +
                    $"\n{RightExpression.Template()}" +
-                   "\npop\t%rcx\t# popping left of operator onto rcx" +
+                   "\npop\t%rcx\t\t# popping left of operator onto rcx" +
                    $"\n{BinaryTemplate}";
         }
 

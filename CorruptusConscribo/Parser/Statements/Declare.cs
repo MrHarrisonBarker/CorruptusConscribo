@@ -6,8 +6,8 @@ namespace CorruptusConscribo.Parser
     public class Declare : Slice
     {
         private Expression Initialise { get; set; }
-        private string Identifier { get; set; }
-        private string Type { get; set; }
+        public string Identifier { get; set; }
+        public string Type { get; set; }
 
         public Declare Parse(Stack<Token> tokens)
         {
@@ -60,7 +60,7 @@ namespace CorruptusConscribo.Parser
         {
             Identifier = paramId;
             Type = type;
-            Scope.Add(Identifier, new VariableSnapshot(Type));
+            Scope.Add(Identifier, new VariableSnapshot(Type,true));
         }
     }
 }

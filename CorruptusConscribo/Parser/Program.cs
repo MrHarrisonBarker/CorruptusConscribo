@@ -6,6 +6,7 @@ namespace CorruptusConscribo.Parser
     public class Program
     {
         public List<Function> Functions { get; set; } = new List<Function>();
+        private Scope GlobalScope { get; } = new();
 
         public Program(Stack<Token> tokens)
         {
@@ -21,6 +22,7 @@ namespace CorruptusConscribo.Parser
 
         public string Template()
         {
+            var jmp = "jmp\t_main\t\t# calling main method\n\n";
             return string.Join("\n", Functions.Select(x => x.Template()));
         }
 

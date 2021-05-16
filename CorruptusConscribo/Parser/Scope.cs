@@ -55,6 +55,14 @@ namespace CorruptusConscribo.Parser
             StackIndex += 8;
         }
 
+        // TODO: need to jump back to param locations
+        // public void Add(Declare declare)
+        // {
+        //     var variable = new VariableSnapshot(declare.Type, ScopeLevel, true);
+        //     VariableArchive.Add(declare.Identifier, variable);
+        //     StackIndex += 8;
+        // }
+
         public void AddBreakpoint()
         {
             BreakPoint = Healpers.GetBreakPointId();
@@ -79,7 +87,7 @@ namespace CorruptusConscribo.Parser
             BreakPoint = null;
             return b;
         }
-        
+
         public void AddContinue()
         {
             Continue = Healpers.GetContinueId();
@@ -89,7 +97,7 @@ namespace CorruptusConscribo.Parser
         {
             return Continue;
         }
-        
+
         public string UseContinue()
         {
             if (Continue == null && ChildScopes.Count > 0)
@@ -128,7 +136,9 @@ namespace CorruptusConscribo.Parser
                 return ParentScope.Access(variable);
             }
 
-            return -Math.Abs(GetParentStackIndex() - VariableArchive[variable.VariableId].StackIndex);
+            Console.WriteLine($"Scope level -> {variable.ScopeLevel}");
+
+            return -Math.Abs(GetParentStackIndex() - VariableArchive[variable.VariableId].StackIndex) + (VariableArchive[variable.VariableId].IsParam ? ( 16 + (VariableArchive.Count * 8) ) : 0 );
         }
 
         public string Deallocate()
