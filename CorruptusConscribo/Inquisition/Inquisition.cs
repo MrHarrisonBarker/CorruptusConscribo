@@ -95,7 +95,7 @@ namespace CorruptusConscribo.Inquisition
                 foreach (var property in properties)
                 {
                     var val = property.GetValue(node);
-                    if (val.GetType().IsSubclassOf(typeof(Expression))) TraverseProgram((Expression) val);
+                    if (val != null && val.GetType().IsSubclassOf(typeof(Expression))) TraverseProgram((Expression) val);
                 }
 
                 var statement = (Statement) node;

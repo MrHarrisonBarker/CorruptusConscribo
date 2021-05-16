@@ -5,7 +5,7 @@ namespace CorruptusConscribo.Parser
 {
     public abstract class Assignment : Expression
     {
-        protected Expression LeftExpression { get; private set; }
+        public Expression LeftExpression { get; private set; }
         public Expression RightExpression { get; private set; }
         private string AssignmentOperator { get; }
         protected string AssignmentTemplate { get; }
