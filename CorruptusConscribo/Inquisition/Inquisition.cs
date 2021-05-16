@@ -4,13 +4,6 @@ using CorruptusConscribo.Parser;
 
 namespace CorruptusConscribo.Inquisition
 {
-    public class FuncDeclareAndCalls
-    {
-        public Function Definition { get; set; }
-        public Function Declaration { get; set; }
-        public List<FunctionCall> Calls { get; set; }
-    }
-
     public class Inquisition
     {
         private Parser.Program Program { get; set; }
@@ -41,7 +34,18 @@ namespace CorruptusConscribo.Inquisition
             {
                 foreach (var functionCall in value.Calls)
                 {
-                    if (functionCall.Params.Count != value.Declaration.Params.Count) throw new CompileException("param err");
+                    if (value.Declaration == null && value.Definition == null) throw new CompileException("function is never defined or declared");
+                    
+                    // if there is no declaration check the definition
+                    if (value.Declaration == null)
+                    {
+                        if (functionCall.Params.Count != value.Definition.Params.Count) throw new CompileException("param err");
+                    }
+                    else
+                    {
+                        if (functionCall.Params.Count != value.Declaration.Params.Count) throw new CompileException("param err");
+                    }
+
                 }
             }
         }

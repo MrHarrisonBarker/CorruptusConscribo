@@ -28,37 +28,24 @@ namespace CorruptusConscribo
 
         public static string Compile(string sourcePath)
         {
-            try
-            {
-                var source = Healpers.GetSource(sourcePath);
-                Console.WriteLine($"The source code looks like this\n {source}");
+            var source = Healpers.GetSource(sourcePath);
+            Console.WriteLine($"The source code looks like this\n {source}");
 
-                var lexResult = new Stack<Token>(new Lexicanum(source).Tokens);
+            var lexResult = new Stack<Token>(new Lexicanum(source).Tokens);
 
-                Console.WriteLine("Program has been lexed");
+            Console.WriteLine("Program has been lexed");
 
-                var program = new Parser.Program(lexResult);
+            var program = new Parser.Program(lexResult);
 
-                Console.WriteLine($"Program parsed to AST\n {program}");
+            Console.WriteLine($"Program parsed to AST\n {program}");
 
-                if (!new Inquisition.Inquisition(program).IsClean()) throw new SyntaxException("HERESY !!");
+            if (!new Inquisition.Inquisition(program).IsClean()) throw new SyntaxException("HERESY !!");
 
-                var asm = program.Template();
+            var asm = program.Template();
 
-                Console.WriteLine($"Assembly generated\n{asm}");
+            Console.WriteLine($"Assembly generated\n{asm}");
 
-                return asm;
-            }
-            catch (SyntaxException syntaxException)
-            {
-                Console.WriteLine(syntaxException);
-            }
-            catch (CompileException compileException)
-            {
-                Console.WriteLine(compileException);
-            }
-
-            return null;
+            return asm;
         }
 
         public static string GetSource(string path)
