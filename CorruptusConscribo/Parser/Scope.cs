@@ -143,7 +143,7 @@ namespace CorruptusConscribo.Parser
 
         public string Deallocate()
         {
-            return string.Concat(Enumerable.Repeat("\npop\t\t%rax\t# deallocating var", VariableArchive.Count)) + "\n";
+            return string.Concat(Enumerable.Repeat("\npop\t%rax\t# deallocating var", VariableArchive.Count)) + "\n";
         }
     }
 }

@@ -35,7 +35,7 @@ namespace CorruptusConscribo.Inquisition
                 foreach (var functionCall in value.Calls)
                 {
                     if (value.Declaration == null && value.Definition == null) throw new CompileException("function is never defined or declared");
-                    
+
                     // if there is no declaration check the definition
                     if (value.Declaration == null)
                     {
@@ -45,7 +45,6 @@ namespace CorruptusConscribo.Inquisition
                     {
                         if (functionCall.Args.Count != value.Declaration.Params.Count) throw new CompileException("param err");
                     }
-
                 }
             }
         }
@@ -59,7 +58,22 @@ namespace CorruptusConscribo.Inquisition
                 var func = (Function) node;
                 Console.WriteLine($"Found function {func}");
 
-                if (Functions.ContainsKey(func.Name)) throw new CompileException($"{func.Name} has already been initialised");
+                // if function is declaration
+                if (func.Block == null)
+                {
+                    if (Functions.ContainsKey(func.Name))
+                    {
+                        if (Functions[func.Name].Declaration != null) throw new CompileException($"{func.Name} has already been declared");
+                    }
+                }
+                else
+                {
+                    if (Functions.ContainsKey(func.Name))
+                    {
+                        if (Functions[func.Name].Definition != null) throw new CompileException($"{func.Name} has already been defined");
+                    }
+                }
+
 
                 Functions[func.Name] = new FuncDeclareAndCalls()
                 {

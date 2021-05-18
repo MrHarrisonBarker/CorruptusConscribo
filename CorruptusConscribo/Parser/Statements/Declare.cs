@@ -46,7 +46,7 @@ namespace CorruptusConscribo.Parser
         {
             if (Initialise != null)
             {
-                return $"\n{Initialise.Template()}\npushq\t%rax\t# initialising {Identifier} with declare\n";
+                return $"\n{Initialise.Template()}\npushq\t%rax\t\t# initialising {Identifier} with declare\n";
             }
 
             return "\nmovq\t$0,%rax\npushq\t%rax\t# initialising {Identifier} as 0\n";

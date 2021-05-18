@@ -9,7 +9,7 @@ namespace CorruptusConscribo
     {
         static void Main(string[] args)
         {
-            args = new[] {"./stage_6/expression/assign_ternary.c"};
+            args = new[] {"./stage_9/valid/forward_decl.c"};
 
             string sourcePath;
             string outputPath;
@@ -39,16 +39,27 @@ namespace CorruptusConscribo
                 Console.WriteLine("Not enough arguments");
                 return;
             }
-            
-            var asm = Healpers.Compile(sourcePath);
-            
-            var asmPath = outputPath + "out.s";
-            //
-            Healpers.WriteAsm(asmPath, asm);
-            //
-            Console.WriteLine($"Assembly saved to {asmPath}");
-            //
-            Healpers.GenerateExecutable(outputPath + "program", asmPath);
+
+            try
+            {
+                var asm = Healpers.Compile(sourcePath);
+                
+                var asmPath = outputPath + "out.s";
+                
+                Healpers.WriteAsm(asmPath, asm);
+                
+                Console.WriteLine($"Assembly saved to {asmPath}");
+                
+                Healpers.GenerateExecutable(outputPath + "program", asmPath);
+            }
+            catch (SyntaxException syntaxException)
+            {
+                Console.WriteLine(syntaxException);
+            }
+            catch (CompileException compileException)
+            {
+                Console.WriteLine(compileException);
+            }
         }
     }
 }

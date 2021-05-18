@@ -62,7 +62,7 @@ namespace CorruptusConscribo.Parser
             var addArgsCallAndPopArgs =
                 $"\n{string.Join("\n", Args.Select(param => $"{param.Template()}\npush\t%rax\t\t# pushing argument {param} to stack"))}" +
                 $"\ncall\t_{FunctionId}" +
-                $"\naddq\t${Args.Count}, %rsp\t# removing arguments from stack";
+                $"\naddq\t${Args.Count * 8}, %rsp\t# removing arguments from stack";
 
             // var offsetHackEnd =
             //     "\npopq\t%rdx\t\t# pop padding result" +
