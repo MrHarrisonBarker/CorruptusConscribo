@@ -19,5 +19,10 @@ namespace CorruptusConscribo
                 "\ncqo" +
                 $"\n{BinaryTemplate}";
         }
+        
+        public override int AbsoluteValue()
+        {
+            return LeftExpression.AbsoluteValue() / RightExpression.AbsoluteValue();
+        }
     }
 }

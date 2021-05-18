@@ -21,5 +21,10 @@ namespace CorruptusConscribo.Parser.Expressions.BinaryOperators
                 "\nmovq\t$0,%rax" +
                 "\nmovq\t%rdx,%rax";
         }
+        
+        public override int AbsoluteValue()
+        {
+            return LeftExpression.AbsoluteValue() % RightExpression.AbsoluteValue();
+        }
     }
 }

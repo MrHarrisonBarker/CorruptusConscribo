@@ -12,5 +12,10 @@ namespace CorruptusConscribo
         {
             return $"{RightExpression.Template()}\npush\t%rax\n{LeftExpression.Template()}\npop\t%rcx\n{BinaryTemplate}";
         }
+
+        public override int AbsoluteValue()
+        {
+            return LeftExpression.AbsoluteValue() - RightExpression.AbsoluteValue();
+        }
     }
 }

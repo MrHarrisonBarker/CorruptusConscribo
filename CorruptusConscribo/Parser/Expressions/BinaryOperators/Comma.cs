@@ -10,5 +10,10 @@ namespace CorruptusConscribo.Parser.Expressions.BinaryOperators
         {
             return $"{RightExpression.Template()}";
         }
+        
+        public override int AbsoluteValue()
+        {
+            return RightExpression.AbsoluteValue();
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using CorruptusConscribo.Parser;
 
 namespace CorruptusConscribo
@@ -6,6 +7,11 @@ namespace CorruptusConscribo
     {
         public Addition(Scope scope) : base(scope, "+", "addq\t%rcx,%rax\t# adding\n")
         {
+        }
+
+        public override int AbsoluteValue()
+        {
+            return LeftExpression.AbsoluteValue() + RightExpression.AbsoluteValue();
         }
     }
 }

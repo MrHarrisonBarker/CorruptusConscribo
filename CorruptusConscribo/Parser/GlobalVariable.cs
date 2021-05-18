@@ -39,17 +39,9 @@ namespace CorruptusConscribo.Parser
 
         public override string Template()
         {
-            if (Initialise != null)
-            {
-                if (Initialise.GetType() == typeof(Constant))
-                {
-                    return $"\n.globl _{Identifier}\n\t.data\n\t.align\t4\n_{Identifier}:\n\t.long {((Constant) Initialise).Value}\n.text\t\t# initialising {Identifier} globally with declare\n";
-                }
-
-                // return $"\n{Initialise.Template()}\npushq\t%rax\t\t# initialising {Identifier} globally with declare\n";
-            }
-
-            return $"\n.globl _{Identifier}\n.data\n.align\t4\n.text\n";
+            if (Initialise == null) return $"\n.globl _{Identifier}\n.data\n.align\t4\n.text\n";
+            
+            return $"\n.globl _{Identifier}\n\t.data\n\t.align\t4\n_{Identifier}:\n\t.long {Initialise.AbsoluteValue()}\n.text\t\t# initialising {Identifier} globally with declare\n";
         }
 
         public override string Save()

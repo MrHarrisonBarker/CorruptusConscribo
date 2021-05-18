@@ -1,3 +1,5 @@
+using System;
+
 namespace CorruptusConscribo.Parser
 {
     public class Constant : Expression
@@ -7,6 +9,11 @@ namespace CorruptusConscribo.Parser
         public Constant(Scope scope, int value) : base(scope)
         {
             Value = value;
+        }
+
+        public override int AbsoluteValue()
+        {
+            return Value;
         }
 
         public override string Template()
