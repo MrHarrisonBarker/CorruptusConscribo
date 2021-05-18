@@ -131,6 +131,8 @@ namespace CorruptusConscribo.Parser
         {
             if (!Exists(variable.VariableId)) throw new SyntaxException($"'{variable.VariableId}' doesn't exist");
 
+            if (VariableArchive[variable.VariableId].IsGlobal) return -1;
+            
             if (ParentScope != null && variable.ScopeLevel != ScopeLevel)
             {
                 return ParentScope.Access(variable);
@@ -145,6 +147,18 @@ namespace CorruptusConscribo.Parser
         public string Deallocate()
         {
             return string.Concat(Enumerable.Repeat("\npop\t%rax\t# deallocating var", VariableArchive.Count)) + "\n";
+        }
+
+        public bool IsGlobal(string id)
+        {
+            if (ParentScope != null)
+            {
+                return ParentScope.IsGlobal(id);
+            }
+
+            if (VariableArchive.ContainsKey(id)) return VariableArchive[id].IsGlobal;
+            
+            return false;
         }
     }
 }

@@ -8,7 +8,13 @@ namespace CorruptusConscribo.Parser
         {
             Type = type;
         }
-        
+
+        public VariableSnapshot(bool isGlobal, string type)
+        {
+            Type = type;
+            IsGlobal = isGlobal;
+        }
+
         public VariableSnapshot(string type, bool isParam)
         {
             Type = type;
@@ -26,5 +32,6 @@ namespace CorruptusConscribo.Parser
         public int ScopeLevel { get; set; }
         public int StackIndex { get; set; }
         public bool IsParam { get; set; }
+        public bool IsGlobal { get; set; }
     }
 }

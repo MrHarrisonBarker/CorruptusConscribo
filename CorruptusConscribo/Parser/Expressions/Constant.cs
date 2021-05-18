@@ -2,7 +2,7 @@ namespace CorruptusConscribo.Parser
 {
     public class Constant : Expression
     {
-        private int Value { get; }
+        public int Value { get; }
 
         public Constant(Scope scope, int value) : base(scope)
         {
