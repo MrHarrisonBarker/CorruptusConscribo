@@ -12,18 +12,18 @@ namespace CorruptusConscribo.Parser
             IsGlobal = Scope.IsGlobal(id);
             ScopeLevel = Scope.GetScopeLevel(id);
             VariableId = id;
-            AccessIndex = Scope.Access(this);
+            if (!IsGlobal) AccessIndex = Scope.Access(this);
         }
 
         public override string Template()
         {
-            if (IsGlobal) return $"movq\t_{VariableId}(%rip), %rax\t\t# moving global {VariableId} onto rax";
+            if (IsGlobal) return $"movq\t_{VariableId}(%rip), %rax\t# moving global {VariableId} onto rax";
             return $"movq\t{AccessIndex}(%rbp), %rax\t# moving {VariableId} onto rax, {ScopeLevel}";
         }
 
         public override string Save()
         {
-            if (IsGlobal) return "global save";
+            if (IsGlobal) return $"movq\t%rax, _{VariableId}(%rip)\t# saving global variable";
             return $"movq\t%rax,{AccessIndex}(%rbp)\t# moving rax to {VariableId}, {ScopeLevel}";
         }
 

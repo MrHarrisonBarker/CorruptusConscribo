@@ -15,7 +15,7 @@ namespace CorruptusConscribo.Parser
             ReturnType = returnType;
             Identifier = identifier;
 
-            if (Scope.LocallyExists(Identifier)) throw new SyntaxException($"a variable called \"{Identifier}\" already exists");
+            if (Scope.LocallyExists(Identifier) && Identifier == null) throw new SyntaxException($"a variable called \"{Identifier}\" already exists");
 
             var token = tokens.Pop();
 
@@ -27,7 +27,10 @@ namespace CorruptusConscribo.Parser
 
             if (token.Name != TokenLibrary.Words.Semicolon) throw new SyntaxException("; expected");
 
-            Scope.Add(Identifier, new VariableSnapshot(true, ReturnType));
+            if (!Scope.LocallyExists(Identifier))
+            {
+                Scope.Add(Identifier, new VariableSnapshot(true, ReturnType));
+            }
 
             return this;
         }
@@ -39,8 +42,8 @@ namespace CorruptusConscribo.Parser
 
         public override string Template()
         {
-            if (Initialise == null) return $"\n.globl _{Identifier}\n.data\n.align\t4\n.text\n";
-            
+            if (Initialise == null) return $"\n.globl _{Identifier}\n\t.data\n\t.align\t4\n_{Identifier}:\n\t.zero 8\n.text\t\t# initialising {Identifier} globally";
+
             return $"\n.globl _{Identifier}\n\t.data\n\t.align\t4\n_{Identifier}:\n\t.long {Initialise.AbsoluteValue()}\n.text\t\t# initialising {Identifier} globally with declare\n";
         }
 
