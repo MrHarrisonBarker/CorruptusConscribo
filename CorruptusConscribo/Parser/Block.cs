@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CorruptusConscribo.Parser
 {
-    public class Block : ASTNode
+    public class Block : TopLevelBlock
     {
         public List<ASTNode> Slices = new();
 

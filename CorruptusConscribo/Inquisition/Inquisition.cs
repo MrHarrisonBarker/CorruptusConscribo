@@ -22,7 +22,7 @@ namespace CorruptusConscribo.Inquisition
         // validates the declaration and calling of functions in the program
         private bool FunctionsValid()
         {
-            Program.Functions.ForEach(TraverseProgram);
+            Program.TopLevelBlocks.ForEach(TraverseProgram);
             FunctionParameterValid();
 
             return true;
@@ -68,25 +68,25 @@ namespace CorruptusConscribo.Inquisition
                 // if function is declaration
                 if (func.Block == null)
                 {
-                    if (Functions.ContainsKey(func.Name) && Functions[func.Name].Declaration != null) throw new CompileException($"{func.Name} has already been declared");
+                    if (Functions.ContainsKey(func.Identifier) && Functions[func.Identifier].Declaration != null) throw new CompileException($"{func.Identifier} has already been declared");
                 }
                 else
                 {
-                    if (Functions.ContainsKey(func.Name) && Functions[func.Name].Definition != null) throw new CompileException($"{func.Name} has already been defined");
+                    if (Functions.ContainsKey(func.Identifier) && Functions[func.Identifier].Definition != null) throw new CompileException($"{func.Identifier} has already been defined");
                 }
 
-                if (Functions.ContainsKey(func.Name))
+                if (Functions.ContainsKey(func.Identifier))
                 {
-                    Functions[func.Name] = new FuncDeclareAndCalls
+                    Functions[func.Identifier] = new FuncDeclareAndCalls
                     {
-                        Declaration = func.Block == null ? func : Functions[func.Name].Declaration,
-                        Definition = func.Block != null ? func : Functions[func.Name].Definition,
+                        Declaration = func.Block == null ? func : Functions[func.Identifier].Declaration,
+                        Definition = func.Block != null ? func : Functions[func.Identifier].Definition,
                         Calls = new List<FunctionCall>()
                     };
                 }
                 else
                 {
-                    Functions[func.Name] = new FuncDeclareAndCalls
+                    Functions[func.Identifier] = new FuncDeclareAndCalls
                     {
                         Declaration = func.Block == null ? func : null,
                         Definition = func.Block != null ? func : null,

@@ -4,16 +4,14 @@ using System.Linq;
 
 namespace CorruptusConscribo.Parser
 {
-    public class Function : ASTNode
+    public class Function : TopLevelBlock
     {
         private readonly Stack<string> ParamStack = new(new[]
         {
             "r9", "r8", "rcx", "%rdx", "%rsi", "%rdi"
         });
-
-        public string Name { get; set; }
+        
         public List<Declare> Params { get; set; } = new();
-        private string ReturnType { get; set; }
         public Block Block { get; set; }
 
         public Function(Scope scope) : base(scope)
@@ -21,22 +19,13 @@ namespace CorruptusConscribo.Parser
         }
 
         // <function> ::= "int" <id> "(" [ "int" <id> { "," "int" <id> } ] ")" ( "{" { <block-item> } "}" | ";" )
-        public Function Parse(Stack<Token> tokens)
+        public Function Parse(Stack<Token> tokens, string returnType, string identifier)
         {
+            ReturnType = returnType;
+            Identifier = identifier;
+            
             var token = tokens.Pop();
-
-            if (token.Name != TokenLibrary.Words.Int) throw new SyntaxException("expected type int");
-
-            ReturnType = token.Name;
-
-            token = tokens.Pop();
-
-            if (token.Name != TokenLibrary.Words.Identifier) throw new SyntaxException("expected function identifier");
-
-            Name = (string) token.Value;
-
-            // Open close parenthesis
-            token = tokens.Pop();
+            
             if (token.Name != TokenLibrary.Words.OpenParenthesis) throw new SyntaxException("expected (");
 
             token = tokens.Pop();
@@ -89,7 +78,7 @@ namespace CorruptusConscribo.Parser
 
             var parameters = string.Join("\n", Params.Select(param => $"push\t{ParamStack.Pop()}\t\t# pushing parameter {param} onto stack"));
 
-            var template = $".globl _{Name}\n_{Name}:\n" + prologue + parameters + "\n";
+            var template = $".globl _{Identifier}\n_{Identifier}:\n" + prologue + parameters + "\n";
 
             // if the function doesn't have a return statement
             if (Block.Slices.All(x => x.GetType() != typeof(Return)))
@@ -105,8 +94,8 @@ namespace CorruptusConscribo.Parser
 
         public override string ToString()
         {
-            if (Block == null) return $"Func {ReturnType} {Name} ({string.Join(",", Params)})\n";
-            return $"Func {ReturnType} {Name}:\n\t{Block}";
+            if (Block == null) return $"Func {ReturnType} {Identifier} ({string.Join(",", Params)})\n";
+            return $"Func {ReturnType} {Identifier}:\n\t{Block}";
         }
     }
 }
