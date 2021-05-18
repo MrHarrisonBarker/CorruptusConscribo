@@ -5,7 +5,7 @@ namespace CorruptusConscribo.Tests
     [TestFixture]
     public class When_Nested_If : CompilerTest
     {
-        public When_Nested_If() : base(3, "./stage_6/statement/if_nested_3.c", "./stage_6/statement/")
+        public When_Nested_If() : base(4, "./stage_7/valid/nested_if.c", "./stage_7/valid/")
         {
         }
     }

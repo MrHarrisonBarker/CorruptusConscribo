@@ -13,17 +13,17 @@ namespace CorruptusConscribo
 
         public static string GetFunctionId()
         {
-            return $".Func_{FuncInc++}";
+            return $"_Func_{FuncInc++}";
         }
 
         public static string GetBreakPointId()
         {
-            return $".Break_{BreakInc++}";
+            return $"_Break_{BreakInc++}";
         }
 
         public static string GetContinueId()
         {
-            return $".Continue_{ContinueInc++}";
+            return $"_Continue_{ContinueInc++}";
         }
 
         public static string Compile(string sourcePath)

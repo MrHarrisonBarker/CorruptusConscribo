@@ -5,7 +5,7 @@ int main() {
     return foo(5);
 }
 
-int foo(int a) {
+int foo(int a) {    
     if (a <= 0) {
         return a;
     }
