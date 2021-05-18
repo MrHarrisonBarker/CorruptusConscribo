@@ -60,7 +60,7 @@ namespace CorruptusConscribo
 
         public static int GenerateExecutable(string filename, string asmSource)
         {
-            var command = $"gcc -g {asmSource} -o {filename}".Replace("\"", "\\\"");
+            var command = $"gcc -m64 -g {asmSource} -o {filename}".Replace("\"", "\\\"");
             ;
 
             Console.WriteLine($"starting gcc with {command}");

@@ -5,6 +5,11 @@ namespace CorruptusConscribo.Parser
 {
     public class FunctionCall : Expression
     {
+        private readonly Stack<string> ArgsStack = new(new[]
+        {
+            "r9", "r8", "rcx", "%rdx", "%rsi", "%rdi"
+        });
+
         public string FunctionId { get; set; }
         public List<Expression> Args { get; set; } = new();
 
@@ -48,25 +53,13 @@ namespace CorruptusConscribo.Parser
 
         public override string Template()
         {
-            // var offsetHackStart =
-            //     "movq %rsp, %rax" +
-            //     $"\nsubq\t${(8*(Args.Count + 1))}, %rax\t# n = (4*(arg_count + 1)), # of bytes allocated for arguments + padding value itself" +
-            //     "\n\t\t\t#; eax now contains the value ESP will have when call instruction is executed " +
-            //     "\nxorq\t% rdx, %rdx\t# zero out EDX, which will contain remainder of division" +
-            //     "\nmovq\t$0x20, %rcx" +
-            //     // "\nmovq\t$0x20, %rcx\t# 0x20 = 16" +
-            //     "\nidivq\t%rcx\t\t# calculate eax / 16.EDX contains remainder, i.e. # of bytes to subtract from ESP" +
-            //     "\nsubq\t%rdx, %rsp\t# pad ESP" +
-            //     "\npushq\t%rdx\t\t# push padding result onto stack; we'll need it to deallocate padding later";
-
+            var arguments = string.Join("\n", Args.Select(arg => $"{arg.Template()}\nmovq\t%rax, {ArgsStack.Pop()}\t# moving argument {arg}"));
+            
             var addArgsCallAndPopArgs =
-                $"\n{string.Join("\n", Args.Select(param => $"{param.Template()}\npush\t%rax\t\t# pushing argument {param} to stack"))}" +
+                "\nsubq\t$16, %rsp\t#offsetting" +
+                $"\n{arguments}" +
                 $"\ncall\t_{FunctionId}" +
                 $"\naddq\t${Args.Count * 8}, %rsp\t# removing arguments from stack";
-
-            // var offsetHackEnd =
-            //     "\npopq\t%rdx\t\t# pop padding result" +
-            //     "\naddq\t%rdx, %rsp\t# remove padding";
 
             return addArgsCallAndPopArgs;
         }

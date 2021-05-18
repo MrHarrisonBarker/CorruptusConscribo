@@ -6,6 +6,11 @@ namespace CorruptusConscribo.Parser
 {
     public class Function : ASTNode
     {
+        private readonly Stack<string> ParamStack = new(new[]
+        {
+            "r9", "r8", "rcx", "%rdx", "%rsi", "%rdi"
+        });
+
         public string Name { get; set; }
         public List<Declare> Params { get; set; } = new();
         private string ReturnType { get; set; }
@@ -82,7 +87,9 @@ namespace CorruptusConscribo.Parser
             const string prologue = "push\t%rbp\t\t# push stack" +
                                     "\nmovq\t%rsp,%rbp\t# move call stack\n\n";
 
-            var template = $".globl _{Name}\n_{Name}:\n" + prologue;
+            var parameters = string.Join("\n", Params.Select(param => $"push\t{ParamStack.Pop()}\t\t# pushing parameter {param} onto stack"));
+
+            var template = $".globl _{Name}\n_{Name}:\n" + prologue + parameters + "\n";
 
             // if the function doesn't have a return statement
             if (Block.Slices.All(x => x.GetType() != typeof(Return)))

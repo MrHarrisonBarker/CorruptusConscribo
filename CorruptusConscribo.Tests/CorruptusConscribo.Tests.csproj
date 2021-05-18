@@ -16,6 +16,9 @@
   <ItemGroup>
     <ProjectReference Include="..\CorruptusConscribo\CorruptusConscribo.csproj" />
     <Content Include="$(SolutionDir)TestPrograms\**" CopyToOutputDirectory="PreserveNewest"></Content>
+    <Content Update="..\TestPrograms\stage_9\valid\a.c">
+      <Link>stage_9\valid\a.c</Link>
+    </Content>
   </ItemGroup>
 
 </Project>

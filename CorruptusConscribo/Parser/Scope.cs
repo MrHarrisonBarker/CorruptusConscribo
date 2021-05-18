@@ -138,7 +138,8 @@ namespace CorruptusConscribo.Parser
 
             Console.WriteLine($"Scope level -> {variable.ScopeLevel}");
 
-            return -Math.Abs(GetParentStackIndex() - VariableArchive[variable.VariableId].StackIndex) + (VariableArchive[variable.VariableId].IsParam ? ( 16 + (VariableArchive.Count * 8) ) : 0 );
+            return -Math.Abs(GetParentStackIndex() - VariableArchive[variable.VariableId].StackIndex);
+            // + (VariableArchive[variable.VariableId].IsParam ? ( 16 + (VariableArchive.Count * 8) ) : 0 )
         }
 
         public string Deallocate()
