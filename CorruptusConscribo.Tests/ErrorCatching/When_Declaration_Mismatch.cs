@@ -5,7 +5,7 @@ namespace CorruptusConscribo.Tests.ErrorCatching
     [TestFixture]
     public class When_Declaration_Mismatch : FailureTest<CompileException>
     {
-        public When_Declaration_Mismatch() : base("foo has already been initialised", "./stage_9/invalid/declaration_mismatch.c")
+        public When_Declaration_Mismatch() : base("the function declaration doesn't match the definition", "./stage_9/invalid/declaration_mismatch.c")
         {
         }
     }

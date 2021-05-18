@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace CorruptusConscribo.Tests
 {
+    [TestFixture]
     public abstract class CompilerTest
     {
         private readonly string SourcePath;

@@ -30,20 +30,27 @@ namespace CorruptusConscribo.Inquisition
 
         private void FunctionParameterValid()
         {
-            foreach (var value in Functions.Values)
+            foreach (var function in Functions.Values)
             {
-                foreach (var functionCall in value.Calls)
+                if (function.Definition != null && function.Declaration != null && function.Definition.Params.Count != function.Declaration.Params.Count)
+                    throw new CompileException("the function declaration doesn't match the definition");
+
+                foreach (var functionCall in function.Calls)
                 {
-                    if (value.Declaration == null && value.Definition == null) throw new CompileException("function is never defined or declared");
+                    if (function.Declaration == null && function.Definition == null) throw new CompileException("function is never defined or declared");
+
+                    if (function.Declaration != null && function.Definition != null &&
+                        (functionCall.Args.Count != function.Definition.Params.Count || functionCall.Args.Count != function.Declaration.Params.Count))
+                        throw new CompileException("function call argument mismatch");
 
                     // if there is no declaration check the definition
-                    if (value.Declaration == null)
+                    if (function.Declaration == null && function.Definition != null)
                     {
-                        if (functionCall.Args.Count != value.Definition.Params.Count) throw new CompileException("param err");
+                        if (functionCall.Args.Count != function.Definition.Params.Count) throw new CompileException("param err");
                     }
-                    else
+                    else if (function.Declaration != null && function.Definition == null)
                     {
-                        if (functionCall.Args.Count != value.Declaration.Params.Count) throw new CompileException("param err");
+                        if (functionCall.Args.Count != function.Declaration.Params.Count) throw new CompileException("param err");
                     }
                 }
             }
@@ -61,26 +68,31 @@ namespace CorruptusConscribo.Inquisition
                 // if function is declaration
                 if (func.Block == null)
                 {
-                    if (Functions.ContainsKey(func.Name))
-                    {
-                        if (Functions[func.Name].Declaration != null) throw new CompileException($"{func.Name} has already been declared");
-                    }
+                    if (Functions.ContainsKey(func.Name) && Functions[func.Name].Declaration != null) throw new CompileException($"{func.Name} has already been declared");
                 }
                 else
                 {
-                    if (Functions.ContainsKey(func.Name))
-                    {
-                        if (Functions[func.Name].Definition != null) throw new CompileException($"{func.Name} has already been defined");
-                    }
+                    if (Functions.ContainsKey(func.Name) && Functions[func.Name].Definition != null) throw new CompileException($"{func.Name} has already been defined");
                 }
 
-
-                Functions[func.Name] = new FuncDeclareAndCalls()
+                if (Functions.ContainsKey(func.Name))
                 {
-                    Declaration = func.Block == null ? func : null,
-                    Definition = func.Block != null ? func : null,
-                    Calls = new List<FunctionCall>()
-                };
+                    Functions[func.Name] = new FuncDeclareAndCalls
+                    {
+                        Declaration = func.Block == null ? func : Functions[func.Name].Declaration,
+                        Definition = func.Block != null ? func : Functions[func.Name].Definition,
+                        Calls = new List<FunctionCall>()
+                    };
+                }
+                else
+                {
+                    Functions[func.Name] = new FuncDeclareAndCalls
+                    {
+                        Declaration = func.Block == null ? func : null,
+                        Definition = func.Block != null ? func : null,
+                        Calls = new List<FunctionCall>()
+                    };
+                }
 
                 if (func.Block != null) TraverseProgram(func.Block);
             }
