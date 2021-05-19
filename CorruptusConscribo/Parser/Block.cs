@@ -31,17 +31,6 @@ namespace CorruptusConscribo.Parser
             return this;
         }
 
-        public string HasBreak()
-        {
-            var find = Slices.Find(x =>
-            {
-                // if (x.GetType() == typeof())
-                return x.GetType() == typeof(Break);
-            });
-            if (find != null) return ((Break) find).BreakPoint;
-            return null;
-        }
-
         public override string Template()
         {
             var tmp = string.Join("\n", Slices.Select(x => x.Template())) + Scope.Deallocate();

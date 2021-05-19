@@ -51,22 +51,32 @@ namespace CorruptusConscribo.Parser
             if (Else != null)
             {
                 var elseFunc = Healpers.GetFunctionId();
-                
+
                 compare =
-                    "cmpq\t$0, %rax\n" +
-                    $"je\t{elseFunc}\t\t# jump else";
-                
-                return $"{Expression.Template()}\n{compare}\n{Statement.Template()}\njmp\t{endFunc}\n{elseFunc}:\n{Else.Template()}\njmp\t{endFunc}\n{endFunc}:\t\t# end of if\n";
+                    "cmpq\t$0, %rax" +
+                    $"\nje\t{elseFunc}\t\t\t\t# jump else";
+
+                return
+                    $"{Expression.Template()}" +
+                    $"\n{compare}" +
+                    $"\n{Statement.Template()}" +
+                    $"\njmp\t{endFunc}" +
+                    $"\n{elseFunc}:" +
+                    $"\n{Else.Template()}" +
+                    $"\njmp\t{endFunc}" +
+                    $"\n{endFunc}:\t\t\t# end of if\n";
             }
 
-            compare = "cmpq\t$0, %rax\t" +
-                      $"\nje\t{endFunc}\t\t# jump to end if false";
+            compare =
+                "cmpq\t$0, %rax\t" +
+                $"\nje\t{endFunc}\t\t# jump to end if false";
 
-            return $";# if {Expression}" +
-                   $"\n{Expression.Template()}" +
-                   $"\n{compare}" +
-                   $"\n{Statement.Template()}" +
-                   $"\n{endFunc}:\t\t# end of if\n";
+            return
+                $";# if {Expression}" +
+                $"\n{Expression.Template()}" +
+                $"\n{compare}" +
+                $"\n{Statement.Template()}" +
+                $"\n{endFunc}:\t\t\t# end of if\n";
         }
 
         public override string ToString()

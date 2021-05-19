@@ -74,7 +74,8 @@ namespace CorruptusConscribo.Inquisition
             if (typeof(Function) == nodeType)
             {
                 var func = (Function) node;
-                Console.WriteLine($"Found function {func}");
+                
+                // Console.WriteLine($"Found function {func}");
 
                 // if function is declaration
                 if (func.Block == null)
@@ -111,7 +112,8 @@ namespace CorruptusConscribo.Inquisition
             if (typeof(Block) == nodeType)
             {
                 var block = (Block) node;
-                Console.WriteLine($"Found block {block}");
+                
+                // Console.WriteLine($"Found block {block}");
 
                 foreach (var slice in block.Slices)
                 {
@@ -122,6 +124,8 @@ namespace CorruptusConscribo.Inquisition
             if (typeof(FunctionCall) == nodeType)
             {
                 var funcCall = (FunctionCall) node;
+                
+                // Console.WriteLine($"Found function call {funcCall}");
 
                 if (Functions.ContainsKey(funcCall.FunctionId))
                 {
@@ -135,8 +139,6 @@ namespace CorruptusConscribo.Inquisition
                         Calls = new List<FunctionCall> {funcCall}
                     });
                 }
-
-                Console.WriteLine($"Found function call {funcCall}");
             }
 
             if (typeof(GlobalVariable) == nodeType)
@@ -157,7 +159,8 @@ namespace CorruptusConscribo.Inquisition
                 }
 
                 var statement = (Statement) node;
-                Console.WriteLine($"Found statement {statement}");
+                
+                // Console.WriteLine($"Found statement {statement}");
 
                 if (statement.Slices != null) statement.Slices.ForEach(TraverseProgram);
             }

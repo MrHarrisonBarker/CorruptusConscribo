@@ -14,7 +14,7 @@ namespace CorruptusConscribo.Parser.Expressions.BinaryOperators
             var main =
                 $"{LeftExpression.Template()}" +
                 "\ncmpq\t$0,%rax" +
-                $"\nje\t{branchName}" +
+                $"\nje\t{branchName}\t# OR ({LeftExpression} || {RightExpression})" +
                 "\nmovq\t$1,%rax" +
                 $"\njmp\t{endName}";
 

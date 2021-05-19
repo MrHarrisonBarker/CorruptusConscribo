@@ -9,7 +9,7 @@ namespace CorruptusConscribo
     {
         static void Main(string[] args)
         {
-            args = new[] {"./stage_10/valid/forward_declaration.c"};
+            args = new[] {"./stage_9/valid/fib.c"};
 
             string sourcePath;
             string outputPath;
