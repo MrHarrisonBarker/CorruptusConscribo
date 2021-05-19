@@ -21,6 +21,8 @@ namespace CorruptusConscribo.Parser
 
             if (token.Name == TokenLibrary.Words.Assignment)
             {
+                if (Scope.HasGlobalBeenDefined(Identifier)) throw new SyntaxException($"global variable {Identifier} has already been defined");
+                
                 Initialise = new Expression(Scope).Parse(tokens);
                 token = tokens.Pop();
             }
@@ -52,7 +54,7 @@ namespace CorruptusConscribo.Parser
         }
 
         public override string Save()
-        {
+        {   
             return "SAVE NOT ";
         }
     }

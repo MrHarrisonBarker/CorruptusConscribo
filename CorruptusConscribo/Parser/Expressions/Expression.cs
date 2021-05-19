@@ -8,7 +8,7 @@ namespace CorruptusConscribo.Parser
     {
         public virtual int AbsoluteValue()
         {
-            return Int32.MinValue;
+            throw new CompileException("that expression doesn't have an absolute value at compile time");
         }
         
         // <exp> ::= <id> "=" <exp> | <exp> , <exp> | <conditional-exp>

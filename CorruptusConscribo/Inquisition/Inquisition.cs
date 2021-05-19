@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CorruptusConscribo.Parser;
 
 namespace CorruptusConscribo.Inquisition
@@ -7,7 +8,8 @@ namespace CorruptusConscribo.Inquisition
     public class Inquisition
     {
         private Parser.Program Program { get; set; }
-        private Dictionary<string, FuncDeclareAndCalls> Functions = new();
+        private readonly Dictionary<string, FuncDeclareAndCalls> Functions = new();
+        private Dictionary<string, string> Globals = new();
 
         public Inquisition(Parser.Program program)
         {
@@ -24,8 +26,17 @@ namespace CorruptusConscribo.Inquisition
         {
             Program.TopLevelBlocks.ForEach(TraverseProgram);
             FunctionParameterValid();
+            UniqueIdentifiers();
 
             return true;
+        }
+
+        private void UniqueIdentifiers()
+        {
+            foreach (var global in Globals.Keys)
+            {
+                if (Functions.Keys.Any(x => x == global)) throw new CompileException($"something called {global} already exists!");
+            }
         }
 
         private void FunctionParameterValid()
@@ -112,10 +123,27 @@ namespace CorruptusConscribo.Inquisition
             {
                 var funcCall = (FunctionCall) node;
 
-                var func = Functions[funcCall.FunctionId];
-                func.Calls.Add(funcCall);
+                if (Functions.ContainsKey(funcCall.FunctionId))
+                {
+                    var func = Functions[funcCall.FunctionId];
+                    func.Calls.Add(funcCall);
+                }
+                else
+                {
+                    Functions.Add(funcCall.FunctionId, new FuncDeclareAndCalls
+                    {
+                        Calls = new List<FunctionCall> {funcCall}
+                    });
+                }
 
                 Console.WriteLine($"Found function call {funcCall}");
+            }
+
+            if (typeof(GlobalVariable) == nodeType)
+            {
+                var global = (GlobalVariable) node;
+
+                Globals[global.Identifier] = "Global";
             }
 
             if (nodeType.IsSubclassOf(typeof(Statement)))

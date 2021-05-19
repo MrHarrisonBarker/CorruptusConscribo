@@ -24,7 +24,7 @@ namespace CorruptusConscribo.Parser
             if (token.Name != TokenLibrary.Words.Identifier) throw new SyntaxException("expected identifier");
 
             Identifier = (string) token.Value;
-
+            
             token = tokens.Peek();
 
             // if function

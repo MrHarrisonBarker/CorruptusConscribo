@@ -136,7 +136,7 @@ namespace CorruptusConscribo.Parser
         {
             if (!Exists(variable.VariableId)) throw new SyntaxException($"'{variable.VariableId}' doesn't exist");
 
-            
+
             if (ParentScope != null && variable.ScopeLevel != ScopeLevel)
             {
                 return ParentScope.Access(variable);
