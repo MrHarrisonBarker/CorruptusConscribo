@@ -62,6 +62,12 @@ namespace CorruptusConscribo.Parser
             VariableArchive.Add(id, variable);
         }
 
+        public void DefineGlobal(string id)
+        {
+            if (VariableArchive.ContainsKey(id)) VariableArchive[id].Defined = true;
+            else throw new SyntaxException($"global variable {id} doesn't exist");
+        }
+
         public void AddBreakpoint()
         {
             BreakPoint = Healpers.GetBreakPointId();
@@ -153,9 +159,17 @@ namespace CorruptusConscribo.Parser
                 return ParentScope.IsGlobal(id);
             }
 
-            if (VariableArchive.ContainsKey(id)) return VariableArchive[id].IsGlobal;
-            
-            return false;
+            return VariableArchive.ContainsKey(id) && VariableArchive[id].IsGlobal;
+        }
+
+        public bool HasGlobalBeenDefined(string id)
+        {
+            if (ParentScope != null)
+            {
+                return ParentScope.HasGlobalBeenDefined(id);
+            }
+
+            return VariableArchive.ContainsKey(id) && VariableArchive[id].Defined;
         }
     }
 }

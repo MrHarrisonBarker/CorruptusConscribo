@@ -29,7 +29,11 @@ namespace CorruptusConscribo.Parser
 
             if (!Scope.LocallyExists(Identifier))
             {
-                Scope.AddGlobal(Identifier, new VariableSnapshot(true, ReturnType));
+                Scope.AddGlobal(Identifier, new VariableSnapshot(true, ReturnType, Initialise != null));
+            }
+            else if (Scope.LocallyExists(Identifier) && Initialise != null)
+            {
+                Scope.DefineGlobal(Identifier);
             }
 
             return this;
@@ -42,8 +46,8 @@ namespace CorruptusConscribo.Parser
 
         public override string Template()
         {
-            if (Initialise == null) return $"\n.globl _{Identifier}\n\t.data\n\t.align\t4\n_{Identifier}:\n\t.long 0\n.text\t\t# initialising {Identifier} globally";
-            if (Initialise == null) return null;
+            if (Initialise == null && Scope.HasGlobalBeenDefined(Identifier)) return null;
+            if (Initialise == null) return $"\n.globl _{Identifier}\n\t.bss\n\t.align\t4\n_{Identifier}:\n\t.zero 8\n.text\t\t# initialising {Identifier} globally";
             return $"\n.globl _{Identifier}\n\t.data\n\t.align\t4\n_{Identifier}:\n\t.long {Initialise.AbsoluteValue()}\n.text\t\t# initialising {Identifier} globally with declare\n";
         }
 

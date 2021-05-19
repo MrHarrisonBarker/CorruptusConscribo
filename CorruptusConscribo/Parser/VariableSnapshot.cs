@@ -9,10 +9,11 @@ namespace CorruptusConscribo.Parser
             Type = type;
         }
 
-        public VariableSnapshot(bool isGlobal, string type)
+        public VariableSnapshot(bool isGlobal, string type, bool defined)
         {
             Type = type;
             IsGlobal = isGlobal;
+            Defined = defined;
         }
 
         public VariableSnapshot(string type, bool isParam)
@@ -33,5 +34,6 @@ namespace CorruptusConscribo.Parser
         public int StackIndex { get; set; }
         public bool IsParam { get; set; }
         public bool IsGlobal { get; set; }
+        public bool Defined { get; set; }
     }
 }
