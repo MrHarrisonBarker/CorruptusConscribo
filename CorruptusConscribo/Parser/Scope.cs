@@ -17,7 +17,7 @@ namespace CorruptusConscribo.Parser
         public Scope()
         {
             ScopeLevel = 0;
-            StackIndex = 8;
+            StackIndex = 0;
             VariableArchive = new Dictionary<string, VariableSnapshot>();
         }
 
@@ -55,13 +55,12 @@ namespace CorruptusConscribo.Parser
             StackIndex += 8;
         }
 
-        // TODO: need to jump back to param locations
-        // public void Add(Declare declare)
-        // {
-        //     var variable = new VariableSnapshot(declare.Type, ScopeLevel, true);
-        //     VariableArchive.Add(declare.Identifier, variable);
-        //     StackIndex += 8;
-        // }
+        public void AddGlobal(string id, VariableSnapshot variable)
+        {
+            variable.StackIndex = StackIndex;
+            variable.ScopeLevel = ScopeLevel;
+            VariableArchive.Add(id, variable);
+        }
 
         public void AddBreakpoint()
         {
@@ -124,14 +123,13 @@ namespace CorruptusConscribo.Parser
 
         private int GetParentStackIndex()
         {
-            return ParentScope == null ? 0 : Math.Abs((ParentScope.GetParentStackIndex() + ParentScope.StackIndex) - (VariableArchive.Count > 1 ? 8 : 0));
+            return ParentScope == null ? 8 : Math.Abs(ParentScope.GetParentStackIndex() + ParentScope.StackIndex);
         }
 
         public int Access(Variable variable)
         {
             if (!Exists(variable.VariableId)) throw new SyntaxException($"'{variable.VariableId}' doesn't exist");
 
-            if (VariableArchive[variable.VariableId].IsGlobal) return -1;
             
             if (ParentScope != null && variable.ScopeLevel != ScopeLevel)
             {
@@ -140,8 +138,7 @@ namespace CorruptusConscribo.Parser
 
             Console.WriteLine($"Scope level -> {variable.ScopeLevel}");
 
-            return -Math.Abs(GetParentStackIndex() - VariableArchive[variable.VariableId].StackIndex);
-            // + (VariableArchive[variable.VariableId].IsParam ? ( 16 + (VariableArchive.Count * 8) ) : 0 )
+            return -Math.Abs(GetParentStackIndex() + VariableArchive[variable.VariableId].StackIndex);
         }
 
         public string Deallocate()

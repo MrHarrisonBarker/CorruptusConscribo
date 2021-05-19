@@ -17,14 +17,14 @@ namespace CorruptusConscribo.Parser
 
         public override string Template()
         {
-            if (IsGlobal) return $"movq\t_{VariableId}(%rip), %rax\t# moving global {VariableId} onto rax";
-            return $"movq\t{AccessIndex}(%rbp), %rax\t# moving {VariableId} onto rax, {ScopeLevel}";
+            if (IsGlobal) return $"movq\t_{VariableId}(%rip), %rax\t# moving global {VariableId} onto rax\n";
+            return $"movq\t{AccessIndex}(%rbp), %rax\t# moving {VariableId} onto rax, {ScopeLevel}\n";
         }
 
         public override string Save()
         {
-            if (IsGlobal) return $"movq\t%rax, _{VariableId}(%rip)\t# saving global variable";
-            return $"movq\t%rax,{AccessIndex}(%rbp)\t# moving rax to {VariableId}, {ScopeLevel}";
+            if (IsGlobal) return $"movq\t%rax, _{VariableId}(%rip)\t# saving global variable\n";
+            return $"movq\t%rax,{AccessIndex}(%rbp)\t# moving rax to {VariableId}, {ScopeLevel}\n";
         }
 
         public override string ToString()

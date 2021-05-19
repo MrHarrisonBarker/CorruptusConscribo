@@ -30,7 +30,7 @@ namespace CorruptusConscribo.Parser
             // if function
             if (token.Name == TokenLibrary.Words.OpenParenthesis)
             {
-                return new Function(Scope).Parse(tokens, ReturnType, Identifier);
+                return new Function(new Scope(Scope)).Parse(tokens, ReturnType, Identifier);
             }
 
             return new GlobalVariable(Scope).Parse(tokens, ReturnType, Identifier);
