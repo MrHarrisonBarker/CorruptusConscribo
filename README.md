@@ -4,7 +4,7 @@ Corruptus Conscribo is a **VERY** basic C compiler written in C# for intel x64 r
 
 Thanks to [Write-a-Compiler](https://norasandler.com/2017/11/29/Write-a-Compiler.html)
 
-Function calls use RDI, RSI, RDX, RCX, R8, R9 registers in order for passing parameters with a 16bit offset as per the macOS specification.
+Function calls use `RDI`, `RSI`, `RDX`, `RCX`, `R8`, `R9` registers in order for passing parameters with a 16bit offset as per the macOS specification.
 
 ```C
 int twice(int x){
@@ -96,3 +96,6 @@ ret
 -    Global variable forward declare
 -    Return
 
+## Tests
+
+Tests have been written using the _CompilerTest_ & _FailureTest_ class which compile C files from the **TestPrograms** directory, runs them and then checks for the correct exit code. 

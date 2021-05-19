@@ -39,28 +39,6 @@ namespace CorruptusConscribo.Tests
             SourceTokens = tokens;
         }
 
-        // [Test]
-        // public async Task Should_Find_Tokens()
-        // {
-        //     var lexer = new Lexicanum(Source);
-        //     lexer.Tokens.Should().BeInDescendingOrder(x => x.Start);
-        //     lexer.Tokens.Count.Should().BePositive();
-        //     lexer.Tokens.Should().BeEquivalentTo(SourceTokens);
-        // }
-        //
-        // [Test]
-        // public async Task Should_Generate_AST()
-        // {
-        //     var program = new Parser.Program(new Stack<Token>(SourceTokens));
-        //     program.Should().NotBeNull();
-        // }
-        //
-        // [Test]
-        // public async Task Should_Generate_Assembly()
-        // {
-        //     
-        // }
-
         [Test]
         public async Task Should_Complete()
         {
